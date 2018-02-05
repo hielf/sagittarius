@@ -14,3 +14,9 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 User.create(username: 'admin', password: '123456', role: 'admin')
+
+Area.find_or_create_by(city: "上海")
+
+area = Area.find_by(city: "上海")
+Team.create(name: "团队", area_id: area.id)
+Shop.create(name: "綦江九龙大道店", area_id: area.id)

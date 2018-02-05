@@ -8,7 +8,7 @@
 # server "db.example.com", user: "deploy", roles: %w{db}
 
 server '114.215.125.31', roles: [:web, :app, :db], user: "deployer", ssh_options: {user: "deployer"}, primary: true
-set :branch, "wechat"
+set :branch, "2.0"
 
 # role-based syntax
 # ==================

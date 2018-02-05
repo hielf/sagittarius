@@ -2,6 +2,10 @@ class User < ApplicationRecord
   include AccountConcern
   has_secure_password
 
+  belongs_to :area
+  belongs_to :team
+  belongs_to :shop
+
   validates :username, presence: true, length: {maximum: 10}, on: :create
   validates :username, presence: true, length: {maximum: 12}, uniqueness: true, on: :update
   validates :password, length: {minimum: 6, maximum: 32}, format: {with: /\A[\x21-\x7e]+\Z/i, message: '密码只能包含数字、字母、特殊字符'}, allow_blank: true
@@ -11,7 +15,6 @@ class User < ApplicationRecord
 
 
   def generate_username_prefix
-    username = "n_#{self.username}"
     if User.where(username: username).exists?
       errors[:username] << '已存在'
     else

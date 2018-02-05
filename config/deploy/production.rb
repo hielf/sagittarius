@@ -8,7 +8,7 @@
 # server "db.example.com", user: "deploy", roles: %w{db}
 
 # server '192.168.5.184', port: 122, roles: [:web, :app, :db], primary: true
-server '47.97.191.42', port: 122, roles: [:web, :app, :db], user: "deploy", ssh_options: {user: "deploy"}, primary: true
+server '47.97.191.42', port: 22, roles: [:web, :app, :db], user: "deploy", ssh_options: {user: "deploy"}, primary: true
 set :branch, "master"
 set :rvm_ruby_version, '2.4.0@sagittarius'
 

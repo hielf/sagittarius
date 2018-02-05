@@ -1,7 +1,7 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.10.0"
 
-set :repo_url, "git@git.coding.net:dreamlinx/sagittarius.git"
+set :repo_url, "git@github.com:hielf/sagittarius.git"
 set :application, "sagittarius"
 # set :user, "deploy"
 set :puma_threads, [4, 16]
