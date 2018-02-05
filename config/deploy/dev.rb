@@ -7,7 +7,7 @@
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
-server '114.215.125.31', roles: [:web, :app, :db], user: "deployer", ssh_options: {user: "deployer"}, primary: true
+server '114.215.125.31', roles: [:web, :app, :db], user: "deploy", ssh_options: {user: "deploy"}, primary: true
 set :branch, "2.0"
 
 # role-based syntax

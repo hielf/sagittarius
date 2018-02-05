@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
-  resource :wechat, only: [:show, :create]
   root 'home#index'
+  resource :wechat, only: [:show, :create]
   namespace :api, defaults: {format: :json} do
     root 'root#home'
     post 'accounts/sign_in', to: 'accounts#sign_in'
@@ -11,7 +11,9 @@ Rails.application.routes.draw do
       collection do
         get :me
         get :export_users
-        post :import_users
+        get :home
+        get :outworker_new
+        get :staff_new
       end
     end
     resources :suppliers, except: [:new, :edit] do
