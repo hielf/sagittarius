@@ -35,6 +35,12 @@ class User < ApplicationRecord
     end
   end
 
+  state_machine :status, :initial => :'待审批' do
+    event :approve do
+      transition :'待审批' => :'已审批'
+    end
+  end
+
 
 private
   def self.open_spreadsheet(file)

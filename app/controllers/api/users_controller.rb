@@ -29,7 +29,7 @@ class Api::UsersController < Api::ApplicationController
 
   # POST /api/users
   def create
-    m_requires! [:username, :password, :station_id]
+    m_requires! [:username, :mobile, :password]
     ## optional! :role,:name
     begin
       User.create!(user_params)
@@ -75,11 +75,11 @@ class Api::UsersController < Api::ApplicationController
   end
 
   def update_user_params
-    params.permit(:password, :name, :role, :station_id)
+    params.permit(:password, :name, :role)
   end
 
   def user_params
-    params.permit(:username, :name, :password, :role, :station_id)
+    params.permit(:username, :name, :mobile, :area_id, :shop_id, :upper_user_id, :upper_user_phone, :team_id, :password, :role)
   end
 
 end
