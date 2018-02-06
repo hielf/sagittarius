@@ -10,74 +10,73 @@
         <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.1.2/css/jquery-weui.min.css">
     </head>
     <body>
-      <!-- <header style="padding: 35px 0;">
-        <h1 style="text-align: center;font-size: 34px;color: #3cc51f;font-weight: 400;margin: 0 15%;">请选择用户类型</h1>
-      </header> -->
-      <div class="weui-cells__tips">请如实填写以下信息完成注册</div>
-      <div class="weui-cells weui-cells_form">
-        <div class="weui-cell">
-          <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
-          <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入姓名">
+      <div id="body">
+        <div class="weui-cells__tips">请如实填写以下信息完成注册</div>
+        <div class="weui-cells weui-cells_form">
+          <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
+            <div class="weui-cell__bd">
+              <input id="name" class="weui-input" placeholder="请输入姓名">
+            </div>
           </div>
-        </div>
-        <div class="weui-cell">
-          <div class="weui-cell__hd"><label class="weui-label">员工ID</label></div>
-          <div class="weui-cell__bd">
-            <input class="weui-input" type="number" pattern="[0-9]*" placeholder="员工ID号码">
+          <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">员工ID</label></div>
+            <div class="weui-cell__bd">
+              <input id="username" class="weui-input" type="number" pattern="[0-9]*" placeholder="员工ID号码">
+            </div>
           </div>
-        </div>
-        <div class="weui-cell">
-          <div class="weui-cell__hd">
-            <label class="weui-label">手机号</label>
+          <div class="weui-cell">
+            <div class="weui-cell__hd">
+              <label class="weui-label">手机号</label>
+            </div>
+            <div class="weui-cell__bd">
+              <input id="mobile" class="weui-input" type="tel" placeholder="手机号码">
+            </div>
           </div>
-          <div class="weui-cell__bd">
-            <input class="weui-input" type="tel" id="tel" placeholder="手机号码">
+          <div class="weui-cell weui-cell_select weui-cell_select-after">
+            <div class="weui-cell__hd"><label class="weui-label">区域</label></div>
+            <div class="weui-cell__bd">
+              <select class="weui-select" name="select2">
+              <option value="1">上海</option>
+            </select>
+            </div>
           </div>
-        </div>
-        <div class="weui-cell weui-cell_select weui-cell_select-after">
-          <div class="weui-cell__hd"><label class="weui-label">区域</label></div>
-          <div class="weui-cell__bd">
-            <select class="weui-select" name="select2">
-            <option value="1">上海</option>
-          </select>
+          <div class="weui-cell weui-cell_select weui-cell_select-after">
+            <div class="weui-cell__hd"><label class="weui-label">所属团队</label></div>
+            <div class="weui-cell__bd">
+              <select class="weui-select" name="select2">
+              <option value="1">团队1</option>
+            </select>
+            </div>
           </div>
-        </div>
-        <div class="weui-cell weui-cell_select weui-cell_select-after">
-          <div class="weui-cell__hd"><label class="weui-label">所属团队</label></div>
-          <div class="weui-cell__bd">
-            <select class="weui-select" name="select2">
-            <option value="1">团队1</option>
-          </select>
+          <div class="weui-cell weui-cell_select weui-cell_select-after">
+            <div class="weui-cell__hd"><label class="weui-label">所属门店</label></div>
+            <div class="weui-cell__bd">
+              <select class="weui-select" name="select2">
+              <option value="1">南京东路店</option>
+            </select>
+            </div>
           </div>
-        </div>
-        <div class="weui-cell weui-cell_select weui-cell_select-after">
-          <div class="weui-cell__hd"><label class="weui-label">所属门店</label></div>
-          <div class="weui-cell__bd">
-            <select class="weui-select" name="select2">
-            <option value="1">南京东路店</option>
-          </select>
+          <div class="weui-cell weui-cell_select weui-cell_select-after">
+            <div class="weui-cell__hd"><label class="weui-label">所属销售</label></div>
+            <div class="weui-cell__bd">
+              <select class="weui-select" name="select2">
+              <option value="1">销售</option>
+            </select>
+            </div>
           </div>
-        </div>
-        <div class="weui-cell weui-cell_select weui-cell_select-after">
-          <div class="weui-cell__hd"><label class="weui-label">所属销售</label></div>
-          <div class="weui-cell__bd">
-            <select class="weui-select" name="select2">
-            <option value="1">销售</option>
-          </select>
+          <div class="weui-cell">
+            <div class="weui-cell__hd">
+              <label class="weui-label">销售电话</label>
+            </div>
+            <div class="weui-cell__bd">
+              <input id="upper_user_phone" class="weui-input" placeholder="电话号码">
+            </div>
           </div>
-        </div>
-        <div class="weui-cell">
-          <div class="weui-cell__hd">
-            <label class="weui-label">销售电话</label>
-          </div>
-          <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="电话号码">
-          </div>
-        </div>
 
-        <div class="weui-btn-area">
-          <a class="weui-btn weui-btn_primary" href="javascript:" id="submit">确定</a>
+          <div class="weui-btn-area">
+            <a class="weui-btn weui-btn_primary" href="javascript:" id="submit">确定</a>
+          </div>
         </div>
       </div>
 
@@ -85,38 +84,43 @@
       <script src="https://cdn.bootcss.com/jquery-weui/1.1.2/js/jquery-weui.min.js"></script>
       <script>
       $("#submit").click(function() {
-        var tel = $('#tel').val();
-        var code = $('#code').val();
+        var username = $('#username').val();
+        var name = $('#name').val();
+        var mobile = $('#mobile').val();
+        var upper_user_phone = $('#upper_user_phone').val();
 
         $.ajax
             ({
                 url: 'http://localhost:3000/api/users',
-                data: {"role": "outworker"},
+                  data: {"role": "outworker", "username": username, "name": name, "mobile": mobile, "area_id": 1, "shop_id": 1, "upper_user_phone": upper_user_phone, "team_id": 1, "password": },
                 type: 'post',
                 success: function(result)
                 {
-                  if(!tel || !/1[3|4|5|7|8]\d{9}/.test(tel)) $.toptip('请输入手机号');
-                  else $.toptip('提交成功', 'success');
-                  setTimeout(
-                    function()
-                    {
-                      $("#body").html('<header style="padding: 35px 0;">' +
-                        '<h1 style="text-align: center;font-size: 34px;color: #3cc51f;font-weight: 400;margin: 0 15%;">用户注册</h1>' +
-                      '</header>' +
-                      '<div style="padding: 15px;">' +
-                        '<div style="margin-bottom: 25px;display: -webkit-box;display: -webkit-flex;display: flex;-webkit-box-align: center;-webkit-align-items: center;align-items: center">' +
-                          '<i class="weui-icon-success weui-icon_msg" style="margin-right: 18px"></i>' +
-                          '<div style="-webkit-flex-shrink: 100;flex-shrink: 100">' +
-                            '<h3 style="font-weight: 400">注册信息已提交</h3>' +
-                            '<p style="margin-top: 6px;font-size: 12px;color: #888">请等待后台工作人员审核</p>' +
-                            '<p style="margin-top: 6px;font-size: 12px;color: #888">如有问题，请联系客户，电话：021-33333333</p>' +
+                  if (result.status == 1) $.toptip('注册失败', 'error');
+                  else {
+                    if(!tel || !/1[3|4|5|7|8]\d{9}/.test(tel)) $.toptip('请输入手机号');
+                    else $.toptip('提交成功', 'success');
+                    setTimeout(
+                      function()
+                      {
+                        $("#body").html('<header style="padding: 35px 0;">' +
+                          '<h1 style="text-align: center;font-size: 34px;color: #3cc51f;font-weight: 400;margin: 0 15%;">用户注册</h1>' +
+                        '</header>' +
+                        '<div style="padding: 15px;">' +
+                          '<div style="margin-bottom: 25px;display: -webkit-box;display: -webkit-flex;display: flex;-webkit-box-align: center;-webkit-align-items: center;align-items: center">' +
+                            '<i class="weui-icon-success weui-icon_msg" style="margin-right: 18px"></i>' +
+                            '<div style="-webkit-flex-shrink: 100;flex-shrink: 100">' +
+                              '<h3 style="font-weight: 400">注册信息已提交</h3>' +
+                              '<p style="margin-top: 6px;font-size: 12px;color: #888">请等待后台工作人员审核</p>' +
+                              '<p style="margin-top: 6px;font-size: 12px;color: #888">如有问题，请联系客户，电话：021-33333333</p>' +
+                            '</div>' +
                           '</div>' +
                         '</div>' +
-                      '</div>' +
-                      '<div class="weui-footer_fixed-bottom">' +
-                        '<p class="weui-footer__text">Copyright © 2011-2018 君悦闻道</p>' +
-                      '</div>');
-                    }, 2000);
+                        '<div class="weui-footer_fixed-bottom">' +
+                          '<p class="weui-footer__text">Copyright © 2011-2018 君悦闻道</p>' +
+                        '</div>');
+                      }, 2000);
+                  }
                 }
             });
       });
