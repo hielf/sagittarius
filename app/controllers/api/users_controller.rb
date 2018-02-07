@@ -34,14 +34,15 @@ class Api::UsersController < Api::ApplicationController
   def create
     m_requires! [:username, :mobile, :password]
     ## optional! :role,:name
-    begin
-      wechat_oauth2 do |openid|
+    wechat_oauth2 do |openid|
+      begin      
+        Rails.logger.warn  "#{openid}"
         @user = User.create!(user_params)
         @user.update!(openid: openid)
+        result = [0, '添加用户成功']
+      rescue Exception => ex
+        result= [1, ex.message]
       end
-      result = [0, '添加用户成功']
-    rescue Exception => ex
-      result= [1, ex.message]
     end
     render_json(result)
   end
