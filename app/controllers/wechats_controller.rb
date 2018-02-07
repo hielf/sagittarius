@@ -24,7 +24,7 @@ class WechatsController < ApplicationController
   # When receive 'help', will trigger this responder
   on :text, with: '注册' do |request|
     openid = request[:FromUserName]
-    "欢迎使用！\n点击进入：<a href=\"http://sagittarius.cheshipin.tv/api/users/home?openid=#{request[:FromUserName]}\">注册页面</a> "
+    request.reply.text "欢迎使用！\n点击进入：<a href=\"http://sagittarius.cheshipin.tv/api/users/home?openid=#{openid}\">注册页面</a> "
   end
 
   # When receive '<n>news', will match and will got count as <n> as parameter
