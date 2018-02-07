@@ -1,14 +1,6 @@
 class WechatsController < ApplicationController
   # For details on the DSL available within this file, see https://github.com/Eric-Guo/wechat#wechat_responder---rails-responder-controller-dsl
   wechat_responder
-  layout 'wechat'
-
-  def message_box
-  end
-
-  def direct_message_box
-    render 'weui/message_box', locals: { title: 'Weui', description: 'directly render in controller' }
-  end
 
   on :text do |request, content|
     request.reply.text '欢迎使用，请输入:注册 成为我们的一员。'
