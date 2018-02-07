@@ -5,7 +5,7 @@ class User < ApplicationRecord
   belongs_to :area
   belongs_to :team
   belongs_to :shop
-
+  has_many :user_events
   has_many :events, through: :user_events
   has_many :datums
   has_many :photos

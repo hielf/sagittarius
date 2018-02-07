@@ -11,6 +11,7 @@ end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
 gem 'mysql2'
+
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets
@@ -64,6 +65,12 @@ end
 group :production do
   gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 end
+
+
+gem 'activeadmin'
+# Plus integrations with:
+gem 'devise'
+gem 'cancan' # or cancancan
 
 gem 'rails-i18n'
 gem 'rack-cors', :require => 'rack/cors'

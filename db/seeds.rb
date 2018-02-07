@@ -20,3 +20,4 @@ Area.find_or_create_by(city: "上海")
 area = Area.find_by(city: "上海")
 Team.create(name: "团队", area_id: area.id)
 Shop.create(name: "綦江九龙大道店", area_id: area.id)
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?

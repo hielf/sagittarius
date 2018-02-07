@@ -1,5 +1,6 @@
 class Event < ApplicationRecord
   has_many :goods
+  has_many :user_events
   has_many :users, through: :user_events
 
   state_machine :status, :initial => :'未开始' do
