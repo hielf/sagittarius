@@ -37,17 +37,21 @@ class Api::UsersController < Api::ApplicationController
     Rails.logger.warn  "wechat_oauth2 start"
     Rails.logger.warn  "wechat_oauth2 #{wechat_oauth2}"
     Rails.logger.warn  "wechat_oauth2 snsapi_userinfo #{wechat_oauth2('snsapi_userinfo')}"
-    wechat_oauth2 do |openid|
-      begin
-        Rails.logger.warn  "openid: #{openid}"
-        @user = User.create!(user_params)
-        @user.update!(openid: openid)
-        result = [0, '添加用户成功']
-      rescue Exception => ex
-        result= [1, ex.message]
-      end
-      render_json(result)
+    wechat_oauth2('snsapi_userinfo') do |openid, access_info|
+      wechat_hash = Wechat.api.web_userinfo( access_info[:access_token] , openid)
+      logger.info("***********wechat_hash: #{wechat_hash}**************")
     end
+    # wechat_oauth2 do |openid|
+    #   begin
+    #     Rails.logger.warn  "openid: #{openid}"
+    #     @user = User.create!(user_params)
+    #     @user.update!(openid: openid)
+    #     result = [0, '添加用户成功']
+    #   rescue Exception => ex
+    #     result= [1, ex.message]
+    #   end
+    #   render_json(result)
+    # end
   end
 
   # PUT/PATCH
