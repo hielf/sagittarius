@@ -32,8 +32,9 @@ class Api::UsersController < Api::ApplicationController
 
   # POST /api/users
   def create
-    m_requires! [:username, :mobile, :password]
+    # m_requires! [:username, :mobile, :password]
     ## optional! :role,:name
+    Rails.logger.warn  "wechat_oauth2 start"
     wechat_oauth2 do |openid|
       begin
         Rails.logger.warn  "openid: #{openid}"
