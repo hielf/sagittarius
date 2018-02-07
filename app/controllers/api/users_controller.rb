@@ -85,6 +85,7 @@ class Api::UsersController < Api::ApplicationController
 
   def initial_user
     wechat_oauth2 do |openid|
+      Rails.logger.warn "openid: #{openid}"
       @user = User.find_or_initialize_by(openid: openid)
     end
   end
