@@ -1,4 +1,15 @@
-### model 说明
+## 后台说明
+
+        后台使用了activeadmin
+        访问路径 url/admin
+        username: admin@example.com
+        password: password
+
+
+
+
+
+## model 说明
 * 除了login，所有的请求都要带token，格式是`-H "Authorization: Token token=token, username=username"`
 *
 
