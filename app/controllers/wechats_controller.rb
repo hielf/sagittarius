@@ -11,7 +11,7 @@ class WechatsController < ApplicationController
   end
 
   on :text do |request, content|
-    request.reply.text '欢迎使用，请输入“注册”成为我们的一员。'
+    request.reply.text '欢迎使用，请输入:注册 成为我们的一员。'
     # user = User.find_or_create_by(open_id: request[:FromUserName])
     #
     # if user
@@ -45,71 +45,6 @@ class WechatsController < ApplicationController
   on :click, with: 'MY_WENDAO' do |request, key|
     # request.reply.text "http://wendao.easybird.cn/results/my_videos?user=#{request[:FromUserName]}"
     request.reply.text "欢迎使用君悦闻道！\n请在对话框输入关键词搜索内容。\n点击进入：<a href=\"http://wendao.easybird.cn/results/my_videos?user=#{request[:FromUserName]}\">我的闻道</a> "
-  end
-
-  # When unsubscribe user scan qrcode qrscene_xxxxxx to subscribe in public account
-  # notice user will subscribe public account at same time, so wechat won't trigger subscribe event any more
-  on :scan, with: 'qrscene_xxxxxx' do |request, ticket|
-    request.reply.text "Unsubscribe user #{request[:FromUserName]} Ticket #{ticket}"
-  end
-
-  # When subscribe user scan scene_id in public account
-  on :scan, with: 'scene_id' do |request, ticket|
-    request.reply.text "Subscribe user #{request[:FromUserName]} Ticket #{ticket}"
-  end
-
-  # When no any on :scan responder can match subscribe user scaned scene_id
-  on :event, with: 'scan' do |request|
-    if request[:EventKey].present?
-      request.reply.text "event scan got EventKey #{request[:EventKey]} Ticket #{request[:Ticket]}"
-    end
-  end
-
-  # When enterprise user press menu BINDING_QR_CODE and success to scan bar code
-  on :scan, with: 'BINDING_QR_CODE' do |request, scan_result, scan_type|
-    request.reply.text "User #{request[:FromUserName]} ScanResult #{scan_result} ScanType #{scan_type}"
-  end
-
-  # When user view URL in the menu button
-  on :view, with: 'http://wendao.easybird.cn/results/my_videos' do |request, view|
-    request.reply.text "#{request[:FromUserName]} view #{view}"
-  end
-
-  # When user sent the imsage
-  on :image do |request|
-    request.reply.image(request[:MediaId]) # Echo the sent image to user
-  end
-
-  # When user sent the voice
-  on :voice do |request|
-    request.reply.voice(request[:MediaId]) # Echo the sent voice to user
-  end
-
-  # When user sent the video
-  on :video do |request|
-    nickname = wechat.user(request[:FromUserName])['nickname'] # Call wechat api to get sender nickname
-    request.reply.video(request[:MediaId], title: 'Echo', description: "Got #{nickname} sent video") # Echo the sent video to user
-  end
-
-  # When user sent location
-  on :location do |request|
-    request.reply.text("Latitude: #{message[:Latitude]} Longitude: #{message[:Longitude]} Precision: #{message[:Precision]}")
-  end
-
-  on :event, with: 'unsubscribe' do |request|
-    request.reply.success # user can not receive this message
-  end
-
-  # When user enter the app / agent app
-  on :event, with: 'enter_agent' do |request|
-    request.reply.text "#{request[:FromUserName]} enter agent app now"
-  end
-
-  on :event do |request|
-    logger.info request.inspect
-    if request[:CardId].present?
-      request.reply.text "CardId: #{request[:CardId]}, Event: #{request[:Event]}"
-    end
   end
 
   # Any not match above will fail to below
