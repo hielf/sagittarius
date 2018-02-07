@@ -35,6 +35,8 @@ class Api::UsersController < Api::ApplicationController
     # m_requires! [:username, :mobile, :password]
     ## optional! :role,:name
     Rails.logger.warn  "wechat_oauth2 start"
+    Rails.logger.warn  "wechat_oauth2 #{wechat_oauth2}"
+    Rails.logger.warn  "wechat_oauth2 snsapi_userinfo #{wechat_oauth2('snsapi_userinfo')}"
     wechat_oauth2 do |openid|
       begin
         Rails.logger.warn  "openid: #{openid}"
