@@ -27,14 +27,14 @@
 #   command "cd /var/www/sagittarius-frontend/ && pm2 start server/app.js"
 # end
 
-every 20.minutes do
-  rake "scan:onus"
-end
-
-every 10.minutes do
-  rake "scan:powers"
-end
-
-every 1.minutes do
-  rake "scan:notice"
-end
+# every 20.minutes do
+#   rake "scan:onus"
+# end
+#
+# every 10.minutes do
+#   rake "scan:powers"
+# end
+#
+# every 1.minutes do
+#   rake "scan:notice"
+# end

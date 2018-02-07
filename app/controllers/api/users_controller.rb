@@ -1,5 +1,5 @@
 class Api::UsersController < Api::ApplicationController
-  skip_before_action :authenticate_user!, only: [:home, :outworker_new, :staff_new, :create]
+  skip_before_action :authenticate_user!, only: [:index, :home, :outworker_new, :staff_new, :create]
   before_action :set_user, only: [:show, :update, :destroy]
   before_action only: [:destroy] { render_json([403, t('messages.c_403')]) if current_user.role != 'admin' }
 
