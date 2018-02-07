@@ -12,7 +12,7 @@ class Api::UsersController < Api::ApplicationController
 
   def index
     @q = User.all.ransack(params[:q])
-    @users = paginate(@q.result.left_joins(:station).select('users.*', 'stations.name as station_name'))
+    @users = @q.result
     respond_to do |format|
       format.json
     end
