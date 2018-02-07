@@ -33,12 +33,17 @@ class Api::UsersController < Api::ApplicationController
   def create
     # m_requires! [:username, :mobile, :password]
     ## optional! :role,:name
+    Rails.logger.warn  "wechat_oauth2 start"
     Rails.logger.warn  "wechat_oauth2 #{wechat_oauth2}"
     Rails.logger.warn  "wechat_oauth2 snsapi_userinfo #{wechat_oauth2('snsapi_userinfo')}"
-    wechat_oauth2 do |openid|
-      Rails.logger.warn  "wechat_oauth2 start"
-      Rails.logger.warn "***********openid: #{openid}**************"
+    wechat_oauth2('snsapi_base', nil, nil, &block) do |openid|
+      Rails.logger.warn "openid: #{openid}"
     end
+
+    # wechat_oauth2('snsapi_userinfo') do |openid, access_info|
+    #   wechat_hash = Wechat.api.web_userinfo( access_info[:access_token], openid)
+    #   Rails.logger.warn "***********wechat_hash: #{wechat_hash}**************"
+    # end
     # wechat_oauth2 do |openid|
     #   begin
     #     Rails.logger.warn  "openid: #{openid}"
