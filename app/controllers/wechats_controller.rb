@@ -3,7 +3,7 @@ class WechatsController < ApplicationController
   wechat_responder
 
   on :text do |request, content|
-    request.reply.text '欢迎使用，请输入:注册 成为我们的一员。'
+    request.reply.text '欢迎使用，请在对话框输入“注册”成为我们的一员。'
     # user = User.find_or_create_by(open_id: request[:FromUserName])
     #
     # if user

@@ -3,7 +3,10 @@ class Api::UsersController < Api::ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
   before_action only: [:destroy] { render_json([403, t('messages.c_403')]) if current_user.role != 'admin' }
 
+  wechat_api
+
   def home
+    # @user = User.new(openid: params[:openid])
     render 'home.html.erb'
   end
 
@@ -32,7 +35,10 @@ class Api::UsersController < Api::ApplicationController
     m_requires! [:username, :mobile, :password]
     ## optional! :role,:name
     begin
-      User.create!(user_params)
+      wechat_oauth2 do |openid|
+        @user = User.create!(user_params)
+        @user.update!(openid: openid)
+      end
       result = [0, '添加用户成功']
     rescue Exception => ex
       result= [1, ex.message]
