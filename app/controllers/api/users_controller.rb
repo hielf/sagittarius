@@ -1,9 +1,8 @@
 class Api::UsersController < Api::ApplicationController
+  wechat_api
   skip_before_action :authenticate_user!, only: [:index, :home, :outworker_new, :staff_new, :create]
   before_action :set_user, only: [:show, :update, :destroy]
   before_action only: [:destroy] { render_json([403, t('messages.c_403')]) if current_user.role != 'admin' }
-
-  wechat_api
 
   def home
     # @user = User.new(openid: params[:openid])
@@ -38,7 +37,7 @@ class Api::UsersController < Api::ApplicationController
     Rails.logger.warn  "wechat_oauth2 #{wechat_oauth2}"
     Rails.logger.warn  "wechat_oauth2 snsapi_userinfo #{wechat_oauth2('snsapi_userinfo')}"
     wechat_oauth2('snsapi_userinfo') do |openid, access_info|
-      wechat_hash = Wechat.api.web_userinfo( access_info[:access_token] , openid)
+      wechat_hash = Wechat.api.web_userinfo( access_info[:access_token], openid)
       logger.info("***********wechat_hash: #{wechat_hash}**************")
     end
     # wechat_oauth2 do |openid|

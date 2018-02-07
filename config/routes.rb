@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   root 'home#index'
   resource :wechat, only: [:show, :create]
+  resources :users
   namespace :api, defaults: {format: :json} do
     root 'root#home'
     post 'accounts/sign_in', to: 'accounts#sign_in'
