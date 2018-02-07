@@ -6,14 +6,14 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module PoliceIot
+module Sagittarius
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
     config.time_zone = 'Beijing'
     config.i18n.default_locale = 'zh-CN'
-    config.encoding = "utf-8" 
+    config.encoding = "utf-8"
 
 
     config.middleware.insert_before 0, Rack::Cors do

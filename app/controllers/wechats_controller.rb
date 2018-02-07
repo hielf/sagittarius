@@ -11,18 +11,20 @@ class WechatsController < ApplicationController
   end
 
   on :text do |request, content|
-    user = User.find_or_create_by(open_id: request[:FromUserName])
-
-    if user
-      message = user.messages.create(content: content)
-      message.delay(:queue => 'sending').send_query(user.open_id, content) if message
-      request.reply.text "您搜索的关键词: \"#{content}\"已收到，正在为您查询，稍后会为您推送结果。"
-    end
+    request.reply.text '欢迎使用，请输入“注册”成为我们的一员。'
+    # user = User.find_or_create_by(open_id: request[:FromUserName])
+    #
+    # if user
+    #   message = user.messages.create(content: content)
+    #   message.delay(:queue => 'sending').send_query(user.open_id, content) if message
+    #   request.reply.text "您搜索的关键词: \"#{content}\"已收到，正在为您查询，稍后会为您推送结果。"
+    # end
   end
 
   # When receive 'help', will trigger this responder
-  on :text, with: '帮助' do |request|
-    request.reply.text '君悦闻道是一个医学视频检索工具。'
+  on :text, with: '注册' do |request|
+    openid = request[:FromUserName]
+    "欢迎使用！\n点击进入：<a href=\"http://sagittarius.cheshipin.tv/api/users/home?openid=#{request[:FromUserName]}\">注册页面</a> "
   end
 
   # When receive '<n>news', will match and will got count as <n> as parameter
@@ -36,7 +38,7 @@ class WechatsController < ApplicationController
 
   on :event, with: 'subscribe' do |request|
     # User.find_or_create_by(open_id: request[:FromUserName])
-    request.reply.text "欢迎关注上海润延"
+    request.reply.text '欢迎使用，请输入“注册”成为我们的一员。'
   end
 
   # When user click the menu button
