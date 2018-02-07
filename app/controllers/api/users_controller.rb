@@ -36,7 +36,7 @@ class Api::UsersController < Api::ApplicationController
     Rails.logger.warn  "wechat_oauth2 start"
     Rails.logger.warn  "wechat_oauth2 #{wechat_oauth2}"
     Rails.logger.warn  "wechat_oauth2 snsapi_userinfo #{wechat_oauth2('snsapi_userinfo')}"
-    wechat_oauth2('snsapi_base', nil, nil, &block) do |openid|
+    wechat_oauth2('snsapi_base', nil, nil) do |openid|
       Rails.logger.warn "openid: #{openid}"
     end
 
