@@ -2,9 +2,6 @@ json.status 0
 json.message '获取成功'
 
 json.data do
-  json.paginate_attrs do
-    paginate_attrs(json, @users)
-  end
   json.users do
     json.array! @users do |user|
       json.(user, :id, :username, :name, :role)
