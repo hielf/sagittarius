@@ -1,9 +1,9 @@
 class Api::UsersController < Api::ApplicationController
   wechat_api
-  skip_before_action :authenticate_user!, only: [:index, :home, :outworker_new, :staff_new, :create, :teams, :areas, :shops]
+  skip_before_action :authenticate_user!, only: [:index, :home, :outworker_new, :staff_new, :create, :teams, :areas, :shops, :get_openid]
   before_action :set_user, only: [:show, :update, :destroy]
   before_action only: [:destroy] { render_json([403, t('messages.c_403')]) if current_user.role != 'admin' }
-  after_action :initial_user, only: [:outworker_new, :staff_new]
+  # after_action :initial_user, only: [:outworker_new, :staff_new]
 
   def home
     render 'home.html.erb'
@@ -18,15 +18,19 @@ class Api::UsersController < Api::ApplicationController
   end
 
   def outworker_new
-    @user = User.new(openid: "test")
-    # respond_to do |format|
-    #   format.html { render 'outworker_new.html.erb' => { :content => { :openid => openid } } }
-    # end
     render 'outworker_new.html.erb'
   end
 
   def staff_new
     render 'staff_new.html.erb'
+  end
+
+  def get_openid
+    wechat_oauth2 do |openid|
+      Rails.logger.warn "openid: #{openid}"
+      @openid = openid
+    end
+    render_json(@openid)
   end
 
   def show
