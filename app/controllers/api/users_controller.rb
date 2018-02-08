@@ -6,7 +6,7 @@ class Api::UsersController < Api::ApplicationController
   before_action only: [:destroy] { render_json([403, t('messages.c_403')]) if current_user.role != 'admin' }
 
   def home
-    # @user = User.new(openid: params[:openid])
+    @user = User.new(openid: "test")
     render 'home.html.erb'
   end
 
@@ -49,15 +49,16 @@ class Api::UsersController < Api::ApplicationController
   # POST /api/users
   def create
     m_requires! [:username, :mobile, :password]
-    ## optional! :role,:name
+    # optional! :role,:name
 
     # wechat_oauth2('snsapi_userinfo') do |openid, access_info|
     #   wechat_hash = Wechat.api.web_userinfo( access_info[:access_token], openid)
     #   Rails.logger.warn "***********wechat_hash: #{wechat_hash}**************"
     # end
     begin
-      # @user = User.find_or_initialize_by(openid: params[:openid])
-      @user.update!(user_params)
+      Rails.logger.warn "@user: #{@user}"
+      @user = User.new user_params
+      # @user.update!(user_params)
       result = [0, '添加用户成功']
     rescue Exception => ex
       result= [1, ex.message]
