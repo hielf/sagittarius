@@ -84,16 +84,16 @@
       <script src="https://cdn.bootcss.com/jquery-weui/1.1.2/js/jquery-weui.min.js"></script>
       <script>
       $("#submit").click(function() {
-        $.ajax
-            ({
-              url: 'http://sagittarius.cheshipin.tv/api/users/get_openid',
-              type: 'get',
-              success: function(result)
-              {
-                var openid = result;
-                alert(openid);
-              }
-              });
+        // $.ajax
+        //     ({
+        //       url: 'http://sagittarius.cheshipin.tv/api/users/get_openid',
+        //       type: 'get',
+        //       success: function(result)
+        //       {
+        //         var openid = result.val();
+        //         alert(openid);
+        //       }
+        //       });
         var username = $('#username').val();
         var name = $('#name').val();
         var mobile = $('#mobile').val();
@@ -103,9 +103,9 @@
         else if(!name) $.toptip('请输入姓名');
         else $.ajax
             ({
-                url: 'http://sagittarius.cheshipin.tv/api/users',
-                // url: 'http://localhost:3000/api/users',
-                data: {"role": "outworker", "username": username, "name": name, "mobile": mobile, "area_id": 1, "shop_id": 1, "upper_user_phone": upper_user_phone, "team_id": 1, "password": "123456", "openid": openid},
+                // url: 'http://sagittarius.cheshipin.tv/api/users',
+                url: 'http://localhost:3000/api/users',
+                data: {"role": "outworker", "username": username, "name": name, "mobile": mobile, "area_id": 1, "shop_id": 1, "upper_user_phone": upper_user_phone, "team_id": 1, "password": "123456"},
                 type: 'post',
                 success: function(result)
                 {

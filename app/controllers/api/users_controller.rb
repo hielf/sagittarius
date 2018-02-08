@@ -3,7 +3,7 @@ class Api::UsersController < Api::ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :home, :outworker_new, :staff_new, :create, :teams, :areas, :shops, :get_openid]
   before_action :set_user, only: [:show, :update, :destroy]
   before_action only: [:destroy] { render_json([403, t('messages.c_403')]) if current_user.role != 'admin' }
-  # after_action :initial_user, only: [:outworker_new, :staff_new]
+  before_action :initial_user, only: [:create]
 
   def home
     render 'home.html.erb'
@@ -61,8 +61,8 @@ class Api::UsersController < Api::ApplicationController
     # end
     begin
       Rails.logger.warn "@user: #{@user}"
-      @user = User.new user_params
-      # @user.update!(user_params)
+      # @user = User.new user_params
+      @user.update!(user_params)
       result = [0, '添加用户成功']
     rescue Exception => ex
       result= [1, ex.message]
@@ -101,10 +101,13 @@ class Api::UsersController < Api::ApplicationController
   private
 
   def initial_user
-    wechat_oauth2 do |openid|
-      Rails.logger.warn "openid: #{openid}"
-      # @user = User.find_or_initialize_by(openid: openid)
+    Thread.new do
+      wechat_oauth2 do |openid|
+        Rails.logger.warn "openid: #{openid}"
+
+      end
     end
+    # @user = User.find_or_initialize_by(openid: openid)
   end
 
   def set_user
