@@ -42,33 +42,25 @@
           <div class="weui-cell weui-cell_select weui-cell_select-after">
             <div class="weui-cell__hd"><label class="weui-label">区域</label></div>
             <div class="weui-cell__bd">
-              <select class="weui-select" name="select2">
-              <option value="1">上海</option>
-            </select>
+              <select id="area" class="weui-select" name="area"></select>
             </div>
           </div>
           <div class="weui-cell weui-cell_select weui-cell_select-after">
             <div class="weui-cell__hd"><label class="weui-label">所属团队</label></div>
             <div class="weui-cell__bd">
-              <select class="weui-select" name="select2">
-              <option value="1">团队1</option>
-            </select>
+              <select id="team" class="weui-select" name="team"></select>
             </div>
           </div>
           <div class="weui-cell weui-cell_select weui-cell_select-after">
             <div class="weui-cell__hd"><label class="weui-label">所属门店</label></div>
             <div class="weui-cell__bd">
-              <select class="weui-select" name="select2">
-              <option value="1">南京东路店</option>
-            </select>
+              <select id="shop" class="weui-select" name="shop"></select>
             </div>
           </div>
           <div class="weui-cell weui-cell_select weui-cell_select-after">
             <div class="weui-cell__hd"><label class="weui-label">所属销售</label></div>
             <div class="weui-cell__bd">
-              <select class="weui-select" name="select2">
-              <option value="1">销售</option>
-            </select>
+              <select id="upper_user" class="weui-select" name="upper_user"></select>
             </div>
           </div>
           <div class="weui-cell">
@@ -88,31 +80,77 @@
 
       <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
       <script src="https://cdn.bootcss.com/jquery-weui/1.1.2/js/jquery-weui.min.js"></script>
+      <script src="/js/config.js"></script>
       <script>
+      $(function(){
+        var options1=[];
+         $.ajax({
+           url: root_url+"api/users/areas",
+           method: "GET",
+           dataType: "json",
+           success:function(res){
+             $.each(res.data.areas,function(i,t){
+                  options1.push("<option value='"+t.id+"'>"+t.name+"</option>");
+             })
+             $("#area").append(options1.join(''));
+           }
+         });
+        var options2=[];
+        $.ajax({
+          url: root_url+"api/users/teams",
+          method: "GET",
+          dataType: "json",
+          success:function(res){
+            $.each(res.data.teams,function(i,t){
+                 options2.push("<option value='"+t.id+"'>"+t.name+"</option>");
+            })
+            $("#team").append(options2.join(''));
+          }
+        });
+        var options3=[];
+         $.ajax({
+           url: root_url+"api/users/shops",
+           method: "GET",
+           dataType: "json",
+           success:function(res){
+             $.each(res.data.shops,function(i,t){
+                  options3.push("<option value='"+t.id+"'>"+t.name+"</option>");
+             })
+             $("#shop").append(options3.join(''));
+           }
+         });
+        var options4=[];
+        $.ajax({
+          url: root_url+"api/users/upper_users",
+          method: "GET",
+          dataType: "json",
+          success:function(res){
+            $.each(res.data.upper_users,function(i,t){
+                 options4.push("<option value='"+t.id+"'>"+t.name+"</option>");
+            })
+            $("#upper_user").append(options4.join(''));
+          }
+        });
+      });
+
       $("#submit").click(function() {
-        // $.ajax
-        //     ({
-        //       url: 'http://sagittarius.cheshipin.tv/api/users/get_openid',
-        //       type: 'get',
-        //       success: function(result)
-        //       {
-        //         var openid = result.val();
-        //         alert(openid);
-        //       }
-        //       });
         var username = $('#username').val();
         var name = $('#name').val();
         var mobile = $('#mobile').val();
         var upper_user_phone = $('#upper_user_phone').val();
         var password = $('#password').val();
+        var area=$("#area").val();
+        var team=$("#team").val();
+        var shop=$("#shop").val();
+        var upper_user=$("#upper_user").val();
         if(!mobile || !/1[3|4|5|7|8]\d{9}/.test(mobile)) $.toptip('请输入手机号');
         else if(!username) $.toptip('请输入员工ID');
         else if(!name) $.toptip('请输入姓名');
+        else if(!password) $.toptip('请输入密码');
         else $.ajax
             ({
-                // url: 'http://sagittarius.cheshipin.tv/api/users',
                 url: root_url+'api/users',
-                data: {"role": "outworker", "username": username, "name": name, "mobile": mobile, "area_id": 1, "shop_id": 1, "upper_user_phone": upper_user_phone, "team_id": 1, "password": password},
+                data: {"role": "outworker", "username": username, "name": name, "mobile": mobile, "area_id": area, "shop_id": shop, "team_id": team, "upper_user_id": upper_user, "upper_user_phone": upper_user_phone, "password": password},
                 type: 'post',
                 success: function(result)
                 {

@@ -11,15 +11,14 @@ Rails.application.routes.draw do
     resources :users, except: [:edit, :new] do
       collection do
         get :me
-        get :export_users
-        get :home
-        get :outworker_new
-        get :staff_new
+        # get :home
+        # get :outworker_new
+        # get :staff_new
         get :teams
         get :shops
         get :areas
-        get :get_openid
-        get :create_user
+        get :upper_users
+        # get :create_user
       end
     end
     resources :suppliers, except: [:new, :edit] do

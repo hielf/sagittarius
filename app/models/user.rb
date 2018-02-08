@@ -3,8 +3,8 @@ class User < ApplicationRecord
   has_secure_password
 
   belongs_to :area
-  belongs_to :team
-  belongs_to :shop
+  # belongs_to :team
+  # belongs_to :shop
 
   has_many :events, through: :user_events
   has_many :datums
@@ -12,7 +12,7 @@ class User < ApplicationRecord
 
   validates :username, presence: true, length: {maximum: 10}, on: :create
   validates :username, presence: true, length: {maximum: 10}, uniqueness: true, on: :update
-  validates :openid, uniqueness: true, on: :create
+  # validates :openid, uniqueness: true, on: :create
   validates :password, presence: true, length: {minimum: 6, maximum: 32}, format: {with: /\A[\x21-\x7e]+\Z/i, message: '密码只能包含数字、字母、特殊字符'}, on: :create
   # validates :generate_username_prefix, presence: true, on: :create
   validates :role, inclusion: ['admin', 'staff', 'outworker'], presence: true
