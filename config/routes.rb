@@ -19,6 +19,7 @@ Rails.application.routes.draw do
         get :shops
         get :areas
         get :get_openid
+        get :create_user
       end
     end
     resources :suppliers, except: [:new, :edit] do

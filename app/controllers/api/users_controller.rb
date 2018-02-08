@@ -50,8 +50,7 @@ class Api::UsersController < Api::ApplicationController
     @shops = Shop.all
   end
 
-  # POST /api/users
-  def create
+  def create_user
     m_requires! [:username, :mobile, :password]
     # optional! :role,:name
 
@@ -101,13 +100,10 @@ class Api::UsersController < Api::ApplicationController
   private
 
   def initial_user
-    Thread.new do
-      wechat_oauth2 do |openid|
-        Rails.logger.warn "openid: #{openid}"
-
-      end
+    wechat_oauth2 do |openid|
+      Rails.logger.warn "openid: #{openid}"
+      @user = User.find_or_initialize_by(openid: openid)
     end
-    # @user = User.find_or_initialize_by(openid: openid)
   end
 
   def set_user
