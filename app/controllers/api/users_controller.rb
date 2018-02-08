@@ -34,6 +34,18 @@ class Api::UsersController < Api::ApplicationController
 
   end
 
+  def teams
+    @teams = Team.all
+  end
+
+  def areas
+    @areas = Area.all
+  end
+
+  def shops
+    @shops = Shop.all
+  end
+
   # POST /api/users
   def create
     m_requires! [:username, :mobile, :password]

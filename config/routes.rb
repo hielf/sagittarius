@@ -15,6 +15,9 @@ Rails.application.routes.draw do
         get :home
         get :outworker_new
         get :staff_new
+        get :teams
+        get :shops
+        get :areas
       end
     end
     resources :suppliers, except: [:new, :edit] do
