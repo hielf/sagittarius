@@ -5,78 +5,40 @@
         <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
         <title>上传活动成果</title>
         <!-- 引入 WeUI -->
+        <!-- <link rel="stylesheet" href="path/to/weui/dist/style/weui.min.css"/> -->
         <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css">
         <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.1.2/css/jquery-weui.min.css">
     </head>
     <body style="background-color:#f0eff5">
       <div id="body">
-        <div class="weui-cells">
-          <div class="weui-cell">
-            <div class="weui-cell__bd">
-              <p>姓名</p>
+        <header style="padding: 35px 0;">
+          <h1 style="text-align: center;font-size: 34px;color: #3cc51f;font-weight: 400;margin: 0 15%;">活动图片</h1>
+        </header>
+        <div class="weui-grids">
+          <a href="event_photo_tg" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+              <img src="http://jqweui.com/dist/demos/images/icon_nav_button.png" alt="">
             </div>
-            <div id="name" class="weui-cell__ft"></div>
-          </div>
-          <div class="weui-cell">
-            <div class="weui-cell__bd">
-              <p>手机号码</p>
+            <p class="weui-grid__label">
+              货架
+            </p>
+          </a>
+          <a href="event_photo_tg" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+              <img src="http://jqweui.com/dist/demos/images/icon_nav_button.png" alt="">
             </div>
-            <div id="mobile" class="weui-cell__ft"></div>
-          </div>
-          <div class="weui-cell">
-            <div class="weui-cell__bd">
-              <p>员工类型</p>
+            <p class="weui-grid__label">
+              堆头
+            </p>
+          </a>
+          <a href="event_photo_tg" class="weui-grid js_grid">
+            <div class="weui-grid__icon">
+              <img src="http://jqweui.com/dist/demos/images/icon_nav_button.png" alt="">
             </div>
-            <div id="role" class="weui-cell__ft"></div>
-          </div>
-          <div class="weui-cell">
-            <div class="weui-cell__bd">
-              <p>员工ID</p>
-            </div>
-            <div id="username" class="weui-cell__ft"></div>
-          </div>
-          <div class="weui-cell">
-            <div class="weui-cell__bd">
-              <p>所在地区</p>
-            </div>
-            <div id="area" class="weui-cell__ft"></div>
-          </div>
-          <div class="weui-cell">
-            <div class="weui-cell__bd">
-              <p>状态</p>
-            </div>
-            <div id="status" class="weui-cell__ft"></div>
-          </div>
-        </div>
-
-        <div id="outworker" class="weui-cells">
-          <div class="weui-cell">
-            <div class="weui-cell__bd">
-              <p>客户团队</p>
-            </div>
-            <div id="team" class="weui-cell__ft"></div>
-          </div>
-          <div class="weui-cell">
-            <div class="weui-cell__bd">
-              <p>所属门店</p>
-            </div>
-            <div id="shop" class="weui-cell__ft"></div>
-          </div>
-          <div class="weui-cell">
-            <div class="weui-cell__bd">
-              <p>所属销售员</p>
-            </div>
-            <div id="upper_user" class="weui-cell__ft"></div>
-          </div>
-        </div>
-
-        <div id="staff" class="weui-cells">
-          <div class="weui-cell">
-            <div class="weui-cell__bd">
-              <p>客户团队</p>
-            </div>
-            <div id="team_members_count" class="weui-cell__ft"></div>
-          </div>
+            <p class="weui-grid__label">
+              物料
+            </p>
+          </a>
         </div>
       </div>
 
@@ -97,20 +59,7 @@
                request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
            },
            success:function(res){
-             var role=res.data.user.role;
-             console.log(role);
-             $('#name').text(res.data.user.name);
-             $('#mobile').text(res.data.user.mobile);
-             $('#role').text(res.data.user.role);
-             $('#username').text(res.data.user.username);
-             $('#status').text(res.data.user.status);
-             $('#area').text(res.data.user.area);
-             $('#team').text(res.data.user.team);
-             $('#shop').text(res.data.user.shop);
-             $('#upper_user').text(res.data.user.upper_user);
-             $('#team_members_count').text(res.data.user.team_members_count);
-              if (role=="销售员") $('#outworker').hide();
-              if (role=="促销员") $('#staff').hide();
+
            }
          });
       });
