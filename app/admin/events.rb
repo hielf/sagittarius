@@ -12,4 +12,7 @@ ActiveAdmin.register Event do
 #   permitted
 # end
 
+permit_params :title, :image, :desc, :begin_date, :end_date,
+  :send_to, :user_id, :notice, :satus
+
 end

@@ -71,7 +71,10 @@ gem 'activeadmin'
 # Plus integrations with:
 gem 'devise'
 gem 'cancan' # or cancancan
-
+gem 'carrierwave', '~> 1.0'
+gem 'carrierwave-qiniu', '~> 1.1.5'
+# If you need to use locales other than English
+gem 'carrierwave-i18n'
 gem 'rails-i18n'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'kaminari'
