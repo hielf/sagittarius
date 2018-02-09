@@ -29,7 +29,6 @@ module AccountConcern
       # 生成 authentication_token
       generate_access_token
       if self.save
-        generate_cookie
         [true, '登录成功']
       else
         [false, self.errors.full_messages[0]]
@@ -54,10 +53,6 @@ module AccountConcern
   # 生成 authentication_token
   def generate_access_token
     self.access_token = SecureRandom.base64(64)
-  end
-
-  def generate_cookie
-    cookies[:username] = "david"
   end
 
 end

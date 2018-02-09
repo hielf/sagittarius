@@ -8,6 +8,9 @@ class Api::AccountsController < Api::ApplicationController
     if @user
       status, message = @user.login(params[:password], request.ip)
       if status
+        cookies[:role] = { :value => @user.role, :expires => Time.now + 30.days}
+        cookies[:token] = { :value => @user.access_token, :expires => Time.now + 30.days}
+        cookies[:username] = { :value => @user.username, :expires => Time.now + 30.days}
         @user
       else
         render_json([401, message])
