@@ -1,6 +1,7 @@
 class Photo < ApplicationRecord
   belongs_to :user
   belongs_to :event
+  mount_uploader :image, AvatarUploader
 
   state_machine :status, :initial => :'待审批' do
     event :approve do

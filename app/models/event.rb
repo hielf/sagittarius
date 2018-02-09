@@ -1,7 +1,8 @@
 class Event < ApplicationRecord
   has_many :goods
-  has_many :user_events
-  has_many :users, through: :user_events
+  #has_many :user_events
+  #has_many :users, through: :user_events
+  mount_uploader :image, AvatarUploader
 
   state_machine :status, :initial => :'未开始' do
     event :begin do

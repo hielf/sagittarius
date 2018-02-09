@@ -1,12 +1,20 @@
 ## 后台说明
 
-        后台使用了activeadmin
-        访问路径 url/admin
-        username: admin@example.com
-        password: password
+    后台使用了activeadmin
+    访问路径 url/admin
+    username: admin@example.com
+    password: password
 
+###carrierwave-qiniu
+https://github.com/huobazi/carrierwave-qiniu
+```
+    # just style param
+    user.avatar.url(style: 'imageView2/1/w/200')
+```
 
+    rails5 upload single file
 
+      https://www.pluralsight.com/guides/ruby-ruby-on-rails/handling-file-upload-using-ruby-on-rails-5-api
 
 
 ## model 说明
