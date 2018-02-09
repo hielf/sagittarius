@@ -7,6 +7,7 @@ json.data do
     json.username @user.username
     json.mobile @user.mobile
     json.role @user.role
+    json.status @user.status
     json.area @user.area_id? ? @user.area.city : "未指定"
     json.shop @user.shop_id? ? Shop.find(@user.shop_id).name : "未指定"
     json.team @user.team_id? ? Team.find(@user.team_id).name : "未指定"
