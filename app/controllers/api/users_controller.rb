@@ -25,8 +25,11 @@ class Api::UsersController < Api::ApplicationController
     render 'staff_new.html.erb'
   end
 
-  def show
-
+  def me
+    @user = current_user
+    respond_to do |format|
+      format.json
+    end
   end
 
   def teams
