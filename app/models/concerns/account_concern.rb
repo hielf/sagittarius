@@ -55,5 +55,4 @@ module AccountConcern
     self.access_token = SecureRandom.base64(64)
   end
 
-
 end

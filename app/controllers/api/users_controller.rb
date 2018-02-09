@@ -1,20 +1,20 @@
 class Api::UsersController < Api::ApplicationController
   wechat_api
-  skip_before_action :authenticate_user!, only: [:index, :home, :outworker_new, :staff_new, :create]
+  skip_before_action :authenticate_user!, only: [:index, :home, :outworker_new, :staff_new, :create, :teams, :areas, :shops, :get_openid, :upper_users]
   before_action :set_user, only: [:show, :update, :destroy]
   before_action only: [:destroy] { render_json([403, t('messages.c_403')]) if current_user.role != 'admin' }
+  # before_action :initial_user, only: [:outworker_new, :staff_new]
 
   def home
-    # @user = User.new(openid: params[:openid])
     render 'home.html.erb'
   end
 
   def index
     @q = User.all.ransack(params[:q])
     @users = @q.result
-    respond_to do |format|
-      format.json
-    end
+    # respond_to do |format|
+    #   format.json
+    # end
   end
 
   def outworker_new
@@ -25,36 +25,44 @@ class Api::UsersController < Api::ApplicationController
     render 'staff_new.html.erb'
   end
 
-  def show
-
+  def me
+    @user = current_user
+    respond_to do |format|
+      format.json
+    end
   end
 
-  # POST /api/users
+  def teams
+    @teams = Team.all
+  end
+
+  def areas
+    @areas = Area.all
+  end
+
+  def shops
+    @shops = Shop.all
+  end
+
+  def upper_users
+    @upper_users = User.where(role: "staff", status: "已审批")
+  end
+
   def create
-    # m_requires! [:username, :mobile, :password]
-    ## optional! :role,:name
-    Rails.logger.warn  "wechat_oauth2 start"
-    Rails.logger.warn  "wechat_oauth2 #{wechat_oauth2}"
-    Rails.logger.warn  "wechat_oauth2 snsapi_userinfo #{wechat_oauth2('snsapi_userinfo')}"
-    wechat_oauth2('snsapi_base', nil, nil) do |openid|
-      Rails.logger.warn "openid: #{openid}"
-    end
+    m_requires! [:username, :mobile, :password]
+    # optional! :role,:name
 
     # wechat_oauth2('snsapi_userinfo') do |openid, access_info|
     #   wechat_hash = Wechat.api.web_userinfo( access_info[:access_token], openid)
     #   Rails.logger.warn "***********wechat_hash: #{wechat_hash}**************"
     # end
-    # wechat_oauth2 do |openid|
-    #   begin
-    #     Rails.logger.warn  "openid: #{openid}"
-    #     @user = User.create!(user_params)
-    #     @user.update!(openid: openid)
-    #     result = [0, '添加用户成功']
-    #   rescue Exception => ex
-    #     result= [1, ex.message]
-    #   end
-    #   render_json(result)
-    # end
+    begin
+      User.create!(user_params)
+      result = [0, '添加用户成功']
+    rescue Exception => ex
+      result= [1, ex.message]
+    end
+    render_json(result)
   end
 
   # PUT/PATCH
@@ -87,6 +95,13 @@ class Api::UsersController < Api::ApplicationController
 
   private
 
+  # def initial_user
+  #   wechat_oauth2 do |openid|
+  #     Rails.logger.warn "openid: #{openid}"
+  #     @user = User.find_or_initialize_by(openid: openid)
+  #   end
+  # end
+
   def set_user
     @user = User.find(params[:id])
   end
@@ -96,7 +111,7 @@ class Api::UsersController < Api::ApplicationController
   end
 
   def user_params
-    params.permit(:username, :name, :mobile, :area_id, :shop_id, :upper_user_id, :upper_user_phone, :team_id, :password, :role)
+    params.permit(:username, :name, :mobile, :area_id, :shop_id, :team_id, :upper_user_id, :upper_user_phone, :upper_user_name, :upper_client, :password, :role)
   end
 
 end
