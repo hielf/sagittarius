@@ -51,6 +51,11 @@
                 if (result.status == 401) $.toptip(result.message, 'error');
                 else {
                   $.toptip(result.message, 'success');
+                  setTimeout(
+                    function()
+                    {
+                      window.location.href = 'index';
+                    }, 500);
                   }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
