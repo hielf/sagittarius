@@ -8,3 +8,7 @@
   config.qiniu_block_size    = 4*1024*1024
   config.qiniu_protocal      = "http"
 end
+
+CarrierWave.configure do |config|
+  config.qiniu_styles = { thumb: 'imageView2/1/w/200', large: 'imageView2/1/w/800' }
+end

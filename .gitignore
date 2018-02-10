@@ -27,7 +27,7 @@
 /config/secrets.yml
 /config/database.yml
 /db/schema.rb
-
+/public/uploads
 config/application.yml
 
 config/wechat.yml

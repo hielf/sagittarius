@@ -1,5 +1,6 @@
 class Event < ApplicationRecord
   has_many :goods
+  belongs_to :user
   #has_many :user_events
   #has_many :users, through: :user_events
   mount_uploader :image, AvatarUploader
