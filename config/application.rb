@@ -11,6 +11,7 @@ module Sagittarius
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
+    # config.autoload_paths << Rails.root.join('lib')
     config.time_zone = 'Beijing'
     config.i18n.default_locale = 'zh-CN'
     config.encoding = "utf-8"

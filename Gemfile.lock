@@ -144,6 +144,8 @@ GEM
       railties (>= 3.0.0)
     ffaker (2.7.0)
     ffi (1.9.18)
+    figaro (1.1.1)
+      thor (~> 0.14)
     formtastic (3.1.5)
       actionpack (>= 3.2.13)
     formtastic_i18n (0.6.0)
@@ -403,6 +405,7 @@ DEPENDENCIES
   devise
   factory_bot_rails
   ffaker
+  figaro
   geocoder
   httparty
   jbuilder (~> 2.5)
