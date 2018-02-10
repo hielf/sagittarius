@@ -12,4 +12,6 @@ ActiveAdmin.register Area do
 #   permitted
 # end
 
+permit_params :city, :title
+
 end
