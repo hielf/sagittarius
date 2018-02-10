@@ -15,4 +15,61 @@ ActiveAdmin.register Event do
 permit_params :title, :image, :desc, :begin_date, :end_date,
   :send_to, :user_id, :notice, :satus
 
+  filter :title
+  filter :desc
+  filter :begin_date
+  filter :end_date
+  filter :user, as: :select, collection: User.all.map {|u|[u.username, u.id]}
+  filter :status, as: :select, collection: [['未开始','未开始'],['已开始','已开始'],['结束','结束']]
+
+
+
+  index do
+    column :image do |e|
+      link_to(image_tag(e.image.url(:thumb)), e.image.url(:large), target: '_blank')
+    end
+    column :title
+    column :desc
+    column :notice
+    column :status
+    actions
+  end
+
+  show do
+		attributes_table do
+      row :title
+      row :image do |e|
+        image_tag e.image.url
+      end
+      row :user do |e|
+        if e.user
+          link_to e.user.username, admin_user_path(e.user.id)
+        end
+      end
+      row :begin_date
+      row :end_date
+      row :send_to
+			row :desc
+			row :notice
+			row :status
+    end
+    active_admin_comments
+	end
+
+   form do |f|
+  	f.semantic_errors # shows errors on :base
+  	f.inputs do
+  		#f.input :title
+  		f.input :title
+  		f.input :image, :hint => image_tag(f.object.image.url(:large)||'')
+      f.input :image_cache, :as => :hidden
+      f.input :user, as: :select, collection: User.all.map {|u| [u.username, u.id]}
+      f.input :desc
+      f.input :begin_date
+      f.input :end_date
+      f.input :notice
+      f.input :status, collection: [['未开始','未开始'],['已开始','已开始'],['结束','结束']]
+  	end          # builds an input field for every attribute
+  	f.actions         # adds the 'Submit' and 'Cancel' buttons
+	end
 end
