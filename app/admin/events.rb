@@ -26,9 +26,12 @@ permit_params :title, :image, :desc, :begin_date, :end_date,
 
   index do
     column :image do |e|
-      link_to(image_tag(e.image.url(:thumb)), e.image.url(:large), target: '_blank')
+      link_to(image_tag(e.image.url(:thumb)), e.image.url(:large), target: '_blank') unless e.image
     end
     column :title
+    column :user do |e|
+      e.user.username if User.find_by(id: e.user)
+    end
     column :desc
     column :notice
     column :status
@@ -39,7 +42,7 @@ permit_params :title, :image, :desc, :begin_date, :end_date,
 		attributes_table do
       row :title
       row :image do |e|
-        image_tag e.image.url
+        image_tag e.image.url unless e.image
       end
       row :user do |e|
         if e.user
