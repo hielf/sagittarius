@@ -34,3 +34,5 @@ config/wechat.yml
 
 # Ignore application configuration
 /config/application.yml
+
+public/js/config.js
