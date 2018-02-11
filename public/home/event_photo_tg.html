@@ -108,7 +108,7 @@
           flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
           dragdrop: true,
           chunk_size: '4mb',
-          // multi_selection: !(mOxie.Env.OS.toLowerCase() === "ios"),
+          multi_selection: false,
           uptoken_func: function() {
               var ajax = new XMLHttpRequest();
               // 获取上传七牛云的token
