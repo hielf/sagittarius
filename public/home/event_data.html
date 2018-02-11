@@ -46,7 +46,22 @@
            },
            success:function(res){
              if (res.status == 401) window.location.href = 'login';
-             else if (res.data.user.status != "已审批") ($.toptip('您还未通过审批'));
+             else if (res.data.user.status != "已审批") {
+               $.toptip('您还未通过审批');
+               setTimeout(
+                 function()
+                 {
+                   window.location.href = 'me';
+                 }, 2000);
+             }
+             else if (res.data.user.role != "促销员") {
+               $.toptip('您不是促销员');
+               setTimeout(
+                 function()
+                 {
+                   window.location.href = 'me';
+                 }, 2000);
+             }
              else $.ajax({
                url: root_url+"api/events/join_event",
                data: {"event_id": 1},
