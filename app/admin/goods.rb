@@ -3,7 +3,7 @@ ActiveAdmin.register Good do
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
 # permit_params :list, :of, :attributes, :on, :model
-permit_params :event_id, :brand, :name, :image
+permit_params :event_id, :brand, :name, :image, :image_cache
 
 filter :event
 filter :brand
@@ -14,7 +14,7 @@ filter :name
     column :brand
     column :name
     column :image do |e|
-      link_to(image_tag(e.image.url(:thumb)), e.image.url(:large), target: '_blank') unless e.image
+      link_to(image_tag(e.image.url(:thumb, inline: true)), e.image.url(:large, inline: true), target: '_blank') if e.image
     end
     actions
   end
@@ -25,7 +25,7 @@ filter :name
       row :brand
       row :name
       row :image do |e|
-        image_tag e.image.url unless e.image
+        image_tag e.image.url if e.image
       end
     end
   end
@@ -36,7 +36,7 @@ filter :name
      f.input :event
      f.input :brand
      f.input :name
-     f.input :image, :hint => image_tag(f.object.image.url(:large)||'')
+     f.input :image, :hint => image_tag(f.object.image.url(:large, inline: true)||'')
      f.input :image_cache, :as => :hidden
    end
    f.actions

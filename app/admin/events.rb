@@ -13,24 +13,24 @@ ActiveAdmin.register Event do
 # end
 
 permit_params :title, :image, :desc, :begin_date, :end_date,
-  :send_to, :user_id, :notice, :satus
+  :send_to, :notice, :satus, :user_ids => []
 
   filter :title
   filter :desc
   filter :begin_date
   filter :end_date
-  filter :user, as: :select, collection: User.all.map {|u|[u.username, u.id]}
+  filter :users, as: :select, collection: User.all.map {|u|[u.username, u.id]}
   filter :status, as: :select, collection: [['未开始','未开始'],['已开始','已开始'],['结束','结束']]
 
 
 
   index do
     column :image do |e|
-      link_to(image_tag(e.image.url(:thumb)), e.image.url(:large), target: '_blank') unless e.image
+      link_to(image_tag(e.image.url(:thumb, inline: true)), e.image.url(:large, inline: true), target: '_blank') if e.image
     end
     column :title
-    column :user do |e|
-      e.user.username if User.find_by(id: e.user)
+    column :users do |e|
+      e.users.map {|u| u.username}
     end
     column :desc
     column :notice
@@ -42,12 +42,10 @@ permit_params :title, :image, :desc, :begin_date, :end_date,
 		attributes_table do
       row :title
       row :image do |e|
-        image_tag e.image.url unless e.image
+        image_tag e.image.url if e.image
       end
-      row :user do |e|
-        if e.user
-          link_to e.user.username, admin_user_path(e.user.id)
-        end
+      row :users do |e|
+        e.users.map {|u| u.username }
       end
       row :begin_date
       row :end_date
@@ -64,9 +62,11 @@ permit_params :title, :image, :desc, :begin_date, :end_date,
   	f.inputs do
   		#f.input :title
   		f.input :title
-  		f.input :image, :hint => image_tag(f.object.image.url(:large)||'')
+  		f.input :image, :hint => image_tag(f.object.image.url(:large, inline: true)||'')
       f.input :image_cache, :as => :hidden
-      f.input :user, as: :select, collection: User.all.map {|u| [u.username, u.id]}
+      f.input :users, as: :check_boxes, :collection => User.all.map{ |tech|  [tech.username, tech.id] }
+
+      #f.input :user, as: :select, collection: User.all.map {|u| [u.username, u.id]}
       f.input :desc
       f.input :begin_date
       f.input :end_date

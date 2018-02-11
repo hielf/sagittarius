@@ -22,7 +22,7 @@ permit_params :user_id, :event_id, :type, :image, :order, :serial_code, :status
     column :order
     column :serial_code
     column :image do |e|
-      link_to(image_tag(e.image.url(:thumb)), e.image.url(:large), target: '_blank') unless e.image
+      link_to(image_tag(e.image.url(:thumb, inline: true)), e.image.url(:large, inline: true), target: '_blank') if e.image
     end
     column :status
 
@@ -39,7 +39,7 @@ permit_params :user_id, :event_id, :type, :image, :order, :serial_code, :status
       row :order
       row :serial_code
       row :image do |e|
-        image_tag e.image.url unless e.image
+        image_tag e.image.url if e.image
       end
       row :status
     end
@@ -53,7 +53,7 @@ permit_params :user_id, :event_id, :type, :image, :order, :serial_code, :status
      f.input :type
      f.input :order
      f.input :serial_code
-     f.input :image, :hint => image_tag(f.object.image.url(:large)||'')
+     f.input :image, :hint => image_tag(f.object.image.url(:large, inline: true)||'')
      f.input :image_cache, :as => :hidden
      f.input :status, as: :select, collection: [['待审批','待审批'],['已审批','已审批'],['否决','否决']]
    end
