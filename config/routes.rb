@@ -24,7 +24,7 @@ Rails.application.routes.draw do
         # get :create_user
       end
     end
-    resources :events, except: [:new, :edit, :show] do
+    resources :events, except: [:new, :edit] do
       collection do
         post :join_event
       end

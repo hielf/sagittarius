@@ -2,9 +2,14 @@ class Api::EventsController < Api::ApplicationController
   before_action :set_event, only: [:show, :update, :destroy]
 
   def index
+    @events = Event.where(status: "已开始")
+    respond_to do |format|
+      format.json
+    end
   end
 
   def show
+    @goods = @event.goods
     respond_to do |format|
       format.json
     end
@@ -12,7 +17,8 @@ class Api::EventsController < Api::ApplicationController
 
   def join_event
     m_requires! [:event_id]
-    event = Event.find(params[:event_id])
+    # event = Event.find(params[:event_id])
+    event = Event.where(status: "已开始").last
     ue = current_user.users_events.build(event_id: event.id)
     begin
       ue.save!

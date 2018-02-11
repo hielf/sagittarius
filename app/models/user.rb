@@ -58,7 +58,7 @@ private
     end
   end
 
-  def name
-    self.username
-  end
+  # def name
+  #   self.username
+  # end
 end

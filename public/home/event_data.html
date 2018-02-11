@@ -70,6 +70,31 @@
            },
            success:function(res){
              if (res.status == 401) window.location.href = 'login';
+             else $.ajax({
+               url: root_url+"api/events/join_event",
+               data: {"event_id": 1},
+               method: "post",
+               dataType: "json",
+               beforeSend: function(request) {
+                   request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+               },
+               success:function(res){
+                 console.log(res.status);
+
+                 $.ajax({
+                   url: root_url+"api/events/1",
+                   method: "GET",
+                   dataType: "json",
+                   beforeSend: function(request) {
+                       request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+                   },
+                   success:function(res){
+                     
+                   }
+                 });
+
+               }
+             });
            }
          });
       });
