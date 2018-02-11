@@ -12,44 +12,10 @@
     <body style="background-color:#f0eff5">
       <div id="body">
         <div class="weui-cells__tips">执行数据</div>
-        <div class="weui-cells" style="margin-top: 0px;">
-          <div class="weui-cell">
-            <div class="weui-cell__hd" ><img style="width: 80px;" src="https://media-cdn.tripadvisor.com/media/photo-o/0c/fb/21/6d/panorama-sur-nice-a-partir.jpg"></div>
-            <div class="weui-cell__bd">
-              <p>联合利华飘柔二合一蓝莓香味男士专用去屑洗发露500ml</p>
-            </div>
-            <div class="weui-cell__ft" style="color:#f1403c">￥129.98</div>
-          </div>
-          <div class="weui-cell">
-            <div class="weui-cell__bd">
-              <input class="weui-input" type="number" placeholder="进货数量">
-            </div>
-            <div class="weui-cell__bd">
-              <input class="weui-input" type="number" placeholder="销售数量">
-            </div>
-          </div>
-        </div>
-        <div class="weui-cells">
-          <div class="weui-cell">
-            <div class="weui-cell__hd" ><img style="width: 80px;" src="https://media-cdn.tripadvisor.com/media/photo-o/0c/fb/21/6d/panorama-sur-nice-a-partir.jpg"></div>
-            <div class="weui-cell__bd">
-              <p>联合利华飘柔二合一蓝莓香味男士专用去屑洗发露500ml</p>
-            </div>
-            <div class="weui-cell__ft" style="color:#f1403c">￥129.98</div>
-          </div>
-          <div class="weui-cell">
-            <div class="weui-cell__bd">
-              <input class="weui-input" type="number" placeholder="进货数量">
-            </div>
-            <div class="weui-cell__bd">
-              <input class="weui-input" type="number" placeholder="销售数量">
-            </div>
-          </div>
-        </div>
 
-        <div class="weui-btn-area">
-          <a class="weui-btn weui-btn_primary" href="javascript:" id="submit">提交</a>
-        </div>
+      </div>
+      <div class="weui-btn-area">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="submit">提交</a>
       </div>
 
       <script src="/js/config.js"></script>
@@ -81,6 +47,7 @@
                success:function(res){
                  console.log(res.status);
 
+                 var goods=[];
                  $.ajax({
                    url: root_url+"api/events/1",
                    method: "GET",
@@ -89,7 +56,30 @@
                        request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
                    },
                    success:function(res){
-                     
+                     $.each(res.data.event.goods,function(i,t){
+                          // goods.push("<option value='"+t.id+"'>"+t.name+"</option>");
+                          goods.push("<div class='weui-cells'>");
+                          goods.push("<div class='weui-cell'>");
+                          goods.push("<div class='weui-cell__hd' ><img style='width: 80px;' src='"+t.image.url+"'></div>");
+                          goods.push("<div class='weui-cell__bd'>");
+                          goods.push("<p>"+t.brand+t.name+"</p>");
+                          goods.push("</div>");
+                          goods.push("<div class='weui-cell__ft' style='color:#f1403c'>￥"+t.price+"</div>");
+                          goods.push("</div>");
+                          goods.push("<div class='weui-cell'>");
+                          goods.push("<div class='weui-cell__bd'>");
+                          goods.push("<input class='weui-input' type='number' placeholder='进货数量'>");
+                          goods.push("</div>");
+                          goods.push("<div class='weui-cell__bd'>");
+                          goods.push("<input class='weui-input' type='number' placeholder='销售数量'>");
+                          goods.push("</div>");
+                          goods.push("<div class='weui-cell__bd'>");
+                          goods.push("<input class='weui-input' type='number' placeholder='库存数量'>");
+                          goods.push("</div>");
+                          goods.push("</div>");
+                          goods.push("</div>");
+                     })
+                     $("#body").append(goods.join(''));
                    }
                  });
 

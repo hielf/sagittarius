@@ -14,6 +14,7 @@ json.data do
         json.brand_id good.id
         json.brand good.brand
         json.name good.name
+        json.price good.price
         json.image good.image
       end
     end
