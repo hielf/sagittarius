@@ -154,7 +154,7 @@
                 type: 'post',
                 success: function(result)
                 {
-                  if (result.status == 1) $.toptip('注册失败,请检查提交的内容', 'error');
+                  if (result.status == 1) $.toptip(result.message, 'error');
                   else {
                     $.toptip('提交成功', 'success');
                     setTimeout(
