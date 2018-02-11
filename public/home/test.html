@@ -1,0 +1,131 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>上传</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit">
+    <meta name="keywords" content="your keywords">
+    <meta name="description" content="your description">
+    <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div class="detialInput" id="phoneBox">
+        <div id="localImag">
+        	<!-- 默认头像 -->
+            <img src="image/down.png" />
+        </div>
+        <div class="getImg">
+            <p id="picname"></p>
+            <p><span></span></p>
+            <p><a href="javascript:void(0);" id="lookPicture">在线预览</a></p>
+        </div>
+        <div id="btnPhone">
+            <!--  <input type="file" name="file_head" style="display: none;" id="file_head" onchange="javascript:setImagePreview();" /> -->
+            <a href="javascript:;" class="weui-btn weui-btn_warn" id="DivUp">点击上传图片</a>
+            <!-- <input type="button" name="" id="DivUp" value="点击上传图片"> -->
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-weui/1.1.2/js/jquery-weui.min.js"></script>
+    <script src="https://cdn.staticfile.org/qiniu-js-sdk/1.0.14-beta/qiniu.min.js"></script>
+    <script src="http://cdn.staticfile.org/plupload/2.1.5/moxie.min.js"></script>
+    <script src="http://cdn.staticfile.org/plupload/2.1.5/plupload.full.min.js"></script>
+    <script src="/js/cookie.js"></script>
+    <!-- <script src="/js/qiniu.js"></script> -->
+    <script>
+    $("#localImag img").click(function() {
+        $("#btnPhone input[type='file']").click();
+    })
+    var cuploaderCardtow = Qiniu.uploader({
+        runtimes: 'html5,flash,html4',
+        browse_button: 'DivUp',
+        container: 'btnPhone',
+        drop_element: 'btnPhone',
+        max_file_size: '50mb',
+        flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
+        dragdrop: true,
+        chunk_size: '4mb',
+        multi_selection: !(mOxie.Env.OS.toLowerCase() === "ios"),
+        // filters: {
+        //     max_file_size: '15mb',
+        //     prevent_duplicates: true,
+        //     mime_types: [{
+        //         title: "Image files",
+        //         extensions: "bmp,jpg,jpeg,png,tiff,gif,pcx,tga,exif,fpx,svg,psd,cdr,pcd,dxf,ufo,eps,ai,raw,WMF"
+        //     }]
+        // },
+        uptoken_func: function() {
+            var ajax = new XMLHttpRequest();
+            console.log(token);
+            // 获取上传七牛云的token
+            ajax.open('GET', "http://localhost:3000/api/qiniu/token", false);
+            // ajax.setRequestHeader("authen", "auth " + $.cookie("rtoken"));
+            ajax.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+            ajax.send();
+            if (ajax.status === 200) {
+                var res = JSON.parse(ajax.responseText);
+                return res.message;
+            } else {
+                return '';
+            }
+        },
+        // 上传七牛云的空间地址
+        domain: 'http://p3tj4myt5.bkt.clouddn.com',
+        get_new_uptoken: true,
+        unique_names: true,
+        auto_start: true,
+        log_level: 5,
+        init: {
+            'FilesAdded': function(up, files) {},
+            'BeforeUpload': function(up, file) {
+                $.showLoading("正在上传...");
+            },
+            'UploadProgress': function(up, file) {},
+            'FileUploaded': function(up, file, info) {
+                var domain = up.getOption('domain');
+                var res = JSON.parse(info);
+                // if (res.key.IsPicture()) {
+                applyBox.avatar = domain + "/" + res.key; // 获取上传成功后的文件的Url
+                if (res.key.length > 14)
+                    $("#picname").text(res.key.substring(0, 4) + '...' + res.key.substring(res.key.indexOf(".") - 4, res.key.length));
+                else $("#picname").text(res.key);
+                applyBox.sizebox = Math.floor(file.size / 1024) / 1000 + 'M ' + getNowFormatDate();
+
+                $(".getImg p span").text(applyBox.sizebox);
+                $(".getImg").show();
+                lookPicture = $.photoBrowser({
+                    items: [
+                        applyBox.avatar
+                    ]
+                });
+                mySave('applyBox', applyBox);
+                $(".pichide").show();
+                $("#DivUp").text('重新上传');
+                $.hideLoading();
+                // }else{
+                //     $.hideLoading();
+                //     $.toast("照片格式正确","forbidden");
+                // }
+            },
+            'Error': function(up, err, errTip) {
+                $.hideLoading();
+                if (err.status == 401) {
+                    $.toast("上传失败，请刷新页面", "forbidden");
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 2000);
+                } else {
+                    $.toast("上传失败，请刷新页面", "forbidden");
+                }
+            },
+            'UploadComplete': function() {}
+        }
+    });
+    </script>
+</body>
+
+</html>

@@ -11,7 +11,7 @@ json.data do
     json.status @event.status
     json.goods do
       json.array! @goods do |good|
-        json.brand_id good.id
+        json.good_id good.id
         json.brand good.brand
         json.name good.name
         json.price good.price

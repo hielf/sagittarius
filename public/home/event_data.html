@@ -12,7 +12,17 @@
     <body style="background-color:#f0eff5">
       <div id="body">
         <div class="weui-cells__tips">执行数据</div>
-
+        <!-- <div class="weui-cell">
+          <div class="weui-cell__bd">
+            <input id='in_' class="weui-input" type="number" placeholder="进货数量">
+          </div>
+          <div class="weui-cell__bd">
+            <input class="weui-input" type="number" placeholder="销售数量">
+          </div>
+          <div class="weui-cell__bd">
+            <input class="weui-input" type="number" placeholder="库存数量">
+          </div>
+        </div> -->
       </div>
       <div class="weui-btn-area">
         <a class="weui-btn weui-btn_primary" href="javascript:" id="submit">提交</a>
@@ -36,6 +46,7 @@
            },
            success:function(res){
              if (res.status == 401) window.location.href = 'login';
+             else if (res.data.user.status != "已审批") (window.location.href = 'me'; && $.toptip('您还未通过审批'));
              else $.ajax({
                url: root_url+"api/events/join_event",
                data: {"event_id": 1},
@@ -66,15 +77,15 @@
                           goods.push("</div>");
                           goods.push("<div class='weui-cell__ft' style='color:#f1403c'>￥"+t.price+"</div>");
                           goods.push("</div>");
-                          goods.push("<div class='weui-cell'>");
+                          goods.push("<div id="+t.good_id+" class='weui-cell data'>");
                           goods.push("<div class='weui-cell__bd'>");
-                          goods.push("<input class='weui-input' type='number' placeholder='进货数量'>");
+                          goods.push("<input id='in_' class='weui-input' type='number' placeholder='进货数量'>");
                           goods.push("</div>");
                           goods.push("<div class='weui-cell__bd'>");
-                          goods.push("<input class='weui-input' type='number' placeholder='销售数量'>");
+                          goods.push("<input id='sell_' class='weui-input' type='number' placeholder='销售数量'>");
                           goods.push("</div>");
                           goods.push("<div class='weui-cell__bd'>");
-                          goods.push("<input class='weui-input' type='number' placeholder='库存数量'>");
+                          goods.push("<input id='storage_' class='weui-input' type='number' placeholder='库存数量'>");
                           goods.push("</div>");
                           goods.push("</div>");
                           goods.push("</div>");
@@ -88,6 +99,60 @@
            }
          });
       });
+
+    $("#submit").click(function() {
+      var data = [];
+      // $('.weui-cell__bd.data').each(data.push(this.attr('id')));
+      $('.weui-cell.data').each(function() {
+          data.push([this.id, $(this).find('input#in_').val(), $(this).find('input#sell_').val(), $(this).find('input#storage_').val()]);
+          var good_id = this.id;
+          var in_num = $(this).find('input#in_').val();
+          var sell_num = $(this).find('input#sell_').val();
+          var storage_num = $(this).find('input#storage_').val();
+
+          $.ajax
+            ({
+              url: root_url+'api/events/submit_data',
+              data: {"event_id": 1, "good_id": good_id, "in_num": in_num, "sell_num": sell_num, "storage_num": storage_num},
+              type: 'post',
+              dataType: "json",
+              beforeSend: function(request) {
+                  request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+              },
+              success: function(result)
+              {
+                if (result.status == 1) $.toptip(result.message, 'error');
+                else {
+                  $.toptip(result.message, 'success');
+                  setTimeout(
+                    function()
+                    {
+                      $("#body").html('<header style="padding: 35px 0;">' +
+                        '<h1 style="text-align: center;font-size: 34px;color: #3cc51f;font-weight: 400;margin: 0 15%;">执行数据</h1>' +
+                      '</header>' +
+                      '<div style="padding: 15px;">' +
+                        '<div style="margin-bottom: 25px;display: -webkit-box;display: -webkit-flex;display: flex;-webkit-box-align: center;-webkit-align-items: center;align-items: center">' +
+                          '<i class="weui-icon-success weui-icon_msg" style="margin-right: 18px"></i>' +
+                          '<div style="-webkit-flex-shrink: 100;flex-shrink: 100">' +
+                            '<h3 style="font-weight: 400">数据已提交</h3>' +
+                            '<p style="margin-top: 6px;font-size: 12px;color: #888">请等待后台工作人员审核</p>' +
+                            '<p style="margin-top: 6px;font-size: 12px;color: #888">如有问题，请联系客户，电话：021-33333333</p>' +
+                          '</div>' +
+                        '</div>' +
+                      '</div>' +
+                      '<div class="weui-footer_fixed-bottom">' +
+                        '<p class="weui-footer__text">Copyright © 2011-2018 射手联盟</p>' +
+                      '</div>');
+                    }, 2000);
+                  }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                  $.toptip(result.message, 'error');
+                }
+            });
+      });
+      console.log(data);
+    });
     </script>
     </body>
 </html>

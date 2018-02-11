@@ -4,11 +4,11 @@ ActiveAdmin.register Photo do
 #
 # permit_params :list, :of, :attributes, :on, :model
 
-permit_params :user_id, :event_id, :type, :image, :order, :serial_code, :status
+permit_params :user_id, :event_id, :photo_type, :image, :order, :serial_code, :status
 
   filter :user, as: :select, collection: User.all.map {|u| [u.username, u.id]}
   filter :event
-  filter :type
+  filter :photo_type
   filter :order
   filter :serial_code
   filter :status, as: :select, collection: [['待审批','待审批'],['已审批','已审批'],['否决','否决']]
@@ -18,11 +18,11 @@ permit_params :user_id, :event_id, :type, :image, :order, :serial_code, :status
       u.user.username unless u.user
     end
     column :event
-    column :type
+    column :photo_type
     column :order
     column :serial_code
     column :image do |e|
-      link_to(image_tag(e.image.url(:thumb, inline: true)), e.image.url(:large, inline: true), target: '_blank') if e.image
+      link_to(image_tag e.image, style: 'height:50px;width:auto;', target: '_blank') if e.image
     end
     column :status
 
@@ -35,7 +35,7 @@ permit_params :user_id, :event_id, :type, :image, :order, :serial_code, :status
         u.user.username unless u.user
       end
       row :event
-      row :type
+      row :photo_type
       row :order
       row :serial_code
       row :image do |e|
@@ -50,11 +50,11 @@ permit_params :user_id, :event_id, :type, :image, :order, :serial_code, :status
    f.inputs do
      f.input :user, as: :select, collection: User.all.map {|u| [u.username, u.id]}
      f.input :event
-     f.input :type
+     f.input :photo_type
      f.input :order
      f.input :serial_code
-     f.input :image, :hint => image_tag(f.object.image.url(:large, inline: true)||'')
-     f.input :image_cache, :as => :hidden
+     f.input :image, :hint => image_tag(f.object.image||'')
+     # f.input :image_cache, :as => :hidden
      f.input :status, as: :select, collection: [['待审批','待审批'],['已审批','已审批'],['否决','否决']]
    end
    f.actions

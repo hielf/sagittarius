@@ -1,9 +1,9 @@
 class Photo < ApplicationRecord
   belongs_to :user
   belongs_to :event
-  mount_uploader :image, AvatarUploader
+  # mount_uploader :image, AvatarUploader
 
-  validates :type, inclusion: ['shelf', 'tg', 'material'], presence: true
+  validates :photo_type, inclusion: ['shelf', 'tg', 'material'], presence: true
 
   state_machine :status, :initial => :'待审批' do
     event :approve do

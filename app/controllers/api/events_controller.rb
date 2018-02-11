@@ -1,4 +1,5 @@
 class Api::EventsController < Api::ApplicationController
+  # skip_before_action :authenticate_user!, only: [:event_data]
   before_action :set_event, only: [:show, :update, :destroy]
 
   def index
@@ -31,6 +32,38 @@ class Api::EventsController < Api::ApplicationController
       end
     end
     render_json(result)
+  end
+
+  def submit_data
+    m_requires! [:event_id, :good_id]
+    event = Event.where(status: "已开始").last
+    datum = Datum.new(user_id: current_user.id, event_id: event.id, good_id: params[:good_id], in_num: params[:in_num], sell_num: params[:sell_num], storage_num: params[:storage_num])
+    begin
+      datum.save!
+      result = [0, '提交成功']
+    rescue Exception => ex
+      result= [1, ex.message]
+    end
+    render_json(result)
+  end
+
+  def submit_photos
+    m_requires! [:event_id]
+    event = Event.where(status: "已开始").last
+    photo = Photo.new(user_id: current_user.id, event_id: event.id, image: params[:image], photo_type: params[:photo_type])
+    begin
+      photo.save!
+      result = [0, '提交成功']
+    rescue Exception => ex
+      result= [1, ex.message]
+    end
+    render_json(result)
+  end
+
+  def event_data
+    event = Event.where(status: "已开始").last
+    @goods = event.goods
+    render 'event_data.html.erb'
   end
 
   def create

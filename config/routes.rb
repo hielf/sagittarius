@@ -27,6 +27,9 @@ Rails.application.routes.draw do
     resources :events, except: [:new, :edit] do
       collection do
         post :join_event
+        get :event_data
+        post :submit_data
+        post :submit_photos
       end
     end
     match '*path', via: :all, to: 'root#route_not_found'
