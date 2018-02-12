@@ -14,14 +14,13 @@ Rails.application.routes.draw do
     resources :users, except: [:edit, :new] do
       collection do
         get :me
-        # get :home
-        # get :outworker_new
-        # get :staff_new
         get :teams
         get :shops
         get :areas
         get :upper_users
-        # get :create_user
+        get :sub_users
+        post :approve_user
+        post :disapprove_user
       end
     end
     resources :events, except: [:new, :edit] do
@@ -30,6 +29,8 @@ Rails.application.routes.draw do
         get :event_data
         post :submit_data
         post :submit_photos
+        get :user_datums
+        get :user_photos
       end
     end
     match '*path', via: :all, to: 'root#route_not_found'

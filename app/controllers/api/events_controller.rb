@@ -50,7 +50,9 @@ class Api::EventsController < Api::ApplicationController
   def submit_photos
     m_requires! [:event_id]
     event = Event.where(status: "已开始").last
-    photo = Photo.new(user_id: current_user.id, event_id: event.id, image: params[:image], photo_type: params[:photo_type])
+    serial_code = current_user.username.to_s + Date.today.strftime('%Y%m%d')
+    order = current_user.photos.map(&:order).max.nil? ? 1 : (current_user.photos.map(&:order).max + 1)
+    photo = Photo.new(user_id: current_user.id, event_id: event.id, image: params[:image], photo_type: params[:photo_type], order: order, serial_code: serial_code)
     begin
       photo.save!
       result = [0, '提交成功']
@@ -69,6 +71,24 @@ class Api::EventsController < Api::ApplicationController
   def create
     @event = Event.new(event_params)
     @event.save
+  end
+
+  def user_datums
+    m_requires! [:user_id]
+    user = User.find(params[:user_id])
+    @datums = user.datums
+    respond_to do |format|
+      format.json
+    end
+  end
+
+  def user_photos
+    m_requires! [:user_id]
+    user = User.find(params[:user_id])
+    @datums = user.photos
+    respond_to do |format|
+      format.json
+    end
   end
 
   private

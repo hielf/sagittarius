@@ -45,7 +45,9 @@ class User < ApplicationRecord
     event :approve do
       transition :'待审批' => :'已审批'
     end
-    event :de
+    event :disapprove do
+      transition :'待审批' => :'审批否决'
+    end
   end
 
 

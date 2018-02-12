@@ -93,6 +93,35 @@ class Api::UsersController < Api::ApplicationController
     render_json(result)
   end
 
+  def sub_users
+    @users = User.where(upper_user_id: current_user.id).where.not(status: "审批否决")
+    respond_to do |format|
+      format.json
+    end
+  end
+
+  def approve_user
+    m_requires! [:user_id]
+    user = User.find_by(id: params[:user_id])
+    if user.status == "待审批" && user.approve
+      result = [0, '成功']
+    else
+      result = [1, '失败']
+    end
+    render_json(result)
+  end
+
+  def disapprove_user
+    m_requires! [:user_id]
+    user = User.find_by(id: params[:user_id])
+    if user.status == "待审批" && user.disapprove
+      result = [0, '成功']
+    else
+      result = [1, '失败']
+    end
+    render_json(result)
+  end
+
   private
 
   # def initial_user
