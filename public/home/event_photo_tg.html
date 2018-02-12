@@ -23,10 +23,25 @@
                 </div>
                 <div class="weui-uploader__bd">
                   <div id="uploaderFiles1" class="weui-uploader__input-box">
-                    <!-- <a href="javascript:;" class="weui-uploader__input" id="uploaderInput1">点击上传图片</a> -->
-                    <input id="uploaderInput1" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                      <a href="javascript:;" class="weui-btn" id="uploaderInput1">点击上传图片</a>
                   </div>
                   <div id="uploaderFiles2" class="weui-uploader__input-box">
+                      <a href="javascript:;" class="weui-btn" id="uploaderInput2">点击上传图片</a>
+                  </div>
+                  <div id="uploaderFiles3" class="weui-uploader__input-box">
+                      <a href="javascript:;" class="weui-btn" id="uploaderInput3">点击上传图片</a>
+                  </div>
+                  <div id="uploaderFiles4" class="weui-uploader__input-box">
+                      <a href="javascript:;" class="weui-btn" id="uploaderInput4">点击上传图片</a>
+                  </div>
+
+
+
+                  <!-- <div id="uploaderFiles1" class="weui-uploader__input-box"> -->
+                    <!-- <a href="javascript:;" class="weui-uploader__input" id="uploaderInput1">点击上传图片</a> -->
+                    <!-- <input id="uploaderInput1" class="weui-uploader__input" type="file" accept="image/*" multiple=""> -->
+                  <!-- </div> -->
+                  <!-- <div id="uploaderFiles2" class="weui-uploader__input-box">
                     <input id="uploaderInput2" class="weui-uploader__input" type="file" accept="image/*" multiple="">
                   </div>
                   <div id="uploaderFiles3" class="weui-uploader__input-box">
@@ -34,7 +49,7 @@
                   </div>
                   <div id="uploaderFiles4" class="weui-uploader__input-box">
                     <input id="uploaderInput4" class="weui-uploader__input" type="file" accept="image/*" multiple="">
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -57,11 +72,8 @@
       <script src="/js/cookie.js"></script>
       <script>
       $(function(){
-        // $("#uploaderFiles1").click(function() {
-        //     $("#uploaderFiles1 input[type='file']").click();
-        // })
-        // console.log(token);
-        // console.log(username);
+        console.log(token);
+        console.log(username);
         var uploader1 = Qiniu.uploader({
             runtimes: 'html5,flash,html4',
             browse_button: 'uploaderInput1',
@@ -104,7 +116,7 @@
                     var res = JSON.parse(info);
                     // if (res.key.IsPicture()) {
                     var url = domain + "/" + res.key; // 获取上传成功后的文件的Url
-                    $('.weui-uploader__files.1').hide();
+                    $('#uploaderInput1').hide();
                     $('#uploaderFiles1').append("<ul class='weui-uploader__files 1'><li id="+url+" class='weui-uploader__file' style='background-image:url("+url+")'></li></ul>");
                 },
                 'Error': function(up, err, errTip) {
@@ -155,7 +167,7 @@
                     var res = JSON.parse(info);
                     // if (res.key.IsPicture()) {
                     var url = domain + "/" + res.key; // 获取上传成功后的文件的Url
-                    $('.weui-uploader__files.2').hide();
+                    $('#uploaderInput2').hide();
                     $('#uploaderFiles2').append("<ul class='weui-uploader__files 2'><li id="+url+" class='weui-uploader__file' style='background-image:url("+url+")'></li></ul>");
                 },
                 'Error': function(up, err, errTip) {
@@ -206,7 +218,7 @@
                     var res = JSON.parse(info);
                     // if (res.key.IsPicture()) {
                     var url = domain + "/" + res.key; // 获取上传成功后的文件的Url
-                    $('.weui-uploader__files.3').hide();
+                    $('#uploaderInput3').hide();
                     $('#uploaderFiles3').append("<ul class='weui-uploader__files 3'><li id="+url+" class='weui-uploader__file' style='background-image:url("+url+")'></li></ul>");
                 },
                 'Error': function(up, err, errTip) {
@@ -257,7 +269,7 @@
                     var res = JSON.parse(info);
                     // if (res.key.IsPicture()) {
                     var url = domain + "/" + res.key; // 获取上传成功后的文件的Url
-                    $('.weui-uploader__files.4').hide();
+                    $('#uploaderInput4').hide();
                     $('#uploaderFiles4').append("<ul class='weui-uploader__files 4'><li id="+url+" class='weui-uploader__file' style='background-image:url("+url+")'></li></ul>");
                 },
                 'Error': function(up, err, errTip) {

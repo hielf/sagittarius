@@ -23,9 +23,25 @@
                 </div>
                 <div class="weui-uploader__bd">
                   <div id="uploaderFiles1" class="weui-uploader__input-box">
-                    <input id="uploaderInput1" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                      <a href="javascript:;" class="weui-btn" id="uploaderInput1">点击上传图片</a>
                   </div>
                   <div id="uploaderFiles2" class="weui-uploader__input-box">
+                      <a href="javascript:;" class="weui-btn" id="uploaderInput2">点击上传图片</a>
+                  </div>
+                  <div id="uploaderFiles3" class="weui-uploader__input-box">
+                      <a href="javascript:;" class="weui-btn" id="uploaderInput3">点击上传图片</a>
+                  </div>
+                  <div id="uploaderFiles4" class="weui-uploader__input-box">
+                      <a href="javascript:;" class="weui-btn" id="uploaderInput4">点击上传图片</a>
+                  </div>
+
+
+
+                  <!-- <div id="uploaderFiles1" class="weui-uploader__input-box"> -->
+                    <!-- <a href="javascript:;" class="weui-uploader__input" id="uploaderInput1">点击上传图片</a> -->
+                    <!-- <input id="uploaderInput1" class="weui-uploader__input" type="file" accept="image/*" multiple=""> -->
+                  <!-- </div> -->
+                  <!-- <div id="uploaderFiles2" class="weui-uploader__input-box">
                     <input id="uploaderInput2" class="weui-uploader__input" type="file" accept="image/*" multiple="">
                   </div>
                   <div id="uploaderFiles3" class="weui-uploader__input-box">
@@ -33,7 +49,7 @@
                   </div>
                   <div id="uploaderFiles4" class="weui-uploader__input-box">
                     <input id="uploaderInput4" class="weui-uploader__input" type="file" accept="image/*" multiple="">
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -56,8 +72,8 @@
       <script src="/js/cookie.js"></script>
       <script>
       $(function(){
-        // console.log(token);
-        // console.log(username);
+        console.log(token);
+        console.log(username);
         var uploader1 = Qiniu.uploader({
             runtimes: 'html5,flash,html4',
             browse_button: 'uploaderInput1',
@@ -72,7 +88,6 @@
                 var ajax = new XMLHttpRequest();
                 // alert("test1");
                 // 获取上传七牛云的token
-                debugger;
                 ajax.open('GET', root_url+"api/qiniu/token", false);
                 // ajax.setRequestHeader("authen", "auth " + $.cookie("rtoken"));
                 ajax.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
@@ -101,7 +116,7 @@
                     var res = JSON.parse(info);
                     // if (res.key.IsPicture()) {
                     var url = domain + "/" + res.key; // 获取上传成功后的文件的Url
-                    $('.weui-uploader__files.1').hide();
+                    $('#uploaderInput1').hide();
                     $('#uploaderFiles1').append("<ul class='weui-uploader__files 1'><li id="+url+" class='weui-uploader__file' style='background-image:url("+url+")'></li></ul>");
                 },
                 'Error': function(up, err, errTip) {
@@ -152,7 +167,7 @@
                     var res = JSON.parse(info);
                     // if (res.key.IsPicture()) {
                     var url = domain + "/" + res.key; // 获取上传成功后的文件的Url
-                    $('.weui-uploader__files.2').hide();
+                    $('#uploaderInput2').hide();
                     $('#uploaderFiles2').append("<ul class='weui-uploader__files 2'><li id="+url+" class='weui-uploader__file' style='background-image:url("+url+")'></li></ul>");
                 },
                 'Error': function(up, err, errTip) {
@@ -203,7 +218,7 @@
                     var res = JSON.parse(info);
                     // if (res.key.IsPicture()) {
                     var url = domain + "/" + res.key; // 获取上传成功后的文件的Url
-                    $('.weui-uploader__files.3').hide();
+                    $('#uploaderInput3').hide();
                     $('#uploaderFiles3').append("<ul class='weui-uploader__files 3'><li id="+url+" class='weui-uploader__file' style='background-image:url("+url+")'></li></ul>");
                 },
                 'Error': function(up, err, errTip) {
@@ -254,7 +269,7 @@
                     var res = JSON.parse(info);
                     // if (res.key.IsPicture()) {
                     var url = domain + "/" + res.key; // 获取上传成功后的文件的Url
-                    $('.weui-uploader__files.4').hide();
+                    $('#uploaderInput4').hide();
                     $('#uploaderFiles4').append("<ul class='weui-uploader__files 4'><li id="+url+" class='weui-uploader__file' style='background-image:url("+url+")'></li></ul>");
                 },
                 'Error': function(up, err, errTip) {
@@ -264,45 +279,45 @@
             }
         });
 
-         // $.ajax({
-         //   url: root_url+"api/users/me",
-         //   method: "GET",
-         //   dataType: "json",
-         //   beforeSend: function(request) {
-         //       request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
-         //   },
-         //   success:function(res){
-         //     if (res.status == 401) window.location.href = 'login';
-         //     else if (res.data.user.status != "已审批") {
-         //       $.toptip('您还未通过审批');
-         //       setTimeout(
-         //         function()
-         //         {
-         //           window.location.href = 'me';
-         //         }, 2000);
-         //     }
-         //     else if (res.data.user.role != "促销员") {
-         //       $.toptip('您不是促销员');
-         //       setTimeout(
-         //         function()
-         //         {
-         //           window.location.href = 'me';
-         //         }, 2000);
-         //     }
-         //     else $.ajax({
-         //       url: root_url+"api/events/join_event",
-         //       data: {"event_id": 1},
-         //       method: "post",
-         //       dataType: "json",
-         //       beforeSend: function(request) {
-         //           request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
-         //       },
-         //       success:function(res){
-         //         console.log(res.status);
-         //       }
-         //     });
-         //   }
-         // });
+         $.ajax({
+           url: root_url+"api/users/me",
+           method: "GET",
+           dataType: "json",
+           beforeSend: function(request) {
+               request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+           },
+           success:function(res){
+             if (res.status == 401) window.location.href = 'login';
+             else if (res.data.user.status != "已审批") {
+               $.toptip('您还未通过审批');
+               setTimeout(
+                 function()
+                 {
+                   window.location.href = 'me';
+                 }, 2000);
+             }
+             else if (res.data.user.role != "促销员") {
+               $.toptip('您不是促销员');
+               setTimeout(
+                 function()
+                 {
+                   window.location.href = 'me';
+                 }, 2000);
+             }
+             else $.ajax({
+               url: root_url+"api/events/join_event",
+               data: {"event_id": 1},
+               method: "post",
+               dataType: "json",
+               beforeSend: function(request) {
+                   request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+               },
+               success:function(res){
+                 console.log(res.status);
+               }
+             });
+           }
+         });
        });
 
 
@@ -329,7 +344,7 @@
                       function()
                       {
                         $("#body").html('<header style="padding: 35px 0;">' +
-                          '<h1 style="text-align: center;font-size: 34px;color: #3cc51f;font-weight: 400;margin: 0 15%;">用户注册</h1>' +
+                          '<h1 style="text-align: center;font-size: 34px;color: #3cc51f;font-weight: 400;margin: 0 15%;">数据提交</h1>' +
                         '</header>' +
                         '<div style="padding: 15px;">' +
                           '<div style="margin-bottom: 25px;display: -webkit-box;display: -webkit-flex;display: flex;-webkit-box-align: center;-webkit-align-items: center;align-items: center">' +
