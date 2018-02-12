@@ -19,6 +19,7 @@ Rails.application.routes.draw do
         get :areas
         get :upper_users
         get :sub_users
+        get :user_detail
         post :approve_user
         post :disapprove_user
       end

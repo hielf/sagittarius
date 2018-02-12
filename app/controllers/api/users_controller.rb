@@ -1,7 +1,7 @@
 class Api::UsersController < Api::ApplicationController
   wechat_api
   skip_before_action :authenticate_user!, only: [:index, :home, :outworker_new, :staff_new, :create, :teams, :areas, :shops, :get_openid, :upper_users]
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user, only: [:show, :update, :destroy, :user_detail]
   before_action only: [:destroy] { render_json([403, t('messages.c_403')]) if current_user.role != 'admin' }
   # before_action :initial_user, only: [:outworker_new, :staff_new]
 
@@ -100,13 +100,21 @@ class Api::UsersController < Api::ApplicationController
     end
   end
 
+  def user_detail
+    requires! :id
+    # respond_to do |format|
+    #   format.json
+    # end
+    render 'me.json.jbuilder'
+  end
+
   def approve_user
     m_requires! [:user_id]
     user = User.find_by(id: params[:user_id])
     if user.status == "待审批" && user.approve
-      result = [0, '成功']
+      result = [0, '审批成功']
     else
-      result = [1, '失败']
+      result = [1, '审批失败']
     end
     render_json(result)
   end
@@ -115,9 +123,9 @@ class Api::UsersController < Api::ApplicationController
     m_requires! [:user_id]
     user = User.find_by(id: params[:user_id])
     if user.status == "待审批" && user.disapprove
-      result = [0, '成功']
+      result = [0, '审批成功']
     else
-      result = [1, '失败']
+      result = [1, '审批失败']
     end
     render_json(result)
   end

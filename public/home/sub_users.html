@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <title>下级用户</title>
+        <!-- 引入 WeUI -->
+        <!-- <link rel="stylesheet" href="path/to/weui/dist/style/weui.min.css"/> -->
+        <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css">
+        <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.1.2/css/jquery-weui.min.css">
+    </head>
+    <body style="background-color:#f0eff5">
+      <div id="body">
+        <div class="weui-cells__tips">我的下级</div>
+        <div id="cells" class="weui-cells" style="margin-top: 0px;">
+        </div>
+      </div>
+
+      <script src="/js/config.js"></script>
+      <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+      <script src="https://cdn.bootcss.com/jquery-weui/1.1.2/js/jquery-weui.min.js"></script>
+      <script src="/js/jquery.cookie.js"></script>
+      <script src="/js/cookie.js"></script>
+      <script>
+      $(function(){
+        // console.log(token);
+        // console.log(username);
+         $.ajax({
+           url: root_url+"api/users/me",
+           method: "GET",
+           dataType: "json",
+           beforeSend: function(request) {
+               request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+           },
+           success:function(res){
+             if (res.status == 401) window.location.href = 'login';
+             else if (res.data.user.status != "已审批") {
+               $.toptip('您还未通过审批');
+               setTimeout(
+                 function()
+                 {
+                   window.location.href = 'me';
+                 }, 2000);
+             }
+             else if (res.data.user.role != "销售员") {
+               $.toptip('您不是销售员');
+               setTimeout(
+                 function()
+                 {
+                   window.location.href = 'me';
+                 }, 2000);
+             }
+             else var users=[];
+              $.ajax({
+                 url: root_url+"api/users/sub_users",
+                 method: "GET",
+                 dataType: "json",
+                 beforeSend: function(request) {
+                     request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+                 },
+                 success:function(res){
+                   $.each(res.data.users,function(i,t){
+                     console.log(t.status);
+                     if (t.status == "待审批") users.push("<a class='weui-cell weui-cell_access' href='user_detail?id="+t.id+"'>");
+                     if (t.status == "已审批") users.push("<a class='weui-cell weui-cell_access' href='user_detail?id="+t.id+"'>");
+                     users.push("<div class='weui-cell__bd'>");
+                     users.push("<p>"+t.name+"</p>");
+                     users.push("</div>");
+                     users.push("<div class='weui-cell__ft'>"+t.status+"</div>");
+                     users.push("</a>");
+                   })
+                   $("#cells").append(users.join(''));
+                 }
+               });
+           }
+         });
+      });
+
+    $("#submit").click(function() {
+      var data = [];
+      // $('.weui-cell__bd.data').each(data.push(this.attr('id')));
+      $('.weui-cell.data').each(function() {
+          data.push([this.id, $(this).find('input#in_').val(), $(this).find('input#sell_').val(), $(this).find('input#storage_').val()]);
+          var good_id = this.id;
+          var in_num = $(this).find('input#in_').val();
+          var sell_num = $(this).find('input#sell_').val();
+          var storage_num = $(this).find('input#storage_').val();
+
+          $.ajax
+            ({
+              url: root_url+'api/events/submit_data',
+              data: {"event_id": 1, "good_id": good_id, "in_num": in_num, "sell_num": sell_num, "storage_num": storage_num},
+              type: 'post',
+              dataType: "json",
+              beforeSend: function(request) {
+                  request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+              },
+              success: function(result)
+              {
+                if (result.status == 1) $.toptip(result.message, 'error');
+                else {
+                  $.toptip(result.message, 'success');
+                  setTimeout(
+                    function()
+                    {
+                      $("#body").html('<header style="padding: 35px 0;">' +
+                        '<h1 style="text-align: center;font-size: 34px;color: #3cc51f;font-weight: 400;margin: 0 15%;">执行数据</h1>' +
+                      '</header>' +
+                      '<div style="padding: 15px;">' +
+                        '<div style="margin-bottom: 25px;display: -webkit-box;display: -webkit-flex;display: flex;-webkit-box-align: center;-webkit-align-items: center;align-items: center">' +
+                          '<i class="weui-icon-success weui-icon_msg" style="margin-right: 18px"></i>' +
+                          '<div style="-webkit-flex-shrink: 100;flex-shrink: 100">' +
+                            '<h3 style="font-weight: 400">数据已提交</h3>' +
+                            '<p style="margin-top: 6px;font-size: 12px;color: #888">请等待后台工作人员审核</p>' +
+                            '<p style="margin-top: 6px;font-size: 12px;color: #888">如有问题，请联系客户，电话：021-33333333</p>' +
+                          '</div>' +
+                        '</div>' +
+                      '</div>' +
+                      '<div class="weui-footer_fixed-bottom">' +
+                        '<p class="weui-footer__text">Copyright © 2011-2018 射手联盟</p>' +
+                      '</div>');
+                    }, 2000);
+                  }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                  $.toptip(result.message, 'error');
+                }
+            });
+      });
+      console.log(data);
+    });
+    </script>
+    </body>
+</html>

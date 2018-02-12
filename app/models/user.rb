@@ -14,7 +14,7 @@ class User < ApplicationRecord
   validates :username, presence: true, length: {maximum: 10, message: '员工ID不能超过10位'}, on: :create
   validates :username, uniqueness: {message: '该员工ID已被占用'}, on: :create
   validates :username, presence: true, length: {maximum: 10, message: '员工ID不能超过10位'}, uniqueness: true, on: :update
-  validates :openid, uniqueness: true, on: :create
+  # validates :openid, uniqueness: true, on: :create
   validates :password, presence: true, length: {minimum: 6, maximum: 32}, format: {with: /\A[\x21-\x7e]+\Z/i, message: '密码至少6位'}, on: :create
   # validates :generate_username_prefix, presence: true, on: :create
   validates :role, inclusion: ['admin', 'staff', 'outworker'], presence: true
