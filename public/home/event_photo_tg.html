@@ -23,6 +23,7 @@
                 </div>
                 <div class="weui-uploader__bd">
                   <div id="uploaderFiles1" class="weui-uploader__input-box">
+                    <!-- <a href="javascript:;" class="weui-uploader__input" id="uploaderInput1">点击上传图片</a> -->
                     <input id="uploaderInput1" class="weui-uploader__input" type="file" accept="image/*" multiple="">
                   </div>
                   <div id="uploaderFiles2" class="weui-uploader__input-box">
@@ -56,6 +57,9 @@
       <script src="/js/cookie.js"></script>
       <script>
       $(function(){
+        // $("#uploaderFiles1").click(function() {
+        //     $("#uploaderFiles1 input[type='file']").click();
+        // })
         // console.log(token);
         // console.log(username);
         var uploader1 = Qiniu.uploader({

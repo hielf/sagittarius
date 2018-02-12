@@ -98,6 +98,7 @@
                request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
            },
            success:function(res){
+             console.log(res.status);
              if (res.status == 401) window.location.href = 'login';
              else {
                var role=res.data.user.role;
