@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <title>活动列表</title>
+        <!-- 引入 WeUI -->
+        <!-- <link rel="stylesheet" href="path/to/weui/dist/style/weui.min.css"/> -->
+        <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css">
+        <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.1.2/css/jquery-weui.min.css">
+    </head>
+    <body style="background-color:#f0eff5">
+      <div id="body">
+        <div class="weui-cells__tips">促销员-活动</div>
+        <div id="cells" class="weui-cells" style="margin-top: 0px;">
+        </div>
+      </div>
+
+      <script src="/js/config.js"></script>
+      <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+      <script src="https://cdn.bootcss.com/jquery-weui/1.1.2/js/jquery-weui.min.js"></script>
+      <script src="/js/jquery.cookie.js"></script>
+      <script src="/js/cookie.js"></script>
+      <script>
+      function getQueryStringByName(str, name) {
+          var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+          var str = window.location.search.substr(1);
+          var r = str.match(reg);
+          if (r != null) {
+              return r[2];
+          }
+          return null;
+      };
+
+      $(function(){
+        // console.log(token);
+        // console.log(username);
+         $.ajax({
+           url: root_url+"api/users/me",
+           method: "GET",
+           dataType: "json",
+           beforeSend: function(request) {
+               request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+           },
+           success:function(res){
+             if (res.status == 401) window.location.href = 'login';
+             else if (res.data.user.status != "已审批") {
+               $.toptip('您还未通过审批');
+               setTimeout(
+                 function()
+                 {
+                   window.location.href = 'me';
+                 }, 2000);
+             }
+             else if (res.data.user.role != "销售员") {
+               $.toptip('您不是销售员');
+               setTimeout(
+                 function()
+                 {
+                   window.location.href = 'me';
+                 }, 2000);
+             }
+             else var events=[];
+              $.ajax({
+                 url: root_url+"api/events/user_events",
+                 method: "GET",
+                 dataType: "json",
+                 data: {"id": getQueryStringByName(window.location.href, 'id')},
+                 beforeSend: function(request) {
+                     request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+                 },
+                 success:function(res){
+                   $.each(res.data.events,function(i,t){
+                     events.push("<a class='weui-cell weui-cell_access' href='user_event_home?event_id="+t.event_id+"&user_id="+t.user_id+"'>");
+                     events.push("<div class='weui-cell__hd'><img src="+t.image+" alt='' style='height:50px;margin-right:5px;display:block'></div>");
+                     events.push("<div class='weui-cell__bd'>");
+                     events.push("<p>"+t.title+"</p>");
+                     events.push("</div>");
+                     events.push("<div class='weui-cell__ft'>"+t.status+"</div>");
+                     events.push("</a>");
+                   })
+                   $("#cells").append(events.join(''));
+                 }
+               });
+           }
+         });
+      });
+
+    </script>
+    </body>
+</html>

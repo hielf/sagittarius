@@ -30,8 +30,11 @@ Rails.application.routes.draw do
         get :event_data
         post :submit_data
         post :submit_photos
+        get :user_events
         get :user_datums
         get :user_photos
+        post :datum_approve
+        post :photos_approve
       end
     end
     match '*path', via: :all, to: 'root#route_not_found'

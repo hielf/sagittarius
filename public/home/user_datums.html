@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <title>执行数据</title>
+        <!-- 引入 WeUI -->
+        <!-- <link rel="stylesheet" href="path/to/weui/dist/style/weui.min.css"/> -->
+        <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css">
+        <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.1.2/css/jquery-weui.min.css">
+    </head>
+    <body style="background-color:#f0eff5">
+      <div id="body">
+        <div class="weui-cells__tips">执行数据审批</div>
+      </div>
+
+      <script src="/js/config.js"></script>
+      <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+      <script src="https://cdn.bootcss.com/jquery-weui/1.1.2/js/jquery-weui.min.js"></script>
+      <script src="/js/jquery.cookie.js"></script>
+      <script src="/js/cookie.js"></script>
+      <script>
+      function getQueryStringByName(str, name) {
+          var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+          var str = window.location.search.substr(1);
+          var r = str.match(reg);
+          if (r != null) {
+              return r[2];
+          }
+          return null;
+      };
+
+      $(function(){
+        // console.log(token);
+        // console.log(username);
+         $.ajax({
+           url: root_url+"api/users/me",
+           method: "GET",
+           dataType: "json",
+           beforeSend: function(request) {
+               request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+           },
+           success:function(res){
+             if (res.status == 401) window.location.href = 'login';
+             else if (res.data.user.status != "已审批") {
+               $.toptip('您还未通过审批');
+               setTimeout(
+                 function()
+                 {
+                   window.location.href = 'me';
+                 }, 2000);
+             }
+             else if (res.data.user.role != "销售员") {
+               $.toptip('您不是销售员');
+               setTimeout(
+                 function()
+                 {
+                   window.location.href = 'me';
+                 }, 2000);
+             }
+             else var html=[];
+              $.ajax({
+                 url: root_url+"api/events/user_datums",
+                 method: "GET",
+                 dataType: "json",
+                 data: {"event_id": getQueryStringByName(window.location.href, 'event_id'), "user_id": getQueryStringByName(window.location.href, 'user_id')},
+                 beforeSend: function(request) {
+                     request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+                 },
+                 success:function(res){
+                   $.each(res.data.datums,function(i,t){
+                     html.push("<div class='weui-cells'>");
+                     html.push("<div class='weui-cell'>");
+                     html.push("<div class='weui-cell__hd' ><img style='width: 80px;' src='"+t.good_image+"'></div>");
+                     html.push("<div class='weui-cell__bd'>");
+                     html.push("<p>"+t.good+"</p>");
+                     html.push("</div>");
+                     if (t.status == "已审批") {
+                       html.push("<p id="+t.datum_id+" class='approved'>");
+                       html.push("<div id="+t.datum_id+" class='weui-cell__ft approve' style='color:#f1403c'>已审批</div>");
+                       html.push("</p>");
+                     }
+                     else if (t.status == "否决") {
+                       html.push("<p id="+t.datum_id+" class='approved'>");
+                       html.push("<div id="+t.datum_id+" class='weui-cell__ft disapprove'>否决</div>");
+                       html.push("</p>");
+                     }
+                     else {
+                       html.push("<p id="+t.datum_id+" class='approved'>");
+                       html.push("<div id="+t.datum_id+" class='weui-cell__ft approve' style='color:#f1403c'>通过</div>");
+                       html.push("<div style='width:10px'></div>");
+                       html.push("<div id="+t.datum_id+" class='weui-cell__ft disapprove'>否决</div>");
+                       html.push("</p>");
+                     }
+                     html.push("</div>");
+                     html.push("<div class='weui-cell data'>");
+                     html.push("<div class='weui-cell__bd'>");
+                     html.push("<p>进货:</p>");
+                     html.push("</div>");
+                     html.push("<div class='weui-cell__bd'>");
+                     html.push("<p>"+t.in_num+"</p>");
+                     html.push("</div>");
+                     html.push("<div class='weui-cell__bd'>");
+                     html.push("<p>销售:</p>");
+                     html.push("</div>");
+                     html.push("<div class='weui-cell__bd'>");
+                     html.push("<p>"+t.sell_num+"</p>");
+                     html.push("</div>");
+                     html.push("<div class='weui-cell__bd'>");
+                     html.push("<p>库存:</p>");
+                     html.push("</div>");
+                     html.push("<div class='weui-cell__bd'>");
+                     html.push("<p>"+t.storage_num+"</p>");
+                     html.push("</div>");
+                     html.push("</div>");
+                     html.push("</div>");
+                   })
+                   $("#body").append(html.join(''));
+
+                   $.each(res.data.datums,function(i,t){
+                     $("#"+t.datum_id+".weui-cell__ft.approve").click(function() {
+                       $.ajax
+                         ({
+                           url: root_url+'api/events/datum_approve',
+                           data: {"datum_id": t.datum_id, "flag": "approve"},
+                           type: 'post',
+                           dataType: "json",
+                           beforeSend: function(request) {
+                               request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+                           },
+                           success: function(result)
+                           {
+                             if (result.status == 1) $.toptip(result.message, 'error');
+                             else {
+                               $.toptip(result.message, 'success');
+                               $("#"+t.datum_id+".weui-cell__ft.approve").hide();
+                               $("#"+t.datum_id+".weui-cell__ft.disapprove").hide();
+                               $("#"+t.datum_id+".approved").html("<div class='weui-cell__ft' style='color:#f1403c'>已审批</div>");
+                               }
+                           },
+                           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                             $.toptip(result.message, 'error');
+                           }
+                         });
+                     });
+
+                     $("#"+t.datum_id+".weui-cell__ft.disapprove").click(function() {
+                       $.ajax
+                         ({
+                           url: root_url+'api/events/datum_approve',
+                           data: {"datum_id": t.datum_id, "flag": "disapprove"},
+                           type: 'post',
+                           dataType: "json",
+                           beforeSend: function(request) {
+                               request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+                           },
+                           success: function(result)
+                           {
+                             if (result.status == 1) $.toptip(result.message, 'error');
+                             else {
+                               $.toptip(result.message, 'success');
+                               $("#"+t.datum_id+".weui-cell__ft.approve").hide();
+                               $("#"+t.datum_id+".weui-cell__ft.disapprove").hide();
+                               $("#"+t.datum_id+".approved").html("<div class='weui-cell__ft'>否决</div>");
+                               }
+                           },
+                           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                             $.toptip(result.message, 'error');
+                           }
+                         });
+                     });
+                   })
+                 }
+               });
+           }
+         });
+      });
+
+    </script>
+    </body>
+</html>

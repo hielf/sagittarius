@@ -52,9 +52,11 @@ class Api::EventsController < Api::ApplicationController
     event = Event.where(status: "已开始").last
     serial_code = current_user.username.to_s + Date.today.strftime('%Y%m%d')
     order = current_user.photos.map(&:order).max.nil? ? 1 : (current_user.photos.map(&:order).max + 1)
-    photo = Photo.new(user_id: current_user.id, event_id: event.id, image: params[:image], photo_type: params[:photo_type], order: order, serial_code: serial_code)
     begin
-      photo.save!
+      Photo.transaction do
+        photo = Photo.new(user_id: current_user.id, event_id: event.id, image: params[:image], photo_type: params[:photo_type], order: order, serial_code: serial_code)
+        photo.save!
+      end
       result = [0, '提交成功']
     rescue Exception => ex
       result= [1, ex.message]
@@ -73,22 +75,67 @@ class Api::EventsController < Api::ApplicationController
     @event.save
   end
 
+  def user_events
+    m_requires! [:id]
+    @user = User.find_by(id: params[:id])
+    @events = @user.events
+    respond_to do |format|
+      format.json
+    end
+  end
+
   def user_datums
-    m_requires! [:user_id]
-    user = User.find(params[:user_id])
-    @datums = user.datums
+    m_requires! [:user_id, :event_id]
+    user = User.find_by(id: params[:user_id])
+    event = Event.find_by(id: params[:event_id])
+    @datums = Datum.where(user_id: user.id, event_id: event.id)
     respond_to do |format|
       format.json
     end
   end
 
   def user_photos
-    m_requires! [:user_id]
-    user = User.find(params[:user_id])
-    @photos = user.photos
+    m_requires! [:user_id, :event_id]
+    user = User.find_by(id: params[:user_id])
+    event = Event.find_by(id: params[:event_id])
+    @photos = Photo.where(user_id: user.id, event_id: event.id)
     respond_to do |format|
       format.json
     end
+  end
+
+  def datum_approve
+    m_requires! [:datum_id, :flag]
+    datum = Datum.find_by(id: params[:datum_id])
+    Rails.logger.warn "datum: #{datum}"
+    case params[:flag]
+    when "approve"
+      datum.approve
+      result = [0, '审核成功']
+    else
+      datum.disapprove
+      result = [0, '审核成功']
+    end
+    render_json(result)
+  end
+
+  def photos_approve
+    m_requires! [:serial_code, :flag]
+    photos = Photo.where(serial_code: params[:serial_code])
+    # Rails.logger.warn "photos: #{photos}"
+    case params[:flag]
+    when "approve"
+      photos.each do |photo|
+        photo.approve
+      end
+      result = [0, '审核成功']
+    else
+      photos.each do |photo|
+        photo.disapprove
+      end
+      result = [0, '审核成功']
+    end
+    render_json(result)
   end
 
   private

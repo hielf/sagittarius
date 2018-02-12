@@ -62,7 +62,7 @@
                    $.each(res.data.users,function(i,t){
                      console.log(t.status);
                      if (t.status == "待审批") users.push("<a class='weui-cell weui-cell_access' href='user_detail?id="+t.id+"'>");
-                     if (t.status == "已审批") users.push("<a class='weui-cell weui-cell_access' href='user_detail?id="+t.id+"'>");
+                     if (t.status == "已审批") users.push("<a class='weui-cell weui-cell_access' href='user_events?id="+t.id+"'>");
                      users.push("<div class='weui-cell__bd'>");
                      users.push("<p>"+t.name+"</p>");
                      users.push("</div>");
