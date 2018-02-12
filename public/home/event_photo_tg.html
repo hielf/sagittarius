@@ -47,17 +47,222 @@
 
       <script src="/js/config.js"></script>
       <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+      <script src="/js/jquery.cookie.js"></script>
       <script src="https://cdn.bootcss.com/jquery-weui/1.1.2/js/jquery-weui.min.js"></script>
       <!-- <script src="https://cdn.staticfile.org/qiniu-js-sdk/1.0.14-beta/qiniu.min.js"></script> -->
-      <script src="/js/qiniu.js"></script>
       <script src="http://cdn.staticfile.org/plupload/2.1.5/moxie.min.js"></script>
       <script src="http://cdn.staticfile.org/plupload/2.1.5/plupload.full.min.js"></script>
-      <script src="/js/jquery.cookie.js"></script>
+      <script src="/js/qiniu.js"></script>
       <script src="/js/cookie.js"></script>
       <script>
       $(function(){
         // console.log(token);
         // console.log(username);
+        var uploader1 = Qiniu.uploader({
+            runtimes: 'html5,flash,html4',
+            browse_button: 'uploaderInput1',
+            container: 'uploaderFiles1',
+            drop_element: 'uploaderFiles1',
+            max_file_size: '50mb',
+            flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
+            dragdrop: true,
+            chunk_size: '4mb',
+            multi_selection: false,
+            uptoken_func: function() {
+                var ajax = new XMLHttpRequest();
+                // alert("test1");
+                // 获取上传七牛云的token
+                ajax.open('GET', root_url+"api/qiniu/token", false);
+                // ajax.setRequestHeader("authen", "auth " + $.cookie("rtoken"));
+                ajax.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+                ajax.send();
+                if (ajax.status === 200) {
+                    var res = JSON.parse(ajax.responseText);
+                    return res.message;
+                } else {
+                    return '';
+                }
+            },
+            // 上传七牛云的空间地址
+            domain: 'http://p3tj4myt5.bkt.clouddn.com',
+            get_new_uptoken: true,
+            unique_names: true,
+            auto_start: true,
+            log_level: 5,
+            init: {
+                'FilesAdded': function(up, files) {},
+                'BeforeUpload': function(up, file) {
+                    $.toptip('正在上传图片...', 'success');
+                },
+                'UploadProgress': function(up, file) {},
+                'FileUploaded': function(up, file, info) {
+                    var domain = up.getOption('domain');
+                    var res = JSON.parse(info);
+                    // if (res.key.IsPicture()) {
+                    var url = domain + "/" + res.key; // 获取上传成功后的文件的Url
+                    $('.weui-uploader__files.1').hide();
+                    $('#uploaderFiles1').append("<ul class='weui-uploader__files 1'><li id="+url+" class='weui-uploader__file' style='background-image:url("+url+")'></li></ul>");
+                },
+                'Error': function(up, err, errTip) {
+                    $.toptip('上传失败，请刷新页面', 'error');
+                },
+                'UploadComplete': function() {}
+            }
+        });
+
+        var uploader2 = Qiniu.uploader({
+            runtimes: 'html5,flash,html4',
+            browse_button: 'uploaderInput2',
+            container: 'uploaderFiles2',
+            drop_element: 'uploaderFiles2',
+            max_file_size: '50mb',
+            flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
+            dragdrop: true,
+            chunk_size: '4mb',
+            multi_selection: !(mOxie.Env.OS.toLowerCase() === "ios"),
+            uptoken_func: function() {
+                var ajax = new XMLHttpRequest();
+                // 获取上传七牛云的token
+                ajax.open('GET', root_url+"api/qiniu/token", false);
+                // ajax.setRequestHeader("authen", "auth " + $.cookie("rtoken"));
+                ajax.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+                ajax.send();
+                if (ajax.status === 200) {
+                    var res = JSON.parse(ajax.responseText);
+                    return res.message;
+                } else {
+                    return '';
+                }
+            },
+            // 上传七牛云的空间地址
+            domain: 'http://p3tj4myt5.bkt.clouddn.com',
+            get_new_uptoken: true,
+            unique_names: true,
+            auto_start: true,
+            log_level: 5,
+            init: {
+                'FilesAdded': function(up, files) {},
+                'BeforeUpload': function(up, file) {
+                    $.toptip('正在上传图片...', 'success');
+                },
+                'UploadProgress': function(up, file) {},
+                'FileUploaded': function(up, file, info) {
+                    var domain = up.getOption('domain');
+                    var res = JSON.parse(info);
+                    // if (res.key.IsPicture()) {
+                    var url = domain + "/" + res.key; // 获取上传成功后的文件的Url
+                    $('.weui-uploader__files.2').hide();
+                    $('#uploaderFiles2').append("<ul class='weui-uploader__files 2'><li id="+url+" class='weui-uploader__file' style='background-image:url("+url+")'></li></ul>");
+                },
+                'Error': function(up, err, errTip) {
+                    $.toptip('上传失败，请刷新页面', 'error');
+                },
+                'UploadComplete': function() {}
+            }
+        });
+
+        var uploader3 = Qiniu.uploader({
+            runtimes: 'html5,flash,html4',
+            browse_button: 'uploaderInput3',
+            container: 'uploaderFiles3',
+            drop_element: 'uploaderFiles3',
+            max_file_size: '50mb',
+            flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
+            dragdrop: true,
+            chunk_size: '4mb',
+            multi_selection: !(mOxie.Env.OS.toLowerCase() === "ios"),
+            uptoken_func: function() {
+                var ajax = new XMLHttpRequest();
+                // 获取上传七牛云的token
+                ajax.open('GET', root_url+"api/qiniu/token", false);
+                // ajax.setRequestHeader("authen", "auth " + $.cookie("rtoken"));
+                ajax.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+                ajax.send();
+                if (ajax.status === 200) {
+                    var res = JSON.parse(ajax.responseText);
+                    return res.message;
+                } else {
+                    return '';
+                }
+            },
+            // 上传七牛云的空间地址
+            domain: 'http://p3tj4myt5.bkt.clouddn.com',
+            get_new_uptoken: true,
+            unique_names: true,
+            auto_start: true,
+            log_level: 5,
+            init: {
+                'FilesAdded': function(up, files) {},
+                'BeforeUpload': function(up, file) {
+                    $.toptip('正在上传图片...', 'success');
+                },
+                'UploadProgress': function(up, file) {},
+                'FileUploaded': function(up, file, info) {
+                    var domain = up.getOption('domain');
+                    var res = JSON.parse(info);
+                    // if (res.key.IsPicture()) {
+                    var url = domain + "/" + res.key; // 获取上传成功后的文件的Url
+                    $('.weui-uploader__files.3').hide();
+                    $('#uploaderFiles3').append("<ul class='weui-uploader__files 3'><li id="+url+" class='weui-uploader__file' style='background-image:url("+url+")'></li></ul>");
+                },
+                'Error': function(up, err, errTip) {
+                    $.toptip('上传失败，请刷新页面', 'error');
+                },
+                'UploadComplete': function() {}
+            }
+        });
+
+        var uploader4 = Qiniu.uploader({
+            runtimes: 'html5,flash,html4',
+            browse_button: 'uploaderInput4',
+            container: 'uploaderFiles4',
+            drop_element: 'uploaderFiles4',
+            max_file_size: '50mb',
+            flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
+            dragdrop: true,
+            chunk_size: '4mb',
+            multi_selection: !(mOxie.Env.OS.toLowerCase() === "ios"),
+            uptoken_func: function() {
+                var ajax = new XMLHttpRequest();
+                // 获取上传七牛云的token
+                ajax.open('GET', root_url+"api/qiniu/token", false);
+                // ajax.setRequestHeader("authen", "auth " + $.cookie("rtoken"));
+                ajax.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
+                ajax.send();
+                if (ajax.status === 200) {
+                    var res = JSON.parse(ajax.responseText);
+                    return res.message;
+                } else {
+                    return '';
+                }
+            },
+            // 上传七牛云的空间地址
+            domain: 'http://p3tj4myt5.bkt.clouddn.com',
+            get_new_uptoken: true,
+            unique_names: true,
+            auto_start: true,
+            log_level: 5,
+            init: {
+                'FilesAdded': function(up, files) {},
+                'BeforeUpload': function(up, file) {
+                    $.toptip('正在上传图片...', 'success');
+                },
+                'UploadProgress': function(up, file) {},
+                'FileUploaded': function(up, file, info) {
+                    var domain = up.getOption('domain');
+                    var res = JSON.parse(info);
+                    // if (res.key.IsPicture()) {
+                    var url = domain + "/" + res.key; // 获取上传成功后的文件的Url
+                    $('.weui-uploader__files.4').hide();
+                    $('#uploaderFiles4').append("<ul class='weui-uploader__files 4'><li id="+url+" class='weui-uploader__file' style='background-image:url("+url+")'></li></ul>");
+                },
+                'Error': function(up, err, errTip) {
+                    $.toptip('上传失败，请刷新页面', 'error');
+                },
+                'UploadComplete': function() {}
+            }
+        });
+
          $.ajax({
            url: root_url+"api/users/me",
            method: "GET",
@@ -99,209 +304,7 @@
          });
        });
 
-      var uploader1 = Qiniu.uploader({
-          runtimes: 'html5,flash,html4',
-          browse_button: 'uploaderInput1',
-          container: 'uploaderFiles1',
-          drop_element: 'uploaderFiles1',
-          max_file_size: '50mb',
-          flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
-          dragdrop: true,
-          chunk_size: '4mb',
-          multi_selection: false,
-          uptoken_func: function() {
-              var ajax = new XMLHttpRequest();
-              // 获取上传七牛云的token
-              ajax.open('GET', root_url+"api/qiniu/token", false);
-              // ajax.setRequestHeader("authen", "auth " + $.cookie("rtoken"));
-              ajax.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
-              ajax.send();
-              if (ajax.status === 200) {
-                  var res = JSON.parse(ajax.responseText);
-                  return res.message;
-              } else {
-                  return '';
-              }
-          },
-          // 上传七牛云的空间地址
-          domain: 'http://p3tj4myt5.bkt.clouddn.com',
-          get_new_uptoken: true,
-          unique_names: true,
-          auto_start: true,
-          log_level: 5,
-          init: {
-              'FilesAdded': function(up, files) {},
-              'BeforeUpload': function(up, file) {
-                  $.toptip('正在上传图片...', 'success');
-              },
-              'UploadProgress': function(up, file) {},
-              'FileUploaded': function(up, file, info) {
-                  var domain = up.getOption('domain');
-                  var res = JSON.parse(info);
-                  // if (res.key.IsPicture()) {
-                  var url = domain + "/" + res.key; // 获取上传成功后的文件的Url
-                  $('.weui-uploader__files.1').hide();
-                  $('#uploaderFiles1').append("<ul class='weui-uploader__files 1'><li id="+url+" class='weui-uploader__file' style='background-image:url("+url+")'></li></ul>");
-              },
-              'Error': function(up, err, errTip) {
-                  $.toptip('上传失败，请刷新页面', 'error');
-              },
-              'UploadComplete': function() {}
-          }
-      });
 
-      var uploader2 = Qiniu.uploader({
-          runtimes: 'html5,flash,html4',
-          browse_button: 'uploaderInput2',
-          container: 'uploaderFiles2',
-          drop_element: 'uploaderFiles2',
-          max_file_size: '50mb',
-          flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
-          dragdrop: true,
-          chunk_size: '4mb',
-          multi_selection: !(mOxie.Env.OS.toLowerCase() === "ios"),
-          uptoken_func: function() {
-              var ajax = new XMLHttpRequest();
-              // 获取上传七牛云的token
-              ajax.open('GET', root_url+"api/qiniu/token", false);
-              // ajax.setRequestHeader("authen", "auth " + $.cookie("rtoken"));
-              ajax.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
-              ajax.send();
-              if (ajax.status === 200) {
-                  var res = JSON.parse(ajax.responseText);
-                  return res.message;
-              } else {
-                  return '';
-              }
-          },
-          // 上传七牛云的空间地址
-          domain: 'http://p3tj4myt5.bkt.clouddn.com',
-          get_new_uptoken: true,
-          unique_names: true,
-          auto_start: true,
-          log_level: 5,
-          init: {
-              'FilesAdded': function(up, files) {},
-              'BeforeUpload': function(up, file) {
-                  $.toptip('正在上传图片...', 'success');
-              },
-              'UploadProgress': function(up, file) {},
-              'FileUploaded': function(up, file, info) {
-                  var domain = up.getOption('domain');
-                  var res = JSON.parse(info);
-                  // if (res.key.IsPicture()) {
-                  var url = domain + "/" + res.key; // 获取上传成功后的文件的Url
-                  $('.weui-uploader__files.2').hide();
-                  $('#uploaderFiles2').append("<ul class='weui-uploader__files 2'><li id="+url+" class='weui-uploader__file' style='background-image:url("+url+")'></li></ul>");
-              },
-              'Error': function(up, err, errTip) {
-                  $.toptip('上传失败，请刷新页面', 'error');
-              },
-              'UploadComplete': function() {}
-          }
-      });
-
-      var uploader3 = Qiniu.uploader({
-          runtimes: 'html5,flash,html4',
-          browse_button: 'uploaderInput3',
-          container: 'uploaderFiles3',
-          drop_element: 'uploaderFiles3',
-          max_file_size: '50mb',
-          flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
-          dragdrop: true,
-          chunk_size: '4mb',
-          multi_selection: !(mOxie.Env.OS.toLowerCase() === "ios"),
-          uptoken_func: function() {
-              var ajax = new XMLHttpRequest();
-              // 获取上传七牛云的token
-              ajax.open('GET', root_url+"api/qiniu/token", false);
-              // ajax.setRequestHeader("authen", "auth " + $.cookie("rtoken"));
-              ajax.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
-              ajax.send();
-              if (ajax.status === 200) {
-                  var res = JSON.parse(ajax.responseText);
-                  return res.message;
-              } else {
-                  return '';
-              }
-          },
-          // 上传七牛云的空间地址
-          domain: 'http://p3tj4myt5.bkt.clouddn.com',
-          get_new_uptoken: true,
-          unique_names: true,
-          auto_start: true,
-          log_level: 5,
-          init: {
-              'FilesAdded': function(up, files) {},
-              'BeforeUpload': function(up, file) {
-                  $.toptip('正在上传图片...', 'success');
-              },
-              'UploadProgress': function(up, file) {},
-              'FileUploaded': function(up, file, info) {
-                  var domain = up.getOption('domain');
-                  var res = JSON.parse(info);
-                  // if (res.key.IsPicture()) {
-                  var url = domain + "/" + res.key; // 获取上传成功后的文件的Url
-                  $('.weui-uploader__files.3').hide();
-                  $('#uploaderFiles3').append("<ul class='weui-uploader__files 3'><li id="+url+" class='weui-uploader__file' style='background-image:url("+url+")'></li></ul>");
-              },
-              'Error': function(up, err, errTip) {
-                  $.toptip('上传失败，请刷新页面', 'error');
-              },
-              'UploadComplete': function() {}
-          }
-      });
-
-      var uploader4 = Qiniu.uploader({
-          runtimes: 'html5,flash,html4',
-          browse_button: 'uploaderInput4',
-          container: 'uploaderFiles4',
-          drop_element: 'uploaderFiles4',
-          max_file_size: '50mb',
-          flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
-          dragdrop: true,
-          chunk_size: '4mb',
-          multi_selection: !(mOxie.Env.OS.toLowerCase() === "ios"),
-          uptoken_func: function() {
-              var ajax = new XMLHttpRequest();
-              // 获取上传七牛云的token
-              ajax.open('GET', root_url+"api/qiniu/token", false);
-              // ajax.setRequestHeader("authen", "auth " + $.cookie("rtoken"));
-              ajax.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
-              ajax.send();
-              if (ajax.status === 200) {
-                  var res = JSON.parse(ajax.responseText);
-                  return res.message;
-              } else {
-                  return '';
-              }
-          },
-          // 上传七牛云的空间地址
-          domain: 'http://p3tj4myt5.bkt.clouddn.com',
-          get_new_uptoken: true,
-          unique_names: true,
-          auto_start: true,
-          log_level: 5,
-          init: {
-              'FilesAdded': function(up, files) {},
-              'BeforeUpload': function(up, file) {
-                  $.toptip('正在上传图片...', 'success');
-              },
-              'UploadProgress': function(up, file) {},
-              'FileUploaded': function(up, file, info) {
-                  var domain = up.getOption('domain');
-                  var res = JSON.parse(info);
-                  // if (res.key.IsPicture()) {
-                  var url = domain + "/" + res.key; // 获取上传成功后的文件的Url
-                  $('.weui-uploader__files.4').hide();
-                  $('#uploaderFiles4').append("<ul class='weui-uploader__files 4'><li id="+url+" class='weui-uploader__file' style='background-image:url("+url+")'></li></ul>");
-              },
-              'Error': function(up, err, errTip) {
-                  $.toptip('上传失败，请刷新页面', 'error');
-              },
-              'UploadComplete': function() {}
-          }
-      });
 
       $("#submit").click(function() {
         $('.weui-uploader__file').each(function() {

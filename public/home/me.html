@@ -98,19 +98,22 @@
                request.setRequestHeader("Authorization", "Token token=" + token + ", username=" + username);
            },
            success:function(res){
-             var role=res.data.user.role;
-             $('#name').text(res.data.user.name);
-             $('#mobile').text(res.data.user.mobile);
-             $('#role').text(res.data.user.role);
-             $('#username').text(res.data.user.username);
-             $('#status').text(res.data.user.status);
-             $('#area').text(res.data.user.area);
-             $('#team').text(res.data.user.team);
-             $('#shop').text(res.data.user.shop);
-             $('#upper_user').text(res.data.user.upper_user);
-             $('#team_members_count').text(res.data.user.team_members_count);
-              if (role=="销售员") $('#outworker').hide();
-              if (role=="促销员") $('#staff').hide();
+             if (res.status == 401) window.location.href = 'login';
+             else {
+               var role=res.data.user.role;
+               $('#name').text(res.data.user.name);
+               $('#mobile').text(res.data.user.mobile);
+               $('#role').text(res.data.user.role);
+               $('#username').text(res.data.user.username);
+               $('#status').text(res.data.user.status);
+               $('#area').text(res.data.user.area);
+               $('#team').text(res.data.user.team);
+               $('#shop').text(res.data.user.shop);
+               $('#upper_user').text(res.data.user.upper_user);
+               $('#team_members_count').text(res.data.user.team_members_count);
+                if (role=="销售员") $('#outworker').hide();
+                if (role=="促销员") $('#staff').hide();
+             }
            }
          });
       });
