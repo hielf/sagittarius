@@ -85,7 +85,7 @@ class Api::EventsController < Api::ApplicationController
   def user_photos
     m_requires! [:user_id]
     user = User.find(params[:user_id])
-    @datums = user.photos
+    @photos = user.photos
     respond_to do |format|
       format.json
     end
