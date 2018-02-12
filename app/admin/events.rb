@@ -13,7 +13,7 @@ ActiveAdmin.register Event do
 # end
 
 permit_params :title, :image, :desc, :begin_date, :end_date,
-  :send_to, :notice, :satus, :user_ids => []
+  :send_to, :notice, :status, :user_ids => []
 
   filter :title
   filter :desc

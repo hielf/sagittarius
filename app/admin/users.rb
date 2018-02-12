@@ -7,6 +7,7 @@ permit_params :username, :openid, :password,
   :upper_client, :upper_user_name
 
 filter :username
+filter :name
 filter :mobile
 filter :role, as: :select, collection: -> {[
   ['管理员', 'admin'], ['销售员', 'staff'],
