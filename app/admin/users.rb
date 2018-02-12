@@ -17,12 +17,22 @@ filter :area
 #filter :team
 filter :status, as: :select, collection: [['已审批','已审批'],['待审批','待审批']]
 
+  member_action :approve, method: :put do
+    resource.approve
+    redirect_to resource_path, notice: "已审批!"
+  end
+
+  action_item :'approve', only: :show do
+  link_to '允许', approve_admin_user_path(resource), method: :put
+  end
+
   index do
     column :username
     column :openid
     column :mobile
     column :role
     column :area
+    column :name
     column 'upper user' do |u|
       if u.upper_user_id
         User.find(u.upper_user_id).username
@@ -39,6 +49,7 @@ filter :status, as: :select, collection: [['已审批','已审批'],['待审批'
    f.inputs do
      #f.input :title
      f.input :username
+     f.input :name
      f.input :openid
      f.input :password
      f.input :mobile
