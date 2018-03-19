@@ -29,7 +29,7 @@ module Api
       data["ticket"] = jsapi_ticket["ticket"]
       if jsapi_ticket["ticket"]
         timestamp = Time.now.to_i.to_s
-        url = "http://weixin.covond.com/"
+        url = params[:url].blank? ? "http://sagittarius.shanghairunyan.com/" : params[:url]
         ticket = jsapi_ticket["ticket"]
         noncestr = (0...16).map { (('a'..'z').to_a + ('A'..'Z').to_a)[rand(58)] }.join
         s = "jsapi_ticket=#{jsapi_ticket["ticket"]}&noncestr=#{noncestr}&timestamp=#{timestamp}&url=#{url}"
