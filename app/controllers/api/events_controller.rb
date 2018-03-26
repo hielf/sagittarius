@@ -48,7 +48,7 @@ class Api::EventsController < Api::ApplicationController
   end
 
   def submit_photos
-    m_requires! [:event_id]
+    m_requires! [:event_id, :photo_type]
     event = Event.where(status: "已开始").last
     serial_code = current_user.username.to_s + Date.today.strftime('%Y%m%d')
     order = current_user.photos.map(&:order).max.nil? ? 1 : (current_user.photos.map(&:order).max + 1)
