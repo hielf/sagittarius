@@ -501,6 +501,72 @@ root_url/api/events/photos_approve
 }
 
 
+### 动态列表
+
+***
+
+##### 调用方式
+Method: GET
+Need: Auth
+
+```
+root_url/api/states
+```
+参数: state_type('tg', 'shelf', 'new', 'project') 说明: 地推、货架、上新、项目(必填)
+
+输出: {
+    "status": 0,
+    "message": "ok",
+    "data": {
+        "states": [
+            {
+                "note": "我来发一个圈圈",  "这里是促销填的动态说明"
+                "comment": null,  "这里是销售填的批注"
+                "state_status": "待审批",
+                "photo_type": "地推",
+                "photos": [
+                    {
+                        "photo_id": 20,
+                        "order": 1,
+                        "image": "http://p3tj4myt5.bkt.clouddn.com/o_1c65o48ar1shs1lj02kp13mo1lkku.png"
+                    },
+                    {
+                        "photo_id": 21,
+                        "order": 2,
+                        "image": "http://p3tj4myt5.bkt.clouddn.com/o_1c65o4f6l849ik512891ugq1mjm13.png"
+                    }
+                ],
+                "count": 9,
+                "user": {
+                    "user_id": 15,
+                    "username": "7658",
+                    "name": "52d5"
+                }
+            }
+        ]
+    }
+}
+
+
+### 新建动态
+
+***
+
+##### 调用方式
+Method: POST
+Need: Auth
+
+```
+root_url/api/states
+```
+参数: user_id 促销员id, event_id 活动id, state_type('tg', 'shelf', 'new', 'project'), note 说明
+
+输出: {
+    "status": 0,
+    "message": "提交成功"
+}
+
+
 
 ## model 说明
 * 除了login，所有的请求都要带token，格式是`-H "Authorization: Token token=token, username=username"`

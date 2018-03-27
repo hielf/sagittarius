@@ -1,10 +1,10 @@
-class Photo < ApplicationRecord
-  # belongs_to :user
-  # belongs_to :event
-  belongs_to :state
+class State < ApplicationRecord
+  belongs_to :user
+  belongs_to :event
+  has_many :photos
   # mount_uploader :image, AvatarUploader
 
-  # validates :photo_type, inclusion: ['tg', 'shelf', 'new', 'project'], presence: true
+  validates :state_type, inclusion: ['tg', 'shelf', 'new', 'project'], presence: true
 
   state_machine :status, :initial => :'待审批' do
     event :approve do
