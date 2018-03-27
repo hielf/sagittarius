@@ -94,6 +94,7 @@ class Api::UsersController < Api::ApplicationController
   end
 
   def sub_users
+    requires! :status
     status = params[:status]
     if !status.empty?
       case status
@@ -105,9 +106,10 @@ class Api::UsersController < Api::ApplicationController
         user_status = "审批否决"
       end
     end
-    @users = User.where(upper_user_id: current_user.id)
     if user_status
       @users = User.where(upper_user_id: current_user.id).where(status: user_status)
+    else
+      @users = User.where(upper_user_id: current_user.id)
     end
     respond_to do |format|
       format.json
