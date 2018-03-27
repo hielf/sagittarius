@@ -217,13 +217,13 @@ Need: Auth
 ```
 root_url/api/users/sub_users
 ```
-参数:
+参数: status(approved, unapproved, disapproved)为空则返回全部
 
 输出: {
     "status": 0,
     "message": "获取成功",
     "data": {
-        "users": [id, name, status]
+        "users": [id, name, status, short(首字母大写)]
     }
 }
 

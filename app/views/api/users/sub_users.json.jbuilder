@@ -6,6 +6,7 @@ json.data do
       json.id   user.id
       json.name user.username + "-" + user.name
       json.status user.status
+      json.short Spinying.parse(:word => user.name).first.upcase
     end
   end
 end

@@ -320,6 +320,7 @@ GEM
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.4, < 5)
+    spinying (0.9)
     spreadsheet (1.1.5)
       ruby-ole (>= 1.0)
     spring (2.0.2)
@@ -423,6 +424,7 @@ DEPENDENCIES
   rubyzip (>= 1.2.1)
   sass-rails (~> 5.0)
   selenium-webdriver
+  spinying (~> 0.9)
   spreadsheet
   spring
   spring-watcher-listen (~> 2.0.0)

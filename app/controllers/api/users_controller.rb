@@ -94,7 +94,21 @@ class Api::UsersController < Api::ApplicationController
   end
 
   def sub_users
-    @users = User.where(upper_user_id: current_user.id).where.not(status: "审批否决")
+    status = params[:status]
+    if !status.empty?
+      case status
+      when "approved"
+        user_status = "已审批"
+      when "unapproved"
+        user_status = "待审批"
+      when "disapproved"
+        user_status = "审批否决"
+      end
+    end
+    @users = User.where(upper_user_id: current_user.id)
+    if user_status
+      @users = User.where(upper_user_id: current_user.id).where(status: user_status)
+    end
     respond_to do |format|
       format.json
     end
