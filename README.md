@@ -204,41 +204,6 @@ password=123456
 }
 
 
-### 人员信息(按id)
-
-***
-
-##### 调用方式
-Method: GET
-Need: Auth
-
-```
-root_url/api/users/user_detail?id=123
-```
-参数: id=123
-
-输出: {
-    "status": 0,
-    "message": "ok",
-    "data": {
-        "user": {
-            "id": 41,
-            "name": "test",
-            "username": "9000",
-            "mobile": "18018559079",
-            "role": "销售员",
-            "status": "待审批",
-            "area": "上海",
-            "shop": "綦江九龙大道店",
-            "team": "团队",
-            "upper_user": "未指定",
-            "upper_user_name": null,
-            "upper_user_phone": "18000000000",
-            "upper_client": null,
-            "team_members_count": 0
-        }
-    }
-}
 
 
 ### 销售员下级(团队促销员)
