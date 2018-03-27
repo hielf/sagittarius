@@ -1,6 +1,6 @@
 class Api::StatesController < Api::ApplicationController
   # skip_before_action :authenticate_user!, only: [:event_data]
-  before_action :set_state, only: [:show, :update, :destroy]
+  before_action :set_state, only: [:show, :update, :destroy, :state_approve, :state_comment]
 
   def index
     m_requires! [:state_type]
@@ -9,18 +9,44 @@ class Api::StatesController < Api::ApplicationController
       ue = current_user.users_events.build(event_id: event.id)
       ue.save!
     end
-    @states = event.states.where(state_type: params[:state_type])
+    case current_user.role
+    when "staff"
+      upper_user = current_user
+    when "outworker"
+      upper_user = User.find_by(id: current_user.upper_user_id)
+    end
+
+    users = []
+    User.where(upper_user_id: upper_user.id).each do |u|
+      users << u.id
+    end
+
+    event.states.where("state_type = ? AND user_id in (?)", params[:state_type], users)
+
     respond_to do |format|
       format.json
     end
   end
 
   def create
-    m_requires! [:user_id, :event_id, :state_type]
+    m_requires! [:user_id, :event_id, :state_type, :photos]
     @state = State.new(state_params)
     begin
-      @state.save!
-      result = [0, '提交成功']
+      order = 1
+      serial_code = current_user.username.to_s + Time.now.strftime('%Y%m%d%H%M%s')
+      if (params[:photos].count > 9 || params[:photos].count < 1)
+        result = [1, '照片数量不正确']
+      else
+        params[:photos].each do
+          Photo.transaction do
+            photo = Photo.new(user_id: current_user.id, event_id: params[:event_id], image: params[:image], order: order, serial_code: serial_code)
+            photo.save!
+            order = order + 1
+          end
+        end
+        @state.save!
+        result = [0, '提交成功']
+      end
     rescue Exception => ex
       result= [1, ex.message]
     end
@@ -33,38 +59,27 @@ class Api::StatesController < Api::ApplicationController
     end
   end
 
-  def submit_photos
-    m_requires! [:event_id, :photo_type]
-    event = Event.where(status: "已开始").last
-    serial_code = current_user.username.to_s + Date.today.strftime('%Y%m%d')
-    order = current_user.photos.map(&:order).max.nil? ? 1 : (current_user.photos.map(&:order).max + 1)
-    begin
-      Photo.transaction do
-        photo = Photo.new(user_id: current_user.id, event_id: event.id, image: params[:image], photo_type: params[:photo_type], order: order, serial_code: serial_code)
-        photo.save!
-      end
-      result = [0, '提交成功']
-    rescue Exception => ex
-      result= [1, ex.message]
+  def state_approve
+    m_requires! [:id, :flag]
+    # Rails.logger.warn "photos: #{photos}"
+    case params[:flag]
+    when "approve"
+      @state.approve
+      result = [0, '审核成功', '已审批']
+    else
+      @state.disapprove
+      result = [0, '审核成功', '否决']
     end
     render_json(result)
   end
 
-  def photos_approve
-    m_requires! [:serial_code, :flag]
-    photos = Photo.where(serial_code: params[:serial_code])
-    # Rails.logger.warn "photos: #{photos}"
-    case params[:flag]
-    when "approve"
-      photos.each do |photo|
-        photo.approve
-      end
-      result = [0, '审核成功']
-    else
-      photos.each do |photo|
-        photo.disapprove
-      end
-      result = [0, '审核成功']
+  def state_comment
+    m_requires! [:id, :comment]
+    begin
+      @state.update!(comment: params[:comment])
+      result = [0, '提交成功']
+    rescue Exception => ex
+      result= [1, ex.message]
     end
     render_json(result)
   end

@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :events, through: :users_events
   has_many :datums
   has_many :photos
+  has_many :states
 
   validates :name, presence: {message: '姓名不可以为空'}, on: :create
   validates :username, presence: true, length: {maximum: 10, message: '员工ID不能超过10位'}, on: :create

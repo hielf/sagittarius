@@ -197,6 +197,7 @@ area_id=1
 upper_user_phone=18000000000
 upper_client=所属客户
 password=123456
+upper_user_name=所属上级
 
 输出: {
     "status": 0,
@@ -398,32 +399,6 @@ root_url/api/events/user_datums
     }
 }
 
-### 用户提交的照片列表
-
-***
-
-##### 调用方式
-Method: GET
-Need: Auth
-
-```
-root_url/api/events/user_photos
-```
-参数: user_id, event_id
-
-输出: {
-    "status": 0,
-    "message": "ok",
-    "data": {
-        "serials":
-        [count,
-        serial_code,
-        status,
-        "photos": [photo_id, order, image, photo_type]
-        ]
-    }
-}
-
 
 ### 提交执行数据
 
@@ -434,32 +409,13 @@ Method: POST
 Need: Auth
 
 ```
-root_url/api/events/submit_photos
+root_url/api/events/submit_data
 ```
-参数: event_id, good_id
+参数: event_id, good_id, in_num(进), sell_num(销), storage_num(存)
 
 输出: {
     "status": 0,
     "message": "提交成功"
-}
-
-
-### 上传照片(每次提交一张照片,同一批提交的照片会生成同一个serial_code,用户之后的审批)
-
-***
-
-##### 调用方式
-Method: POST
-Need: Auth
-
-```
-root_url/api/events/submit_data
-```
-参数: event_id, photo_type("tg")
-
-输出: {
-    "status": 0,
-    "message": "成功"
 }
 
 
@@ -475,25 +431,6 @@ Need: Auth
 root_url/api/events/datum_approve
 ```
 参数: datum_id, flag("approve", "disapprove")
-
-输出: {
-    "status": 0,
-    "message": "审核成功"
-}
-
-
-### 审批照片
-
-***
-
-##### 调用方式
-Method: POST
-Need: Auth
-
-```
-root_url/api/events/photos_approve
-```
-参数: serial_code, flag("approve", "disapprove")
 
 输出: {
     "status": 0,
@@ -559,7 +496,46 @@ Need: Auth
 ```
 root_url/api/states
 ```
-参数: user_id 促销员id, event_id 活动id, state_type('tg', 'shelf', 'new', 'project'), note 说明
+参数: user_id 促销员id, event_id 活动id, state_type('tg', 'shelf', 'new', 'project'), note 说明, photos[image] 照片(数组)
+
+输出: {
+    "status": 0,
+    "message": "提交成功"
+}
+
+
+### 审批动态
+
+***
+
+##### 调用方式
+Method: POST
+Need: Auth
+
+```
+root_url/api/states/state_approve
+```
+参数: id(是state_id), flag("approve", "disapprove")
+
+输出: {
+    "status": 0,
+    "message": "审核成功"，
+    "data": 状态("已审批", "否决")
+}
+
+
+### 评论(批注)动态
+
+***
+
+##### 调用方式
+Method: POST
+Need: Auth
+
+```
+root_url/api/states/state_comment
+```
+参数: id(是state_id), comment(评论 string)
 
 输出: {
     "status": 0,

@@ -39,7 +39,8 @@ Rails.application.routes.draw do
     end
     resources :states, except: [:new, :edit] do
       collection do
-        post :submit_photos
+        post :state_approve
+        post :state_comment
       end
     end
     match '*path', via: :all, to: 'root#route_not_found'
