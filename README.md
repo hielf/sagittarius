@@ -173,6 +173,7 @@ upper_user_phone=18000000000 (上级员工电话)
 team_id=1 (团队id，似乎可以不要)
 password=123456
 openid=dsafpjdqprjioewfjow32j4o3
+avatar=头像url
 
 输出: {
     "status": 0,
@@ -200,6 +201,7 @@ upper_client=所属客户
 password=123456
 upper_user_name=所属上级
 openid=dsafpjdqprjioewfjow32j4o3
+avatar=头像url
 
 输出: {
     "status": 0,
@@ -207,6 +209,27 @@ openid=dsafpjdqprjioewfjow32j4o3
 }
 
 
+### 更新个人信息(所有用户)
+
+***
+
+##### 调用方式
+Method: PUT
+Need:
+
+```
+root_url/api/users
+```
+参数:
+name=姓名
+mobile=18018559077
+password=123456
+avatar=头像url
+
+输出: {
+    "status": 0,
+    "message": "更新成功"
+}
 
 
 ### 销售员下级(团队促销员)

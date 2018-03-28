@@ -160,11 +160,11 @@ class Api::UsersController < Api::ApplicationController
   end
 
   def update_user_params
-    params.permit(:password, :name, :role)
+    params.permit(:password, :name, :mobile, :avatar)
   end
 
   def user_params
-    params.permit(:openid, :username, :name, :mobile, :area_id, :shop_id, :team_id, :upper_user_id, :upper_user_phone, :upper_user_name, :upper_client, :password, :role)
+    params.permit(:avatar, :openid, :username, :name, :mobile, :area_id, :shop_id, :team_id, :upper_user_id, :upper_user_phone, :upper_user_name, :upper_client, :password, :role)
   end
 
 end
