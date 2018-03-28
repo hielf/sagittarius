@@ -14,7 +14,7 @@ json.data do
     json.upper_user @user.upper_user_id? ? User.find(@user.upper_user_id).name : "未指定"
     json.upper_user_name @user.upper_user_name
     json.upper_user_phone @user.upper_user_phone
-    json.upper_client @user.upper_client
+    json.upper_client @user.client_id? ? Client.find(@user.client_id).name : "未指定"
     case @user.role
     when "staff"
       json.role "销售员"
