@@ -215,7 +215,7 @@ avatar=头像url
 
 ##### 调用方式
 Method: PUT
-Need:
+Need: Auth
 
 ```
 root_url/api/users
@@ -265,7 +265,7 @@ Need: Auth
 ```
 root_url/api/users/approve_user
 ```
-参数:
+参数: user_id
 
 输出: {
     "status": 0,
@@ -284,7 +284,7 @@ Need: Auth
 ```
 root_url/api/users/disapprove_user
 ```
-参数:
+参数: user_id
 
 输出: {
     "status": 0,
