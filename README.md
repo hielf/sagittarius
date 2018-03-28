@@ -121,6 +121,22 @@ root_url/api/users/areas
 输出: {"status":0,"message":"获取成功","data":{"areas":[{"id":1,"name":"上海"}]}}
 
 
+### 所属客户列表
+
+***
+
+##### 调用方式
+Method: GET
+Need:
+
+```
+root_url/api/users/clients
+```
+参数:
+输出: {"status":0,"message":"获取成功","data":{"clients":[{"id":1,"name":"沃尔玛"},{"id":2,"name":"家乐福"},{"id":3,"name":"乐购"}]}}
+
+
+
 ### 门店列表
 
 ***

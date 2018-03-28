@@ -1,6 +1,6 @@
 class Api::UsersController < Api::ApplicationController
   wechat_api
-  skip_before_action :authenticate_user!, only: [:index, :home, :outworker_new, :staff_new, :create, :teams, :areas, :shops, :get_openid, :upper_users]
+  skip_before_action :authenticate_user!, only: [:index, :home, :outworker_new, :staff_new, :create, :teams, :areas, :shops, :get_openid, :upper_users, :clients]
   before_action :set_user, only: [:show, :update, :destroy, :user_detail]
   before_action only: [:destroy] { render_json([403, t('messages.c_403')]) if current_user.role != 'admin' }
   # before_action :initial_user, only: [:outworker_new, :staff_new]
@@ -34,6 +34,10 @@ class Api::UsersController < Api::ApplicationController
 
   def teams
     @teams = Team.all
+  end
+
+  def clients
+    @clients = Client.all
   end
 
   def areas

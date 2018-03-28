@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       collection do
         get :me
         get :teams
+        get :clients
         get :shops
         get :areas
         get :upper_users
