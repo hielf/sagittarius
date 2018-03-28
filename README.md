@@ -329,6 +329,22 @@ root_url/api/users/me
 }
 
 
+### 活动列表
+
+***
+
+##### 调用方式
+Method: GET
+Need:
+
+```
+root_url/api/events
+```
+参数: event_type('tg', 'shelf', 'new', 'project') 说明: 地推、货架、上新、项目(选填)
+
+输出: {"status":0,"message":"ok","data":{"events":[{"id":1,"title":"洗护用品促销活动","desc":"","begin_date":"2018-01-01T00:00:00.000+08:00","end_date":"2019-01-01T00:00:00.000+08:00","status":"已开始","image":"http://p3tj4myt5.bkt.clouddn.com/uploads/event/image/1/QQ20120927-6.png","event_type":"地推"}]}}
+
+
 ### 活动详情
 
 ***

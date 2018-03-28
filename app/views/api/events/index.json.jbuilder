@@ -6,8 +6,8 @@ json.data do
       json.id event.id
       json.title event.title
       json.desc event.desc
-      json.begin_date event.begin_date
-      json.end_date event.end_date
+      json.begin_date event.begin_date.strftime('%Y年%m月%d日')
+      json.end_date event.end_date.strftime('%Y年%m月%d日')
       json.status event.status
       json.image event.image.url
       case event.event_type
