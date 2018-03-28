@@ -249,7 +249,7 @@ root_url/api/users/sub_users
     "status": 0,
     "message": "获取成功",
     "data": {
-        "users": [id, name, status, short(首字母大写)]
+        "users": [id, name, fullname, username, mobile, status, short(首字母大写), update_date(提交日期), shop(店名)]
     }
 }
 
