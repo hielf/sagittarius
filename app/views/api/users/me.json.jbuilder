@@ -8,7 +8,7 @@ json.data do
     json.mobile @user.mobile
     json.role @user.role
     json.status @user.status
-    json.area @user.area_id? ? @user.area.city : "未指定"
+    json.area @user.area_id? ? Area.find_by(id: @user.area_id).city : "未指定"
     json.shop @user.shop_id? ? Shop.find(@user.shop_id).name : "未指定"
     json.team @user.team_id? ? Team.find(@user.team_id).name : "未指定"
     json.upper_user @user.upper_user_id? ? User.find(@user.upper_user_id).name : "未指定"
@@ -21,7 +21,7 @@ json.data do
     when "outworker"
       json.role "促销员"
     else
-      json.role "管理员员"
+      json.role "管理员"
     end
     json.team_members_count User.where(upper_user_id: @user.id).count
   end
