@@ -6,6 +6,8 @@ class Event < ApplicationRecord
   has_many :users, through: :users_events
   mount_uploader :image, AvatarUploader
 
+  validates :event_type, inclusion: ['tg', 'shelf', 'new', 'project'], presence: true
+
   state_machine :status, :initial => :'未开始' do
     event :begin do
       transition :'未开始' => :'已开始'

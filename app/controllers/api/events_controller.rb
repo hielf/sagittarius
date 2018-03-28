@@ -1,9 +1,13 @@
 class Api::EventsController < Api::ApplicationController
-  # skip_before_action :authenticate_user!, only: [:event_data]
+  skip_before_action :authenticate_user!, only: [:index]
   before_action :set_event, only: [:show, :update, :destroy]
 
   def index
-    @events = Event.where(status: "已开始")
+    if (params[:event_type].nil? || params[:event_type].blank?)
+      @events = Event.all
+    else
+      @events = Event.where(event_type: params[:event_type])
+    end
     respond_to do |format|
       format.json
     end
