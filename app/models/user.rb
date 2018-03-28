@@ -2,7 +2,7 @@ class User < ApplicationRecord
   include AccountConcern
   has_secure_password
 
-  belongs_to :area
+  # belongs_to :area
   # belongs_to :team
   # belongs_to :shop
   has_many :users_events

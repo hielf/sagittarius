@@ -164,7 +164,7 @@ class Api::UsersController < Api::ApplicationController
   end
 
   def user_params
-    params.permit(:username, :name, :mobile, :area_id, :shop_id, :team_id, :upper_user_id, :upper_user_phone, :upper_user_name, :upper_client, :password, :role)
+    params.permit(:openid, :username, :name, :mobile, :area_id, :shop_id, :team_id, :upper_user_id, :upper_user_phone, :upper_user_name, :upper_client, :password, :role)
   end
 
 end
