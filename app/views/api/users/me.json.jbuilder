@@ -3,6 +3,7 @@ json.message 'ok'
 json.data do
   json.user do
     json.id @user.id
+    json.avatar @user.avatar
     json.name @user.name
     json.username @user.username
     json.mobile @user.mobile
