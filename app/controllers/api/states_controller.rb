@@ -22,7 +22,7 @@ class Api::StatesController < Api::ApplicationController
     end
 
     @states = event.states.where("state_type = ? AND user_id in (?)", params[:state_type], users)
-    
+
     if (params[:user_id] && !params[:user_id].blank?)
       @states = current_user.states
     end
@@ -34,7 +34,7 @@ class Api::StatesController < Api::ApplicationController
 
   def create
     m_requires! [:user_id, :event_id, :state_type, :photos]
-    @state = State.new(state_params)
+    @state = current_user.states.new(state_params)
     result = [0, '提交成功']
 
     begin
@@ -92,6 +92,6 @@ class Api::StatesController < Api::ApplicationController
   end
 
   def state_params
-    params.permit(:user_id, :event_id, :state_type, :note)
+    params.permit(:event_id, :state_type, :note)
   end
 end
