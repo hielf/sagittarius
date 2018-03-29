@@ -22,11 +22,11 @@ class Api::StatesController < Api::ApplicationController
     end
 
     @user = current_user
-    @states = event.states.where("state_type = ? AND user_id in (?)", params[:state_type], users)
+    @states = event.states.where("state_type = ? AND user_id in (?)", params[:state_type], users).order("id desc")
 
     if (params[:user_id] && !params[:user_id].blank?)
       @user = User.find(params[:user_id])
-      @states = @user.states
+      @states = @user.states.order("id desc")
     end
 
     respond_to do |format|
