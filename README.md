@@ -281,7 +281,7 @@ Method: PUT
 Need: Auth
 
 ```
-root_url/api/users
+root_url/api/users/:id
 ```
 参数:
 name=姓名
