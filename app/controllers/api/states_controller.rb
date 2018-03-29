@@ -33,7 +33,7 @@ class Api::StatesController < Api::ApplicationController
   end
 
   def create
-    m_requires! [:user_id, :event_id, :state_type, :photos]
+    m_requires! [:event_id, :state_type, :photos]
     @state = current_user.states.new(state_params)
     result = [0, '提交成功']
 
