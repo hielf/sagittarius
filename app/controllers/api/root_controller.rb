@@ -64,7 +64,7 @@ module Api
       appid = wechat_config["default"]["appid"]
       secret = wechat_config["default"]["secret"]
       code = params[:code]
-
+      #2
       url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=#{appid}&secret=#{secret}&code=#{code}&grant_type=authorization_code"
 
       res = HTTParty.get url
@@ -75,7 +75,16 @@ module Api
       # url = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=#{appid}&grant_type=refresh_token&refresh_token=REFRESH_TOKEN"
 
       access_token = json["access_token"]
+      refresh_token = json["refresh_token"]
       openid = json["openid"]
+      #3
+      url = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=#{appid}&grant_type=refresh_token&refresh_token=#{refresh_token}"
+
+      res = HTTParty.get url
+      json = JSON.parse(res.body)
+      access_token = json["access_token"]
+      
+      #4
       url = "https://api.weixin.qq.com/sns/userinfo?access_token=#{access_token}&openid=#{openid}&lang=zh_CN"
       res = HTTParty.get url
       json = JSON.parse(res.body)
