@@ -31,22 +31,18 @@ class Api::StatesController < Api::ApplicationController
   def create
     m_requires! [:user_id, :event_id, :state_type, :photos]
     @state = State.new(state_params)
+    result = [0, '提交成功']
+    
     begin
       order = 1
       serial_code = current_user.username.to_s + Time.now.strftime('%Y%m%d%H%M%s')
-      if 1==2#(params[:photos].count > 9 || params[:photos].count < 1)
-        result = [1, '照片数量不正确']
-      else
-        Rails.logger.warn "photos: #{params[:photos]}"
-        params[:photos].each do
-          Photo.transaction do
-            photo = Photo.new(user_id: current_user.id, event_id: params[:event_id], image: params[:photos][:image], order: order, serial_code: serial_code)
-            photo.save!
-            order = order + 1
-          end
+      params[:photos].each do
+        Photo.transaction do
+          photo = @state.photos.new(user_id: current_user.id, event_id: params[:event_id], image: params[:photos][:image], order: order, serial_code: serial_code)
+          photo.save!
+          order = order + 1
         end
         @state.save!
-        result = [0, '提交成功']
       end
     rescue Exception => ex
       result= [1, ex.message]
