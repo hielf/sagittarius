@@ -553,7 +553,7 @@ Need: Auth
 ```
 root_url/api/states
 ```
-参数: state_type('tg', 'shelf', 'new', 'project') 说明: 地推、货架、上新、项目(必填)
+参数: state_type('tg', 'shelf', 'new', 'project') 说明: 地推、货架、上新、项目(必填), user_id(可选)
 
 输出: {
     "status": 0,
