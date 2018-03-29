@@ -58,11 +58,24 @@ module Api
     end
 
     def wechat_userinfo
-      # appid = wechat_config["default"]["appid"]
-      # secret = wechat_config["default"]["secret"]
-      access_token = params[:access_token]
-      openid = params[:openid]
+      config_file = Rails.root.join('config/wechat.yml')
+      wechat_config = YAML.load(ERB.new(File.read(config_file)).result)
+
+      appid = wechat_config["default"]["appid"]
+      secret = wechat_config["default"]["secret"]
+      code = params[:code]
+
+      url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=#{appid}&secret=#{secret}&code=#{code}&grant_type=authorization_code"
+
+      res = HTTParty.get url
+      json = JSON.parse(res.body)
+
+      # access_token = params[:access_token]
+      # openid = params[:openid]
       # url = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=#{appid}&grant_type=refresh_token&refresh_token=REFRESH_TOKEN"
+
+      access_token = json["access_token"]
+      openid = json["openid"]
       url = "https://api.weixin.qq.com/sns/userinfo?access_token=#{access_token}&openid=#{openid}&lang=zh_CN"
       res = HTTParty.get url
       json = JSON.parse(res.body)

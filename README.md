@@ -136,7 +136,7 @@ Need:
 ```
 root_url/api/wechat_userinfo
 ```
-参数: access_token, openid
+参数: code
 输出: {
    "openid":" OPENID",
    " nickname": NICKNAME,
