@@ -32,13 +32,13 @@ class Api::StatesController < Api::ApplicationController
     m_requires! [:user_id, :event_id, :state_type, :photos]
     @state = State.new(state_params)
     result = [0, '提交成功']
-    
+
     begin
       order = 1
       serial_code = current_user.username.to_s + Time.now.strftime('%Y%m%d%H%M%s')
-      params[:photos].each do
+      params[:photos][:image].each do |image|
         Photo.transaction do
-          photo = @state.photos.new(user_id: current_user.id, event_id: params[:event_id], image: params[:photos][:image], order: order, serial_code: serial_code)
+          photo = @state.photos.new(user_id: current_user.id, event_id: params[:event_id], image: image, order: order, serial_code: serial_code)
           photo.save!
           order = order + 1
         end
