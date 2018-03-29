@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     post 'accounts/sign_in', to: 'accounts#sign_in'
     post 'accounts/sign_out', to: 'accounts#sign_out'
     get 'wechat_access_token', to: 'root#wechat_access_token'
+    get 'wechat_userinfo', to: 'root#wechat_userinfo'
     get 'qiniu/token'
     resources :users, except: [:edit, :new] do
       collection do

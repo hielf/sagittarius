@@ -106,6 +106,34 @@ root_url/api/wechat_access_token
 }
 
 
+### 微信用户信息
+
+***
+
+##### 调用方式
+Method: GET
+Need:
+
+```
+root_url/api/wechat_access_token
+```
+参数: access_token, openid
+输出: {
+   "openid":" OPENID",
+   " nickname": NICKNAME,
+   "sex":"1",
+   "province":"PROVINCE"
+   "city":"CITY",
+   "country":"COUNTRY",
+    "headimgurl":    "http://wx.qlogo.cn/mmopen/g3MonUZtNHkdmzicIlibx6iaFqAc56vxLSUfpb6n5WKSYVY0ChQKkiaJSgQ1dZuTOgvLLrhJbERQQ4eMsv84eavHiaiceqxibJxCfHe/46",
+    "privilege":[
+    "PRIVILEGE1"
+    "PRIVILEGE2"
+    ]
+    "unionid": "o6_bmasdasdsad6_2sgVt7hMZOPfL"
+}
+
+
 ### 区域列表
 
 ***

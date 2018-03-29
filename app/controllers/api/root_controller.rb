@@ -42,6 +42,18 @@ module Api
       render json: data
     end
 
+    def wechat_userinfo
+      # appid = wechat_config["default"]["appid"]
+      # secret = wechat_config["default"]["secret"]
+      access_token = params[:access_token]
+      openid = params[:openid]
+      # url = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=#{appid}&grant_type=refresh_token&refresh_token=REFRESH_TOKEN"
+      url = "https://api.weixin.qq.com/sns/userinfo?access_token=#{access_token}&openid=#{openid}&lang=zh_CN"
+      res = HTTParty.get url
+      json = JSON.parse(res.body)
+      render json: json
+    end
+
     # def wechat_sign
     #   if jsapi_ticket["ticket"]
     #     timestamp = Time.now.to_i.to_s
