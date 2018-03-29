@@ -21,6 +21,7 @@ class Api::StatesController < Api::ApplicationController
       users << u.id
     end
 
+    @user = current_user
     @states = event.states.where("state_type = ? AND user_id in (?)", params[:state_type], users)
 
     if (params[:user_id] && !params[:user_id].blank?)
