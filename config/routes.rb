@@ -25,6 +25,7 @@ Rails.application.routes.draw do
         get :user_detail
         post :approve_user
         post :disapprove_user
+        post :self_update
       end
     end
     resources :events, except: [:new, :edit] do

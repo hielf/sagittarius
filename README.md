@@ -295,6 +295,27 @@ avatar=头像url
 }
 
 
+### 同步微信头像
+
+***
+
+##### 调用方式
+Method: POST
+Need: Auth
+
+```
+root_url/api/users/self_update
+```
+参数:
+avatar=头像url
+openid(可选)
+
+输出: {
+    "status": 0,
+    "message": "更新成功"
+}
+
+
 ### 销售员下级(团队促销员)
 
 ***

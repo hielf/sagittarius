@@ -87,6 +87,22 @@ class Api::UsersController < Api::ApplicationController
     render_json(result)
   end
 
+  def self_update
+    requires! :avatar
+    ## optional! :password,:station_id,:name
+
+    begin
+      if self_update_user_params.blank?
+        return render_json([1, '请输入更新内容'])
+      end
+      current_user.update!(self_update_user_params)
+      result = [0, '更新成功']
+    rescue Exception => ex
+      result = [1, ex.message]
+    end
+    render_json(result)
+  end
+
   def destroy
     requires! :id
     if @user.destroy
@@ -165,6 +181,10 @@ class Api::UsersController < Api::ApplicationController
 
   def update_user_params
     params.permit(:password, :name, :mobile, :avatar)
+  end
+
+  def self_update_user_params
+    params.permit(:avatar, :openid)
   end
 
   def user_params
