@@ -115,7 +115,7 @@ Method: GET
 Need:
 
 ```
-root_url/api/wechat_access_token
+root_url/api/wechat_userinfo
 ```
 参数: access_token, openid
 输出: {
