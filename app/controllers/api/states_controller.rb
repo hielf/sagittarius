@@ -39,7 +39,7 @@ class Api::StatesController < Api::ApplicationController
       else
         params[:photos].each do
           Photo.transaction do
-            photo = Photo.new(user_id: current_user.id, event_id: params[:event_id], image: params[:image], order: order, serial_code: serial_code)
+            photo = Photo.new(user_id: current_user.id, event_id: params[:event_id], image: params[:photos][:image], order: order, serial_code: serial_code)
             photo.save!
             order = order + 1
           end
