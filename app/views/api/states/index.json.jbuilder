@@ -1,6 +1,12 @@
 json.status 0
 json.message 'ok'
 json.data do
+  json.me do
+    json.user_id @state.user.id
+    json.username @state.user.username
+    json.name @state.user.name
+    json.avatar @state.user.avatar
+  end
   json.states do
     json.array! @states.each do |state|
       json.note state.note
@@ -29,6 +35,7 @@ json.data do
           json.user_id state.user.id
           json.username state.user.username
           json.name state.user.name
+          json.avatar state.user.avatar
         # end
       end
     end
