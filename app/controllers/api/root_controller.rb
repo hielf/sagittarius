@@ -42,6 +42,21 @@ module Api
       render json: data
     end
 
+    def wechat_access_token
+      config_file = Rails.root.join('config/wechat.yml')
+      wechat_config = YAML.load(ERB.new(File.read(config_file)).result)
+
+      appid = wechat_config["default"]["appid"]
+      secret = wechat_config["default"]["secret"]
+      code = params[:code]
+
+      url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=#{appid}&secret=#{secret}&code=#{code}&grant_type=authorization_code"
+
+      res = HTTParty.get url
+      json = JSON.parse(res.body)
+      render json: json
+    end
+
     def wechat_userinfo
       # appid = wechat_config["default"]["appid"]
       # secret = wechat_config["default"]["secret"]

@@ -106,6 +106,25 @@ root_url/api/wechat_access_token
 }
 
 
+### 微信code换取token
+
+***
+
+##### 调用方式
+Method: GET
+Need:
+
+```
+root_url/api/wechat_access_token
+```
+参数: code
+输出: { "access_token":"ACCESS_TOKEN",
+"expires_in":7200,
+"refresh_token":"REFRESH_TOKEN",
+"openid":"OPENID",
+"scope":"SCOPE" }
+
+
 ### 微信用户信息
 
 ***
