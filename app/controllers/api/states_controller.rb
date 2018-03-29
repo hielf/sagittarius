@@ -21,7 +21,7 @@ class Api::StatesController < Api::ApplicationController
       users << u.id
     end
 
-    event.states.where("state_type = ? AND user_id in (?)", params[:state_type], users)
+    @states = event.states.where("state_type = ? AND user_id in (?)", params[:state_type], users)
 
     respond_to do |format|
       format.json
