@@ -559,6 +559,12 @@ root_url/api/states
     "status": 0,
     "message": "ok",
     "data": {
+        "me": {
+            "user_id": 12,
+            "username": "1002",
+            "name": "liuzhaoxiang",
+            "avatar": "http://www.qqzhi.com/uploadpic/2014-09-23/000247589.jpg"
+        },
         "states": [
             {
                 "note": "我来发一个圈圈",  "这里是促销填的动态说明"
