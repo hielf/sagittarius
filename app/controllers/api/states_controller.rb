@@ -34,7 +34,7 @@ class Api::StatesController < Api::ApplicationController
     begin
       order = 1
       serial_code = current_user.username.to_s + Time.now.strftime('%Y%m%d%H%M%s')
-      if (params[:photos].count > 9 || params[:photos].count < 1)
+      if 1==1#(params[:photos].count > 9 || params[:photos].count < 1)
         result = [1, '照片数量不正确']
       else
         params[:photos].each do
