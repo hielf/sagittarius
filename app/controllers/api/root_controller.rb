@@ -42,7 +42,7 @@ module Api
       render json: data
     end
 
-    def wechat_access_token
+    def wechat_get_token
       config_file = Rails.root.join('config/wechat.yml')
       wechat_config = YAML.load(ERB.new(File.read(config_file)).result)
 
