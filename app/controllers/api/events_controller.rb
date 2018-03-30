@@ -4,8 +4,10 @@ class Api::EventsController < Api::ApplicationController
 
   def index
     if (params[:event_type].nil? || params[:event_type].blank?)
+      @event_type = "全部"
       @events = Event.all
     else
+      @event_type = params[:event_type]
       @events = Event.where(event_type: params[:event_type])
     end
     respond_to do |format|

@@ -2,6 +2,8 @@ json.status 0
 json.message 'ok'
 json.data do
   json.events do
+    json.event_type @event_type
+    json.current_time Time.now.strftime('%Y年%m月%d日 %H:%M:%S')
     json.array! @events.each do |event|
       json.id event.id
       json.title event.title
