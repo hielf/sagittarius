@@ -118,7 +118,16 @@ class Api::EventsController < Api::ApplicationController
     m_requires! [:user_id, :event_id]
     user = User.find_by(id: params[:user_id])
     event = Event.find_by(id: params[:event_id])
-    @datums = Datum.where(user_id: user.id, event_id: event.id)
+    case current_user.role
+    when "staff"
+      users = []
+      User.where(upper_user_id: current_user.id).each do |u|
+        users << u.id
+      end
+      @datums = Datum.where("event_id = ? AND user_id in (?)", event.id, users).order("id desc")
+    when "outworker"
+      @datums = Datum.where(user_id: user.id, event_id: event.id).order("id desc")
+    end
     respond_to do |format|
       format.json
     end
