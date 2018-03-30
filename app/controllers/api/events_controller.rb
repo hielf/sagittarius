@@ -133,6 +133,21 @@ class Api::EventsController < Api::ApplicationController
     end
   end
 
+  def sub_user_datums
+    event = Event.where(event_type: 'tg', status: "已开始").last
+    if current_user.users_events.where(event_id: event.id).empty?
+      ue = current_user.users_events.build(event_id: event.id)
+      ue.save!
+    end
+    users = []
+    User.where(upper_user_id: current_user.id).each do |u|
+      users << u.id
+    end
+    @datums = Datum.where("event_id = ? AND user_id in (?)", event.id, users).order("id desc")
+    
+    render 'user_datums.json.jbuilder'
+  end
+
   def user_photos
     m_requires! [:user_id, :event_id]
     user = User.find_by(id: params[:user_id])
