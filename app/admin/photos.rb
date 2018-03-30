@@ -15,14 +15,16 @@ permit_params :user_id, :event_id, :photo_type, :image, :order, :serial_code, :s
 
   index do
     column :user do |u|
-      u.user.username unless u.user
+      u.user.username unless u.user_id
     end
     column :event
     column :photo_type
     column :order
     column :serial_code
     column :image do |e|
-      link_to(image_tag e.image, style: 'height:50px;width:auto;', target: '_blank') if e.image
+      unless e.image.blank?
+        link_to(image_tag e.image, style: 'height:50px;width:auto;', target: '_blank') 
+      end
     end
     column :status
 
