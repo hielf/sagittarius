@@ -6,7 +6,7 @@ class Api::EventsController < Api::ApplicationController
     if (params[:event_type].nil? || params[:event_type].blank?)
       @event_type = "all"
       @event_type_c =  "全部"
-      @events = Event.all
+      @events = Event.where.not(status: "未开始")
     else
       @event_type = params[:event_type]
       case params[:event_type]
@@ -19,7 +19,7 @@ class Api::EventsController < Api::ApplicationController
       when "project"
         @event_type_c =  "项目"
       end
-      @events = Event.where(event_type: params[:event_type])
+      @events = Event.where(event_type: params[:event_type]).where.not(status: "未开始")
     end
     respond_to do |format|
       format.json
