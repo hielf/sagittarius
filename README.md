@@ -481,6 +481,64 @@ root_url/api/events/:id
 }
 
 
+### 当前活动详情
+
+***
+
+##### 调用方式
+Method: GET
+Need: Auth
+
+```
+root_url/api/events/current_event
+```
+参数: event_type(tg, new, project, shelf)
+
+输出: {
+    "status": 0,
+    "message": "ok",
+    "data": {
+        "event": {
+            "id": 1,
+            "title": "联合利华2月亲情大促销莲花路店买二赠一活动",\
+            image 图片url
+            desc 详情说明
+            begin_date 开始日期
+            end_date 结束日期
+            status 状态
+            event_type 类型
+            "image": {
+                "url": "http://p3tj4myt5.bkt.clouddn.com/uploads/event/image/1/ipad__broker_1.png"
+            },
+            "desc": "联合利华2月亲情大促销莲花路店买二赠一活动联合利华2月亲情大促销莲花路店买二赠一活动联合利华2月亲情大促销莲花路店买二赠一活动",
+            "begin_date": "2013年01月01日",
+            "end_date": "2023年04月04日",
+            "status": "已开始",
+            "goods": [
+                {
+                    "good_id": 1,
+                    "brand": "蓝月亮",
+                    "name": "洗手液250ml",
+                    "price": "231.5",
+                    "image": {
+                        "url": "http://p3tj4myt5.bkt.clouddn.com/uploads/good/image/1/%E6%9B%BF%E6%8D%A2%E6%96%87%E6%9C%AC.jpg"
+                    }
+                },
+                {
+                    "good_id": 2,
+                    "brand": "蓝月亮",
+                    "name": "洗手液500ml",
+                    "price": "73.5",
+                    "image": {
+                        "url": "http://p3tj4myt5.bkt.clouddn.com/uploads/good/image/2/%E6%A3%80%E6%9F%A5%E5%8E%9F%E5%9B%A02.jpg"
+                    }
+                }
+            ]
+        }
+    }
+}
+
+
 ### 用户活动列表
 
 ***

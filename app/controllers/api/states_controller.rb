@@ -4,7 +4,7 @@ class Api::StatesController < Api::ApplicationController
 
   def index
     m_requires! [:state_type]
-    event = Event.where(status: "已开始").last
+    event = Event.where(event_type: params[:state_type], status: "已开始").last
     if current_user.users_events.where(event_id: event.id).empty?
       ue = current_user.users_events.build(event_id: event.id)
       ue.save!
