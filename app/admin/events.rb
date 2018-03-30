@@ -12,13 +12,14 @@ ActiveAdmin.register Event do
 #   permitted
 # end
 
-permit_params :title, :image, :desc, :begin_date, :end_date,
+permit_params :title, :image, :desc, :begin_date, :end_date, :image_cache, :event_type, 
   :send_to, :notice, :status, :user_ids => []
 
   filter :title
   filter :desc
   filter :begin_date
   filter :end_date
+  filter :event_type, as: :select, collection: [['tg','tg'], ['shelf','shelf'], ['new','new'], ['project','project']]
   filter :users, as: :select, collection: User.all.map {|u|[u.username, u.id]}
   filter :status, as: :select, collection: [['未开始','未开始'],['已开始','已开始'],['结束','结束']]
 
@@ -32,6 +33,7 @@ permit_params :title, :image, :desc, :begin_date, :end_date,
     column :users do |e|
       e.users.map {|u| u.username}
     end
+    column :event_type
     column :desc
     column :notice
     column :status
@@ -42,11 +44,12 @@ permit_params :title, :image, :desc, :begin_date, :end_date,
 		attributes_table do
       row :title
       row :image do |e|
-        image_tag e.image.url if e.image
+        image_tag(e.image) if e.image
       end
       row :users do |e|
         e.users.map {|u| u.username }
       end
+      row :event_type
       row :begin_date
       row :end_date
       row :send_to
@@ -65,7 +68,7 @@ permit_params :title, :image, :desc, :begin_date, :end_date,
   		f.input :image, :hint => image_tag(f.object.image.url(:large, inline: true)||'')
       f.input :image_cache, :as => :hidden
       f.input :users, as: :check_boxes, :collection => User.all.map{ |tech|  [tech.username, tech.id] }
-
+      f.input :event_type, collection: [['tg','tg'], ['shelf','shelf'], ['new','new'], ['project','project']]
       #f.input :user, as: :select, collection: User.all.map {|u| [u.username, u.id]}
       f.input :desc
       f.input :begin_date
