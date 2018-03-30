@@ -4,10 +4,21 @@ class Api::EventsController < Api::ApplicationController
 
   def index
     if (params[:event_type].nil? || params[:event_type].blank?)
-      @event_type = "全部"
+      @event_type = "all"
+      @event_type_c =  "全部"
       @events = Event.all
     else
       @event_type = params[:event_type]
+      case params[:event_type]
+      when "tg"
+        @event_type_c =  "地推"
+      when "shelf"
+        @event_type_c =  "货架"
+      when "new"
+        @event_type_c =  "新品"
+      when "project"
+        @event_type_c =  "项目"
+      end
       @events = Event.where(event_type: params[:event_type])
     end
     respond_to do |format|
