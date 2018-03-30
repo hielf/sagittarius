@@ -595,7 +595,8 @@ Need: Auth
 root_url/api/events/sub_user_datums
 ```
 参数:
-{
+
+输出:{
     "status": 0,
     "message": "ok",
     "data": {
