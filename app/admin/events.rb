@@ -27,7 +27,9 @@ permit_params :title, :image, :desc, :begin_date, :end_date, :image_cache, :even
 
   index do
     column :image do |e|
-      link_to(image_tag(e.image.url(:thumb, inline: true)), e.image.url(:large, inline: true), target: '_blank') if e.image
+      unless e.image.blank?
+        link_to(image_tag(e.image.url(:thumb, inline: true)), e.image.url(:large, inline: true), target: '_blank') 
+      end
     end
     column :title
     column :users do |e|
