@@ -23,7 +23,7 @@ class Api::EventsController < Api::ApplicationController
   def current_event
     m_requires! [:event_type]
     @event = Event.where(event_type: params[:event_type], status: "已开始").last
-    if current_user.users_events.where(event_id: event.id).empty?
+    if current_user.users_events.where(event_id: @event.id).empty?
       ue = current_user.users_events.build(event_id: @event.id)
       ue.save!
     end
