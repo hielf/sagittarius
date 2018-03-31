@@ -66,7 +66,11 @@ class Api::EventsController < Api::ApplicationController
 
   def submit_data
     m_requires! [:event_id, :good_id]
-    event = Event.where(status: "已开始").last
+    event = Event.where(event_type: 'tg', status: "已开始").last
+    if current_user.users_events.where(event_id: event.id).empty?
+      ue = current_user.users_events.build(event_id: event.id)
+      ue.save!
+    end
     datum = Datum.new(user_id: current_user.id, event_id: event.id, good_id: params[:good_id], in_num: params[:in_num], sell_num: params[:sell_num], storage_num: params[:storage_num])
     begin
       datum.save!
@@ -144,7 +148,7 @@ class Api::EventsController < Api::ApplicationController
       users << u.id
     end
     @datums = Datum.where("event_id = ? AND user_id in (?)", event.id, users).order("id desc")
-    
+
     render 'user_datums.json.jbuilder'
   end
 
