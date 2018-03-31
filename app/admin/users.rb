@@ -50,7 +50,7 @@ filter :status, as: :select, collection: [['已审批','已审批'],['待审批'
      #f.input :title
      f.input :username
      f.input :name
-     f.input :openid
+     #f.input :openid
      f.input :password
      f.input :mobile
      f.input :role, collection: [
