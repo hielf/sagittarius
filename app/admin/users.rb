@@ -35,7 +35,7 @@ filter :status, as: :select, collection: [['已审批','已审批'],['待审批'
     column :name
     column 'upper user' do |u|
       if u.upper_user_id
-        User.find(u.upper_user_id).username
+        User.find(u.upper_user_id).username if User.where("id = #{u.upper_user_id}").size > 0
       end
     end
     #column :shop
