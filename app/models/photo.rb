@@ -1,8 +1,8 @@
 class Photo < ApplicationRecord
-  # belongs_to :user
-  # belongs_to :event
+  belongs_to :user
+  belongs_to :event
   belongs_to :state
-  # mount_uploader :image, AvatarUploader
+  #mount_uploader :image, AvatarUploader
 
   # validates :photo_type, inclusion: ['tg', 'shelf', 'new', 'project'], presence: true
 

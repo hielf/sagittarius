@@ -41,7 +41,7 @@ permit_params :user_id, :event_id, :photo_type, :image, :order, :serial_code, :s
       row :order
       row :serial_code
       row :image do |e|
-        image_tag e.image.url if e.image
+        image_tag e.image if e.image
       end
       row :status
     end
@@ -55,7 +55,7 @@ permit_params :user_id, :event_id, :photo_type, :image, :order, :serial_code, :s
      f.input :photo_type
      f.input :order
      f.input :serial_code
-     f.input :image, :hint => image_tag(f.object.image||'')
+     f.input :image, :hint => image_tag(f.object.image||'', style: 'height:150px;width:auto;')
      # f.input :image_cache, :as => :hidden
      f.input :status, as: :select, collection: [['待审批','待审批'],['已审批','已审批'],['否决','否决']]
    end
