@@ -56,7 +56,7 @@ filter :status, as: :select, collection: [['已审批','已审批'],['待审批'
      f.input :role, collection: [
        ['管理员', 'admin'], ['销售员', 'staff'],
        ['促销员', 'outworker'], ['未知','unknown']]
-     f.input :area
+     #f.input :area
      #f.input :shop
      #f.input :team
      f.input :upper_user_id, as: :select, collection: User.where(role: 'staff').map {|staff|[staff.username, staff.id]}
