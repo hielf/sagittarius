@@ -583,6 +583,41 @@ root_url/api/events/user_datums
 }
 
 
+### 下辖促销员提交的执行数据列表
+
+***
+
+##### 调用方式
+Method: GET
+Need: Auth
+
+```
+root_url/api/events/sub_user_datums
+```
+参数:
+
+输出:{
+    "status": 0,
+    "message": "ok",
+    "data": {
+        "datums": [
+            {
+                "datum_id": 10,
+                "event": "联合利华2月亲情大促销莲花路店买二赠一活动",
+                "good": "蓝月亮洗手液500ml",
+                "good_price": "73.5",
+                "good_image": "http://p3tj4myt5.bkt.clouddn.com/uploads/good/image/2/%E6%A3%80%E6%9F%A5%E5%8E%9F%E5%9B%A02.jpg",
+                "in_num": 4,
+                "sell_num": 34,
+                "storage_num": 1,
+                "status": "已审批",
+                "create_date": "2018年02月12日",
+                "create_time": "02:19",
+                "approve_date": "2018年02月13日",
+                "approve_time": "02:06"
+            }
+
+
 ### 提交执行数据
 
 ***

@@ -6,7 +6,7 @@ class Api::EventsController < Api::ApplicationController
     if (params[:event_type].nil? || params[:event_type].blank?)
       @event_type = "all"
       @event_type_c =  "全部"
-      @events = Event.all
+      @events = Event.where.not(status: "未开始")
     else
       @event_type = params[:event_type]
       case params[:event_type]
@@ -19,7 +19,7 @@ class Api::EventsController < Api::ApplicationController
       when "project"
         @event_type_c =  "项目"
       end
-      @events = Event.where(event_type: params[:event_type])
+      @events = Event.where(event_type: params[:event_type]).where.not(status: "未开始")
     end
     respond_to do |format|
       format.json
@@ -118,10 +118,34 @@ class Api::EventsController < Api::ApplicationController
     m_requires! [:user_id, :event_id]
     user = User.find_by(id: params[:user_id])
     event = Event.find_by(id: params[:event_id])
-    @datums = Datum.where(user_id: user.id, event_id: event.id)
+    case current_user.role
+    when "staff"
+      users = []
+      User.where(upper_user_id: current_user.id).each do |u|
+        users << u.id
+      end
+      @datums = Datum.where("event_id = ? AND user_id in (?)", event.id, users).order("id desc")
+    when "outworker"
+      @datums = Datum.where(user_id: user.id, event_id: event.id).order("id desc")
+    end
     respond_to do |format|
       format.json
     end
+  end
+
+  def sub_user_datums
+    event = Event.where(event_type: 'tg', status: "已开始").last
+    if current_user.users_events.where(event_id: event.id).empty?
+      ue = current_user.users_events.build(event_id: event.id)
+      ue.save!
+    end
+    users = []
+    User.where(upper_user_id: current_user.id).each do |u|
+      users << u.id
+    end
+    @datums = Datum.where("event_id = ? AND user_id in (?)", event.id, users).order("id desc")
+    
+    render 'user_datums.json.jbuilder'
   end
 
   def user_photos

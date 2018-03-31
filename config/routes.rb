@@ -40,6 +40,7 @@ Rails.application.routes.draw do
         post :datum_approve
         post :photos_approve
         get :current_event
+        get :sub_user_datums
       end
     end
     resources :states, except: [:new, :edit] do
