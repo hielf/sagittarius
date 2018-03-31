@@ -64,6 +64,7 @@ zh-CN:
       shop: 门店
       team: 团队
       user: 用户
+      state: 动态
 
   messages:
     c_401: Unauthorized
