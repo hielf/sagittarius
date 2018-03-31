@@ -16,7 +16,7 @@ filter :price
     column :name
     column :price
     column :image do |e|
-      link_to(image_tag(e.image.url(:thumb, inline: true)), e.image.url(:large, inline: true), target: '_blank') if e.image
+      link_to(image_tag(e.image, style: 'height:50px;width:auto;'), e.image.url, target: '_blank') if e.image
     end
     actions
   end
@@ -28,7 +28,7 @@ filter :price
       row :name
       row :price
       row :image do |e|
-        image_tag e.image.url if e.image
+        image_tag(e.image,style: 'height:350px;width:auto;') if e.image
       end
     end
   end
@@ -40,7 +40,7 @@ filter :price
      f.input :brand
      f.input :name
      f.input :price
-     f.input :image, :hint => image_tag(f.object.image.url(:large, inline: true)||'')
+     f.input :image, :hint => image_tag(f.object.image, style: 'height:150px;width:auto;')
      f.input :image_cache, :as => :hidden
    end
    f.actions
