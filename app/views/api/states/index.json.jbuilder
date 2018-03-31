@@ -9,6 +9,7 @@ json.data do
   end
   json.states do
     json.array! @states.each do |state|
+      json.state_id state.id
       json.state_date state.created_at.strftime('%Y年%m月%d日')
       json.state_time state.created_at.strftime('%H:%M')
       json.note state.note
