@@ -68,9 +68,11 @@ class Api::StatesController < Api::ApplicationController
     case params[:flag]
     when "approve"
       @state.approve
+      @state.update!(comment: params[:comment])
       result = [0, '审核成功', '已审批']
     else
       @state.disapprove
+      @state.update!(comment: params[:comment])
       result = [0, '审核成功', '否决']
     end
     render_json(result)

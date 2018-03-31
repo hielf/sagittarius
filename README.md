@@ -739,7 +739,7 @@ Need: Auth
 ```
 root_url/api/states/state_approve
 ```
-参数: id(是state_id), flag("approve", "disapprove")
+参数: id(是state_id), flag("approve", "disapprove"), comment(评论)
 
 输出: {
     "status": 0,
