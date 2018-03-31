@@ -720,7 +720,7 @@ Need: Auth
 ```
 root_url/api/states
 ```
-参数: event_id 活动id, state_type('tg', 'shelf', 'new', 'project'), note 说明, photos[image] 照片(数组)
+参数: event_id 活动id, state_type('tg', 'shelf', 'new', 'project'), note 说明, photos[image] 照片(数组), location 地址
 
 输出: {
     "status": 0,

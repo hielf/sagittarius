@@ -94,6 +94,6 @@ class Api::StatesController < Api::ApplicationController
   end
 
   def state_params
-    params.permit(:event_id, :state_type, :note)
+    params.permit(:event_id, :state_type, :note, :location)
   end
 end
