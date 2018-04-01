@@ -165,7 +165,7 @@ class Api::EventsController < Api::ApplicationController
   def datum_approve
     m_requires! [:datum_id, :flag]
     datum = Datum.find_by(id: params[:datum_id])
-    Rails.logger.warn "datum: #{datum}"
+    # Rails.logger.warn "datum: #{datum}"
     case params[:flag]
     when "approve"
       datum.approve
