@@ -52,7 +52,9 @@ class Api::StatesController < Api::ApplicationController
         photo.save!
         order = order + 1
         # end
-        photo.trans_wechat_media
+        url = photo.trans_wechat_media
+        Rails.logger.warn "url: #{url}"
+        photo.update(image: photo.trans_wechat_media)
       end
       @state.save!
     rescue Exception => ex

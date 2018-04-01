@@ -42,7 +42,9 @@ class Photo < ApplicationRecord
     ) if filePath
 
     if code == 200
-      true if self.update!(image: "http://#{ENV['qiniu_bucket_domain']}/#{result['key']}")
+      # true if self.update!(image: "http://#{ENV['qiniu_bucket_domain']}/#{result['key']}")
+      Rails.logger.warn "trans_wechat_media: http://#{ENV['qiniu_bucket_domain']}/#{result['key']}"
+      "http://#{ENV['qiniu_bucket_domain']}/#{result['key']}"
     else
       false
     end
