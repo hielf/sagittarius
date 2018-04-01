@@ -20,18 +20,21 @@ class Photo < ApplicationRecord
     Rails.logger.warn "trans_wechat_media: #{self.media_id}"
     tmp_file = Wechat.api.media(self.media_id)
     FileUtils.mv(tmp_file.path, "#{ENV['path_to_root']}/tmp/image/#{self.id}.jpg")
+    filePath = Dir.glob("#{ENV['path_to_root']}/tmp/image/#{self.id}.*").first
 
     bucket = ENV['qiniu_bucket']
+    Rails.logger.warn "qiniu_bucket: #{bucket}"
     key = nil
     put_policy = Qiniu::Auth::PutPolicy.new(
         bucket, # 存储空间
         key,    # 指定上传的资源名，如果传入 nil，就表示不指定资源名，将使用默认的资源名
         3600    # token 过期时间，默认为 3600 秒，即 1 小时
     )
-    filePath = Dir.glob("#{ENV['path_to_root']}/tmp/image/#{self.id}.*").first
     trans = false
+    Rails.logger.warn "qiniu_put_policy: #{put_policy}"
     # 生成上传 Token
     uptoken = Qiniu::Auth.generate_uptoken(put_policy)
+    Rails.logger.warn "qiniu_uptoken: #{uptoken}"
     # 调用 upload_with_token_2 方法上传
     code, result, response_headers = Qiniu::Storage.upload_with_token_2(
          uptoken,
