@@ -11,5 +11,5 @@ ActiveAdmin.register Shop do
 #   permitted << :other if params[:action] == 'create' && current_user.admin?
 #   permitted
 # end
-permit_params :name, :area
+permit_params :name, :area_id
 end

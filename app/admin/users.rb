@@ -53,6 +53,7 @@ filter :status, as: :select, collection: [['已审批','已审批'],['待审批'
      #f.input :openid
      f.input :password
      f.input :mobile
+     #f.input :team
      f.input :role, collection: [
        ['管理员', 'admin'], ['销售员', 'staff'],
        ['促销员', 'outworker'], ['未知','unknown']]
