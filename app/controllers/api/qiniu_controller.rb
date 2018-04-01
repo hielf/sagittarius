@@ -1,4 +1,5 @@
 class Api::QiniuController < Api::ApplicationController
+  skip_before_action :authenticate_user!, only: [:token], if: -> { request.ip == "127.0.0.1" }
   require 'qiniu'
   def token
     Qiniu.establish_connection! access_key: ENV['qiniu_ak'],
