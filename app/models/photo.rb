@@ -41,7 +41,7 @@ class Photo < ApplicationRecord
     ) if filePath
 
     if code == 200
-      true if photo.update!(image: "http://#{ENV['qiniu_bucket_domain']}/#{result['key']}")
+      true if self.update!(image: "http://#{ENV['qiniu_bucket_domain']}/#{result['key']}")
     else
       false
     end
