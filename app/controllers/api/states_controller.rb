@@ -5,7 +5,7 @@ class Api::StatesController < Api::ApplicationController
   def index
     m_requires! [:state_type]
     event = Event.where(event_type: params[:state_type], status: "已开始").last
-    if current_user.users_events.where(event_id: event.id).empty?
+    if event && current_user.users_events.where(event_id: event.id).empty?
       ue = current_user.users_events.build(event_id: event.id)
       ue.save!
     end
@@ -22,7 +22,11 @@ class Api::StatesController < Api::ApplicationController
     end
 
     @user = current_user
-    @states = event.states.where("state_type = ? AND user_id in (?)", params[:state_type], users).order("id desc")
+    if event
+      @states = event.states.where("state_type = ? AND user_id in (?)", params[:state_type], users).order("id desc")
+    else
+      @states = []
+    end
 
     if (params[:user_id] && !params[:user_id].blank?)
       @user = User.find(params[:user_id])
