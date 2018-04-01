@@ -50,6 +50,7 @@ class Api::StatesController < Api::ApplicationController
         Photo.transaction do
           photo = @state.photos.new(user_id: current_user.id, event_id: params[:event_id], image: image[0], media_id: image[1], order: order, serial_code: serial_code)
           photo.save!
+          # photo.trans_wechat_media
           order = order + 1
         end
         @state.save!

@@ -16,9 +16,11 @@ class Photo < ApplicationRecord
   # end
 
   def trans_wechat_media
-    Wechat.api.media [self.media_id, "#{ENV['path_to_root']}/tmp/image"]
+    # system('RAILS_ENV=production bundle exec wechat media YalsE55UNWce2GjFRei_GVa65y01scGafWP9oTxkv57AJTkvzEB7MEN2uyKVXpGN /tmp/128.jpg')
+    tmp_file = Wechat.api.media(self.media_id)
+    FileUtils.mv(tmp_file.path, "#{ENV['path_to_root']}/tmp/image/#{self.id}.jpg")
 
-    bucket = APP_CONFIG['qiniu_bucket']
+    bucket = ENV['qiniu_bucket']
     key = nil
     put_policy = Qiniu::Auth::PutPolicy.new(
         bucket, # 存储空间
@@ -34,12 +36,12 @@ class Photo < ApplicationRecord
          uptoken,
          filePath,
          key,
-         nil, # 可以接受一个 Hash 作为自定义变量，请参照 http://developer.qiniu.com/article/kodo/kodo-developer/up/vars.html#xvar
+         nil,
          bucket: bucket
     ) if filePath
 
     if code == 200
-      true if self.update!(image: result["key"])
+      true if self.update!(image: "http://#{ENV['qiniu_bucket_domain']}/#{result['key']}"})
     else
       false
     end
