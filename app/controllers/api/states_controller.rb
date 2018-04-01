@@ -54,7 +54,7 @@ class Api::StatesController < Api::ApplicationController
         # end
         url = photo.trans_wechat_media
         Rails.logger.warn "url: #{url}"
-        photo.update(image: photo.trans_wechat_media)
+        photo.update(image: url)
       end
       @state.save!
     rescue Exception => ex

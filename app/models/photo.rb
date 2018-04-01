@@ -41,6 +41,8 @@ class Photo < ApplicationRecord
          bucket: bucket
     ) if filePath
 
+    Rails.logger.warn "qiniu_code: #{code}"
+    Rails.logger.warn "qiniu_result: #{result}"
     if code == 200
       # true if self.update!(image: "http://#{ENV['qiniu_bucket_domain']}/#{result['key']}")
       Rails.logger.warn "trans_wechat_media: http://#{ENV['qiniu_bucket_domain']}/#{result['key']}"
