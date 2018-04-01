@@ -17,10 +17,10 @@ class Photo < ApplicationRecord
 
   def trans_wechat_media
     # system('RAILS_ENV=production bundle exec wechat media YalsE55UNWce2GjFRei_GVa65y01scGafWP9oTxkv57AJTkvzEB7MEN2uyKVXpGN /tmp/128.jpg')
-    Rails.logger.warn "trans_wechat_media: #{photo.media_id}"
-    tmp_file = Wechat.api.media(photo.media_id)
-    FileUtils.mv(tmp_file.path, "#{ENV['path_to_root']}/tmp/image/#{photo.id}.jpg")
-    filePath = Dir.glob("#{ENV['path_to_root']}/tmp/image/#{photo.id}.*").first
+    Rails.logger.warn "trans_wechat_media: #{self.media_id}"
+    tmp_file = Wechat.api.media(self.media_id)
+    FileUtils.mv(tmp_file.path, "#{ENV['path_to_root']}/tmp/image/#{self.id}.jpg")
+    filePath = Dir.glob("#{ENV['path_to_root']}/tmp/image/#{self.id}.*").first
 
     bucket = ENV['qiniu_bucket']
     Rails.logger.warn "qiniu_bucket: #{bucket}"
