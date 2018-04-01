@@ -16,7 +16,7 @@ class Photo < ApplicationRecord
   # end
 
   def trans_wechat_media
-    Wechat.api.media [media_id, "#{ENV['path_to_root']}/tmp/image"]
+    Wechat.api.media [self.media_id, "#{ENV['path_to_root']}/tmp/image"]
 
     bucket = APP_CONFIG['qiniu_bucket']
     key = nil
