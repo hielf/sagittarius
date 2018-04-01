@@ -22,6 +22,7 @@ class Photo < ApplicationRecord
     filePath = Dir.glob("#{ENV['path_to_root']}/tmp/image/#{self.id}.*").first
 
     bucket = ENV['qiniu_bucket']
+    key = nil
     # 生成上传 Token
     # uptoken = Qiniu::Auth.generate_uptoken(put_policy)
     url = "http://127.0.0.1/api/qiniu/token"
