@@ -16,6 +16,7 @@ json.data do
       json.create_time datum.created_at.strftime('%H:%M')
       json.approve_date (datum.updated_at == datum.created_at) ? "" : datum.updated_at.strftime('%Y年%m月%d日')
       json.approve_time (datum.updated_at == datum.created_at) ? "" : datum.updated_at.strftime('%H:%M')
+      json.comment datum.comment
     end
   end
 end

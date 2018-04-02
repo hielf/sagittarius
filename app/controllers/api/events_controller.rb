@@ -172,6 +172,7 @@ class Api::EventsController < Api::ApplicationController
       result = [0, '审核成功']
     else
       datum.disapprove
+      datum.update(comment: params[:comment])
       result = [0, '审核成功']
     end
     render_json(result)

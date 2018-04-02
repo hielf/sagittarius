@@ -28,7 +28,6 @@ class Photo < ApplicationRecord
     url = "http://127.0.0.1/api/qiniu/token"
     res = HTTParty.get url
     uptoken = JSON.parse(res.body)["message"]
-    Rails.logger.warn "qiniu_uptoken: #{uptoken}"
     # 调用 upload_with_token_2 方法上传
     code, result, response_headers = Qiniu::Storage.upload_with_token_2(
          uptoken,

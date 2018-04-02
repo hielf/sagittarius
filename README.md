@@ -578,7 +578,7 @@ root_url/api/events/user_datums
     "status": 0,
     "message": "ok",
     "data": {
-        "datums": [datum_id, event, good, good_price, good_image, in_num, sell_num, storage_num, status]
+        "datums": [datum_id, event, good, good_price, good_image, in_num, sell_num, storage_num, status, comment]
     }
 }
 
@@ -614,7 +614,8 @@ root_url/api/events/sub_user_datums
                 "create_date": "2018年02月12日",
                 "create_time": "02:19",
                 "approve_date": "2018年02月13日",
-                "approve_time": "02:06"
+                "approve_time": "02:06",
+                "comment": "123"
             }
 
 
@@ -648,7 +649,7 @@ Need: Auth
 ```
 root_url/api/events/datum_approve
 ```
-参数: datum_id, flag("approve", "disapprove")
+参数: datum_id, flag("approve", "disapprove"), comment(审批意见)
 
 输出: {
     "status": 0,
