@@ -1,4 +1,5 @@
 class Api::StatesController < Api::ApplicationController
+  wechat_api
   # skip_before_action :authenticate_user!, only: [:event_data]
   before_action :set_state, only: [:show, :update, :destroy, :state_approve, :state_comment]
 
@@ -55,6 +56,19 @@ class Api::StatesController < Api::ApplicationController
         # end
       end
       @state.save!
+
+      openid = User.find(current_user.upper_user_id).openid
+      url = "http://www.qq.com/"
+      template = YAML.load(File.read('app/views/templates/notice.yml'))
+      template['template']['url'].gsub!("*url", "#{url}")
+      template['template']['data']['first']['value'].gsub!("*first", "你好，你有一条待审核通知")
+      template['template']['data']['keyword1']['value'].gsub!("*keyword1", "#{current_user.name}")
+      template['template']['data']['keyword2']['value'].gsub!("*keyword2", "#{Time.now}")
+      template['template']['data']['keyword3']['value'].gsub!("*keyword3", "#{@state.photos.count}张图片")
+
+      wechat.template_message_send Wechat::Message.to(openid).template(template['template'])
+
+
     rescue Exception => ex
       result= [1, ex.message]
     end
