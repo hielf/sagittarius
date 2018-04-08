@@ -57,7 +57,8 @@ class Api::StatesController < Api::ApplicationController
       end
       @state.save!
 
-      openid = User.find(current_user.upper_user_id).openid
+      # openid = User.find(current_user.upper_user_id).openid
+      openid = "oDQVQ0ejzcBtKnBS_scwA7Dr-_3Y"
       url = "http://www.qq.com/"
       template = YAML.load(File.read('app/views/templates/notice.yml'))
       template['template']['url'].gsub!("*url", "#{url}")
@@ -67,7 +68,6 @@ class Api::StatesController < Api::ApplicationController
       template['template']['data']['keyword3']['value'].gsub!("*keyword3", "#{@state.photos.count}张图片")
 
       wechat.template_message_send Wechat::Message.to(openid).template(template['template'])
-
 
     rescue Exception => ex
       result= [1, ex.message]
