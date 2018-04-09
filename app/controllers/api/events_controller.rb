@@ -1,4 +1,5 @@
 class Api::EventsController < Api::ApplicationController
+  wechat_api
   skip_before_action :authenticate_user!, only: [:index]
   before_action :set_event, only: [:show, :update, :destroy]
 
@@ -79,7 +80,14 @@ class Api::EventsController < Api::ApplicationController
       type =  "地推"
       message = "#{type}执行数据"
       url = "http://h5.shanghairunyan.com/mission/list/verifydata"
-      user.wechat_notice(message, url)
+      template = YAML.load(File.read('app/views/templates/notice.yml'))
+      template['template']['url'].gsub!("*url", "#{url}")
+      template['template']['data']['first']['value'].gsub!("*first", "你好，你有一条待审核通知")
+      template['template']['data']['keyword1']['value'].gsub!("*keyword1", "#{user.name}")
+      template['template']['data']['keyword2']['value'].gsub!("*keyword2", "#{Time.now.strftime('%Y年%m月%d日 %H:%M')}")
+      template['template']['data']['keyword3']['value'].gsub!("*keyword3", "#{message}")
+
+      wechat.template_message_send Wechat::Message.to(openid).template(template['template'])
 
       result = [0, '提交成功']
     rescue Exception => ex
@@ -179,12 +187,26 @@ class Api::EventsController < Api::ApplicationController
     when "approve"
       datum.approve
       message = "您的执行数据已审批通过"
-      user.wechat_notice(message, url)
+      template = YAML.load(File.read('app/views/templates/notice.yml'))
+      template['template']['url'].gsub!("*url", "#{url}")
+      template['template']['data']['first']['value'].gsub!("*first", "你好，你有一条待审核通知")
+      template['template']['data']['keyword1']['value'].gsub!("*keyword1", "#{user.name}")
+      template['template']['data']['keyword2']['value'].gsub!("*keyword2", "#{Time.now.strftime('%Y年%m月%d日 %H:%M')}")
+      template['template']['data']['keyword3']['value'].gsub!("*keyword3", "#{message}")
+
+      wechat.template_message_send Wechat::Message.to(openid).template(template['template'])
       result = [0, '审核成功']
     else
       datum.disapprove
       message = "您的执行数据被审批否决"
-      user.wechat_notice(message, url)
+      template = YAML.load(File.read('app/views/templates/notice.yml'))
+      template['template']['url'].gsub!("*url", "#{url}")
+      template['template']['data']['first']['value'].gsub!("*first", "你好，你有一条待审核通知")
+      template['template']['data']['keyword1']['value'].gsub!("*keyword1", "#{self.name}")
+      template['template']['data']['keyword2']['value'].gsub!("*keyword2", "#{Time.now.strftime('%Y年%m月%d日 %H:%M')}")
+      template['template']['data']['keyword3']['value'].gsub!("*keyword3", "#{message}")
+
+      wechat.template_message_send Wechat::Message.to(openid).template(template['template'])
       datum.update(comment: params[:comment])
       result = [0, '审核成功']
     end
