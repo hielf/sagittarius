@@ -72,7 +72,7 @@ class Api::StatesController < Api::ApplicationController
         type =  "项目"
       end
       message = "#{type}动态照片#{@state.photos.count}张"
-      User.wechat_notice(user, message, url)
+      user.wechat_notice(message, url)
 
     rescue Exception => ex
       result= [1, ex.message]
@@ -90,7 +90,6 @@ class Api::StatesController < Api::ApplicationController
     m_requires! [:id, :flag]
     # Rails.logger.warn "photos: #{photos}"
     user = @state.user
-    url = "http://h5.shanghairunyan.com/mission/list/dataresult"
     state_type = @state.state_type
     url = "http://h5.shanghairunyan.com/mission/list/listactive?type=#{state_type}"
     case state_type
@@ -109,13 +108,13 @@ class Api::StatesController < Api::ApplicationController
       @state.approve
       @state.update!(comment: params[:comment])
       message = "#{type}动态照片审批已通过"
-      User.wechat_notice(user, message, url)
+      user.wechat_notice(message, url)
       result = [0, '审核成功', '已审批']
     else
       @state.disapprove
       @state.update!(comment: params[:comment])
       message = "#{type}动态照片审批被否决"
-      User.wechat_notice(user, message, url)
+      user.wechat_notice(message, url)
       result = [0, '审核成功', '否决']
     end
     render_json(result)
