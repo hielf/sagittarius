@@ -57,7 +57,7 @@ class Api::StatesController < Api::ApplicationController
       end
       @state.save!
 
-      openid = User.find(current_user.upper_user_id).openid
+      user = User.find(current_user.upper_user_id)
       # openid = "oDQVQ0ejzcBtKnBS_scwA7Dr-_3Y"
       state_type = params[:state_type]
       url = "http://h5.shanghairunyan.com/mission/list/listactive?type=#{state_type}"
@@ -71,14 +71,8 @@ class Api::StatesController < Api::ApplicationController
       when "project"
         type =  "项目"
       end
-      template = YAML.load(File.read('app/views/templates/notice.yml'))
-      template['template']['url'].gsub!("*url", "#{url}")
-      template['template']['data']['first']['value'].gsub!("*first", "你好，你有一条待审核通知")
-      template['template']['data']['keyword1']['value'].gsub!("*keyword1", "#{current_user.name}")
-      template['template']['data']['keyword2']['value'].gsub!("*keyword2", "#{Time.now}")
-      template['template']['data']['keyword3']['value'].gsub!("*keyword3", "#{type}动态照片#{@state.photos.count}张")
-
-      wechat.template_message_send Wechat::Message.to(openid).template(template['template'])
+      message = "#{type}动态照片#{@state.photos.count}张"
+      User.wechat_notice(user, message, url)
 
     rescue Exception => ex
       result= [1, ex.message]
@@ -95,14 +89,33 @@ class Api::StatesController < Api::ApplicationController
   def state_approve
     m_requires! [:id, :flag]
     # Rails.logger.warn "photos: #{photos}"
+    user = @state.user
+    url = "http://h5.shanghairunyan.com/mission/list/dataresult"
+    state_type = @state.state_type
+    url = "http://h5.shanghairunyan.com/mission/list/listactive?type=#{state_type}"
+    case state_type
+    when "tg"
+      type =  "地推"
+    when "shelf"
+      type =  "货架"
+    when "new"
+      type =  "新品"
+    when "project"
+      type =  "项目"
+    end
+
     case params[:flag]
     when "approve"
       @state.approve
       @state.update!(comment: params[:comment])
+      message = "#{type}动态照片审批已通过"
+      User.wechat_notice(user, message, url)
       result = [0, '审核成功', '已审批']
     else
       @state.disapprove
       @state.update!(comment: params[:comment])
+      message = "#{type}动态照片审批被否决"
+      User.wechat_notice(user, message, url)
       result = [0, '审核成功', '否决']
     end
     render_json(result)

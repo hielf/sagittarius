@@ -74,6 +74,13 @@ class Api::EventsController < Api::ApplicationController
     datum = Datum.new(user_id: current_user.id, event_id: event.id, good_id: params[:good_id], in_num: params[:in_num], sell_num: params[:sell_num], storage_num: params[:storage_num])
     begin
       datum.save!
+
+      user = User.find(current_user.upper_user_id)
+      type =  "地推"
+      message = "#{type}执行数据"
+      url = "http://h5.shanghairunyan.com/mission/list/verifydata"
+      User.wechat_notice(user, message, url)
+
       result = [0, '提交成功']
     rescue Exception => ex
       result= [1, ex.message]
@@ -165,13 +172,19 @@ class Api::EventsController < Api::ApplicationController
   def datum_approve
     m_requires! [:datum_id, :flag]
     datum = Datum.find_by(id: params[:datum_id])
+    user = datum.user
+    url = "http://h5.shanghairunyan.com/mission/list/dataresult"
     # Rails.logger.warn "datum: #{datum}"
     case params[:flag]
     when "approve"
       datum.approve
+      message = "您的执行数据已审批通过"
+      User.wechat_notice(user, message, url)
       result = [0, '审核成功']
     else
       datum.disapprove
+      message = "您的执行数据被审批否决"
+      User.wechat_notice(user, message, url)
       datum.update(comment: params[:comment])
       result = [0, '审核成功']
     end
