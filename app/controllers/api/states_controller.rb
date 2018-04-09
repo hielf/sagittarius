@@ -59,6 +59,7 @@ class Api::StatesController < Api::ApplicationController
 
       user = User.find(current_user.upper_user_id)
       # openid = "oDQVQ0ejzcBtKnBS_scwA7Dr-_3Y"
+      openid = user.openid
       state_type = params[:state_type]
       url = "http://h5.shanghairunyan.com/mission/list/listactive?type=#{state_type}"
       case state_type

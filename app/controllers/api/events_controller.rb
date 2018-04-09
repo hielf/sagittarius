@@ -77,6 +77,7 @@ class Api::EventsController < Api::ApplicationController
       datum.save!
 
       user = User.find(current_user.upper_user_id)
+      openid = user.openid
       type =  "地推"
       message = "#{type}执行数据"
       url = "http://h5.shanghairunyan.com/mission/list/verifydata"
@@ -181,6 +182,7 @@ class Api::EventsController < Api::ApplicationController
     m_requires! [:datum_id, :flag]
     datum = Datum.find_by(id: params[:datum_id])
     user = datum.user
+    openid = user.openid
     url = "http://h5.shanghairunyan.com/mission/list/dataresult"
     # Rails.logger.warn "datum: #{datum}"
     case params[:flag]
