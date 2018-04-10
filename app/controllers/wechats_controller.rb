@@ -34,26 +34,6 @@ class WechatsController < ApplicationController
   end
 
   # When user click the menu button
-  on :click, with: 'EVENTS_TG' do |request, key|
-    # request.reply.text "http://wendao.easybird.cn/results/my_videos?user=#{request[:FromUserName]}"
-    user = User.find_by(openid: request[:FromUserName])
-    if user.nil?
-      user = User.new(openid: request[:FromUserName])
-    end
-    articles = { "articles" => [] }
-    events = Event.where(event_type: "tg")
-    events.each.with_index(1) do |event, index|
-      articles["articles"] << {
-        "title" => event.title,
-        "description" => event.desc[0..100],
-        "url" => "http://h5.shanghairunyan.com/active/detail/#{event.id}",
-        "pic_url" => event.image.url
-        }
-      break if index == 8
-    end
-    user.wechat_send_custom_message(articles)
-  end
-
   on :click, with: 'EVENTS_NEW' do |request, key|
     # request.reply.text "http://wendao.easybird.cn/results/my_videos?user=#{request[:FromUserName]}"
     user = User.find_by(openid: request[:FromUserName])
@@ -72,7 +52,27 @@ class WechatsController < ApplicationController
       break if index == 8
     end
 
-    wechat.custom_news Wechat::Message.to(openid).news(articles['articles'])
+    wechat_api.custom_message_send Wechat::Message.to(openid).news(articles['articles'])
+  end
+  
+  on :click, with: 'EVENTS_TG' do |request, key|
+    # request.reply.text "http://wendao.easybird.cn/results/my_videos?user=#{request[:FromUserName]}"
+    user = User.find_by(openid: request[:FromUserName])
+    if user.nil?
+      user = User.new(openid: request[:FromUserName])
+    end
+    articles = { "articles" => [] }
+    events = Event.where(event_type: "tg")
+    events.each.with_index(1) do |event, index|
+      articles["articles"] << {
+        "title" => event.title,
+        "description" => event.desc[0..100],
+        "url" => "http://h5.shanghairunyan.com/active/detail/#{event.id}",
+        "pic_url" => event.image.url
+        }
+      break if index == 8
+    end
+    wechat_api.custom_message_send Wechat::Message.to(openid).news(articles['articles'])
   end
 
   on :click, with: 'EVENTS_PROJECT' do |request, key|
@@ -92,7 +92,7 @@ class WechatsController < ApplicationController
         }
       break if index == 8
     end
-    user.wechat_send_custom_message(articles)
+    wechat_api.custom_message_send Wechat::Message.to(openid).news(articles['articles'])
   end
 
   # Any not match above will fail to below
