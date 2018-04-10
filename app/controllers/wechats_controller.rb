@@ -52,9 +52,9 @@ class WechatsController < ApplicationController
       break if index == 8
     end
 
-    wechat_api.custom_message_send Wechat::Message.to(openid).news(articles['articles'])
+    wechat.custom_message_send Wechat::Message.to(openid).news(articles['articles'])
   end
-  
+
   on :click, with: 'EVENTS_TG' do |request, key|
     # request.reply.text "http://wendao.easybird.cn/results/my_videos?user=#{request[:FromUserName]}"
     user = User.find_by(openid: request[:FromUserName])
@@ -72,7 +72,7 @@ class WechatsController < ApplicationController
         }
       break if index == 8
     end
-    wechat_api.custom_message_send Wechat::Message.to(openid).news(articles['articles'])
+    wechat.custom_message_send Wechat::Message.to(openid).news(articles['articles'])
   end
 
   on :click, with: 'EVENTS_PROJECT' do |request, key|
@@ -92,7 +92,7 @@ class WechatsController < ApplicationController
         }
       break if index == 8
     end
-    wechat_api.custom_message_send Wechat::Message.to(openid).news(articles['articles'])
+    wechat.custom_message_send Wechat::Message.to(openid).news(articles['articles'])
   end
 
   # Any not match above will fail to below
