@@ -1,6 +1,6 @@
 class WechatsController < ApplicationController
   # For details on the DSL available within this file, see https://github.com/Eric-Guo/wechat#wechat_responder---rails-responder-controller-dsl
-  wechat_api
+  wechat_responder
 
   on :text do |request, content|
     request.reply.text '欢迎使用，请在对话框输入“注册”成为我们的一员。'
@@ -48,8 +48,8 @@ class WechatsController < ApplicationController
         }
       break if index == 8
     end
-
     wechat.custom_message_send Wechat::Message.to(openid).news(articles['articles'])
+    request.reply.success
   end
 
   on :click, with: 'EVENTS_TG' do |request, key|
@@ -67,6 +67,7 @@ class WechatsController < ApplicationController
       break if index == 8
     end
     wechat.custom_message_send Wechat::Message.to(openid).news(articles['articles'])
+    request.reply.success
   end
 
   on :click, with: 'EVENTS_PROJECT' do |request, key|
@@ -84,6 +85,7 @@ class WechatsController < ApplicationController
       break if index == 8
     end
     wechat.custom_message_send Wechat::Message.to(openid).news(articles['articles'])
+    request.reply.success
   end
 
   # Any not match above will fail to below
