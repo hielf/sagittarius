@@ -72,7 +72,7 @@ class Api::StatesController < Api::ApplicationController
         type =  "项目"
       end
       message = "#{type}动态照片#{@state.photos.count}张"
-      user.wechat_notice(url, message)
+      user.wechat_approve_notice(url, message)
 
     rescue Exception => ex
       result= [1, ex.message]

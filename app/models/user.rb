@@ -43,10 +43,10 @@ class User < ApplicationRecord
     end
   end
 
-  def wechat_notice(url, message)
+  def wechat_approve_notice(url, message)
     template = YAML.load(File.read('app/views/templates/notice.yml'))
     template['template']['url'].gsub!("*url", "#{url}")
-    template['template']['data']['first']['value'].gsub!("*first", "你好，你有一条待审核通知")
+    template['template']['data']['first']['value'].gsub!("*first", "你好，你有一条审核通知")
     template['template']['data']['keyword1']['value'].gsub!("*keyword1", "#{self.name}")
     template['template']['data']['keyword2']['value'].gsub!("*keyword2", "#{Time.now.strftime('%Y年%m月%d日 %H:%M')}")
     template['template']['data']['keyword3']['value'].gsub!("*keyword3", "#{message}")

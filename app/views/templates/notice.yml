@@ -8,13 +8,13 @@ template:
       color: "#0A0A0A"
     keyword1:
       value: "*keyword1"
-      color: "#CCCCCC"
+      color: "#0A0A0A"
     keyword2:
       value: "*keyword2"
-      color: "#CCCCCC"
+      color: "#0A0A0A"
     keyword3:
       value: "*keyword3"
-      color: "#CCCCCC"
+      color: "#0A0A0A"
     remark:
       value: "请及时审核，谢谢"
-      color: "#173177"
+      color: "#F85959"
