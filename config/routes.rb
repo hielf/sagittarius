@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
 
-  resource :wechat, only: [:show, :create]
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   root 'home#index'
+  resource :wechat, only: [:show, :create]
   resources :users
   namespace :api, defaults: {format: :json} do
     root 'root#home'
