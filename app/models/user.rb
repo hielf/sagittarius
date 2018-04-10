@@ -44,12 +44,24 @@ class User < ApplicationRecord
   end
 
   def wechat_approve_notice(url, message)
-    template = YAML.load(File.read('app/views/templates/notice.yml'))
+    template = YAML.load(File.read('app/views/templates/approve_notice.yml'))
     template['template']['url'].gsub!("*url", "#{url}")
-    template['template']['data']['first']['value'].gsub!("*first", "你好，你有一条审核通知")
+    template['template']['data']['first']['value'].gsub!("*first", "您好，您有一条审核通知")
     template['template']['data']['keyword1']['value'].gsub!("*keyword1", "#{self.name}")
     template['template']['data']['keyword2']['value'].gsub!("*keyword2", "#{Time.now.strftime('%Y年%m月%d日 %H:%M')}")
     template['template']['data']['keyword3']['value'].gsub!("*keyword3", "#{message}")
+    notice = Wechat::Message.to(openid).template(template['template'])
+    Wechat.api.template_message_send(notice)
+  end
+
+  def wechat_approved_notice(url, message, flag)
+    template = YAML.load(File.read('app/views/templates/approved_notice.yml'))
+    template['template']['url'].gsub!("*url", "#{url}")
+    template['template']['data']['first']['value'].gsub!("*first", "您好，您提交的内容已审核")
+    template['template']['data']['keyword1']['value'].gsub!("*keyword1", "#{self.name}")
+    template['template']['data']['keyword2']['value'].gsub!("*keyword2", "#{flag}")
+    template['template']['data']['keyword3']['value'].gsub!("*keyword3", "#{Time.now.strftime('%Y年%m月%d日 %H:%M')}")
+    template['template']['data']['remark']['value'].gsub!("*remark", "#{message}")
     notice = Wechat::Message.to(openid).template(template['template'])
     Wechat.api.template_message_send(notice)
   end

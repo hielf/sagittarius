@@ -180,14 +180,16 @@ class Api::EventsController < Api::ApplicationController
     case params[:flag]
     when "approve"
       datum.approve
-      message = "您的执行数据已审批通过"
-      user.wechat_approve_notice(url, message)
+      flag = "您的执行数据已审批通过"
+      message = datum.comment
+      user.wechat_approved_notice(url, message, flag)
       result = [0, '审核成功']
     else
       datum.disapprove
-      message = "您的执行数据被审批否决"
-      user.wechat_approve_notice(url, message)
       datum.update(comment: params[:comment])
+      flag = "您的执行数据被审批否决"
+      message = datum.comment
+      user.wechat_approved_notice(url, message, flag)
       result = [0, '审核成功']
     end
     render_json(result)
