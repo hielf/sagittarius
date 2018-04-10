@@ -59,7 +59,6 @@ class Api::StatesController < Api::ApplicationController
 
       user = User.find(current_user.upper_user_id)
       # openid = "oDQVQ0ejzcBtKnBS_scwA7Dr-_3Y"
-      openid = user.openid
       state_type = params[:state_type]
       url = "http://h5.shanghairunyan.com/mission/list/listactive?type=#{state_type}"
       case state_type
@@ -73,14 +72,7 @@ class Api::StatesController < Api::ApplicationController
         type =  "项目"
       end
       message = "#{type}动态照片#{@state.photos.count}张"
-      template = YAML.load(File.read('app/views/templates/notice.yml'))
-      template['template']['url'].gsub!("*url", "#{url}")
-      template['template']['data']['first']['value'].gsub!("*first", "你好，你有一条待审核通知")
-      template['template']['data']['keyword1']['value'].gsub!("*keyword1", "#{user.name}")
-      template['template']['data']['keyword2']['value'].gsub!("*keyword2", "#{Time.now.strftime('%Y年%m月%d日 %H:%M')}")
-      template['template']['data']['keyword3']['value'].gsub!("*keyword3", "#{message}")
-
-      wechat.template_message_send Wechat::Message.to(openid).template(template['template'])
+      user.wechat_notice(url, message)
 
     rescue Exception => ex
       result= [1, ex.message]
