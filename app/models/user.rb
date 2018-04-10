@@ -66,6 +66,12 @@ class User < ApplicationRecord
     Wechat.api.template_message_send(notice)
   end
 
+  def wechat_send_custom_message(articles)
+    # articles = YAML.load(File.read('app/views/templates/articles.yml'))
+    news = Wechat::Message.to(openid).news(articles['articles'])
+    Wechat.api.custom_message_send(news)
+  end
+
   state_machine :status, :initial => :'待审批' do
     event :approve do
       transition :'待审批' => :'已审批'

@@ -34,6 +34,11 @@ class Api::EventsController < Api::ApplicationController
     end
   end
 
+  # def send_message_event
+  #   m_requires! [:event_type]
+  #
+  # end
+
   def current_event
     m_requires! [:event_type]
     @event = Event.where(event_type: params[:event_type], status: "已开始").last

@@ -34,9 +34,64 @@ class WechatsController < ApplicationController
   end
 
   # When user click the menu button
-  on :click, with: 'MY_WENDAO' do |request, key|
+  on :click, with: 'EVENTS_TG' do |request, key|
     # request.reply.text "http://wendao.easybird.cn/results/my_videos?user=#{request[:FromUserName]}"
-    request.reply.text "欢迎使用射手联盟！\n请在对话框输入关键词搜索内容。\n点击进入：<a href=\"http://wendao.easybird.cn/results/my_videos?user=#{request[:FromUserName]}\">我的闻道</a> "
+    user = User.find_by(openid: request[:FromUserName])
+    if user.nil?
+      user = User.new(openid: request[:FromUserName])
+    end
+    articles = { "articles" => [] }
+    events = Event.where(event_type: "tg")
+    events.each.with_index(1) do |event, index|
+      articles["articles"] << {
+        "title" => event.title,
+        "description" => event.desc[0..100],
+        "url" => "http://h5.shanghairunyan.com/active/detail/#{event.id}",
+        "pic_url" => event.image.url
+        }
+      break if index == 8
+    end
+    user.wechat_send_custom_message(articles)
+  end
+
+  on :click, with: 'EVENTS_NEW' do |request, key|
+    # request.reply.text "http://wendao.easybird.cn/results/my_videos?user=#{request[:FromUserName]}"
+    user = User.find_by(openid: request[:FromUserName])
+    if user.nil?
+      user = User.new(openid: request[:FromUserName])
+    end
+    articles = { "articles" => [] }
+    events = Event.where(event_type: "new")
+    events.each.with_index(1) do |event, index|
+      articles["articles"] << {
+        "title" => event.title,
+        "description" => event.desc[0..100],
+        "url" => "http://h5.shanghairunyan.com/active/detail/#{event.id}",
+        "pic_url" => event.image.url
+        }
+      break if index == 8
+    end
+    user.wechat_send_custom_message(articles)
+  end
+
+  on :click, with: 'EVENTS_PROJECT' do |request, key|
+    # request.reply.text "http://wendao.easybird.cn/results/my_videos?user=#{request[:FromUserName]}"
+    user = User.find_by(openid: request[:FromUserName])
+    if user.nil?
+      user = User.new(openid: request[:FromUserName])
+    end
+    articles = { "articles" => [] }
+    events = Event.where(event_type: "project")
+    events.each.with_index(1) do |event, index|
+      articles["articles"] << {
+        "title" => event.title,
+        "description" => event.desc[0..100],
+        "url" => "http://h5.shanghairunyan.com/active/detail/#{event.id}",
+        "pic_url" => event.image.url
+        }
+      break if index == 8
+    end
+    user.wechat_send_custom_message(articles)
   end
 
   # Any not match above will fail to below
