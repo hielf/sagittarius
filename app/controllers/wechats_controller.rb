@@ -16,7 +16,7 @@ class WechatsController < ApplicationController
   # When receive 'help', will trigger this responder
   on :text, with: '注册' do |request|
     openid = request[:FromUserName]
-    request.reply.text "欢迎使用！\n点击进入：<a href=\"http://sagittarius.cheshipin.tv/api/users/home?openid=#{openid}\">注册页面</a> "
+    request.reply.text "欢迎使用！\n点击进入：<a href=\"http://h5.shanghairunyan.com/main\">注册页面</a> "
   end
 
   # When receive '<n>news', will match and will got count as <n> as parameter
@@ -71,7 +71,8 @@ class WechatsController < ApplicationController
         }
       break if index == 8
     end
-    user.wechat_send_custom_message(articles)
+
+    wechat.custom_news Wechat::Message.to(openid).news(articles['articles'])
   end
 
   on :click, with: 'EVENTS_PROJECT' do |request, key|
