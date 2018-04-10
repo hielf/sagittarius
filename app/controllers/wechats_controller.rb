@@ -36,10 +36,7 @@ class WechatsController < ApplicationController
   # When user click the menu button
   on :click, with: 'EVENTS_NEW' do |request, key|
     # request.reply.text "http://wendao.easybird.cn/results/my_videos?user=#{request[:FromUserName]}"
-    user = User.find_by(openid: request[:FromUserName])
-    if user.nil?
-      user = User.new(openid: request[:FromUserName])
-    end
+    openid = request[:FromUserName]
     articles = { "articles" => [] }
     events = Event.where(event_type: "new")
     events.each.with_index(1) do |event, index|
@@ -57,10 +54,7 @@ class WechatsController < ApplicationController
 
   on :click, with: 'EVENTS_TG' do |request, key|
     # request.reply.text "http://wendao.easybird.cn/results/my_videos?user=#{request[:FromUserName]}"
-    user = User.find_by(openid: request[:FromUserName])
-    if user.nil?
-      user = User.new(openid: request[:FromUserName])
-    end
+    openid = request[:FromUserName]
     articles = { "articles" => [] }
     events = Event.where(event_type: "tg")
     events.each.with_index(1) do |event, index|
@@ -77,10 +71,7 @@ class WechatsController < ApplicationController
 
   on :click, with: 'EVENTS_PROJECT' do |request, key|
     # request.reply.text "http://wendao.easybird.cn/results/my_videos?user=#{request[:FromUserName]}"
-    user = User.find_by(openid: request[:FromUserName])
-    if user.nil?
-      user = User.new(openid: request[:FromUserName])
-    end
+    openid = request[:FromUserName]
     articles = { "articles" => [] }
     events = Event.where(event_type: "project")
     events.each.with_index(1) do |event, index|
