@@ -10,8 +10,8 @@ json.data do
     json.role @user.role
     json.status @user.status
     json.area @user.area_id? ? Area.find_by(id: @user.area_id).city : "未指定"
-    json.shop @user.shop_id? ? Shop.find(@user.shop_id).name : "未指定"
-    json.team @user.team_id? ? Team.find(@user.team_id).name : "未指定"
+    json.shop (@user.shop_id? && Shop.find_by(id: @user.shop_id)) ? Shop.find(@user.shop_id).name : "未指定"
+    json.team (@user.team_id? && Team.find_by(id: @user.team_id)) ? Team.find(@user.team_id).name : "未指定"
     json.upper_user @user.upper_user_id? ? User.find(@user.upper_user_id).name : "未指定"
     json.upper_user_name @user.upper_user_name
     json.upper_user_phone @user.upper_user_phone
