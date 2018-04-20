@@ -21,7 +21,9 @@ class Api::AccountsController < Api::ApplicationController
   end
 
   def sign_out
-    Rails.logger.warn "sign_out_request: #{request.headers}"
+    request.headers.each do |key, value|
+      Rails.logger.warn "sign_out_request: #{key}: #{value}"
+    end
 
     if current_user.update(access_token: nil)
       result =[0, '登出成功']
