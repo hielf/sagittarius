@@ -1,0 +1,37 @@
+button:
+ -
+  name: "活动"
+  sub_button:
+   -
+    type: "view"
+    name: "新品反馈"
+    url: "http://h5.shanghairunyan.com/main"
+   -
+    type: "view"
+    name: "地推安排"
+    url: "http://h5.shanghairunyan.com/main"
+   -
+    type: "view"
+    name: "项目活动"
+    url: "http://h5.shanghairunyan.com/main"
+ -
+  type: "view"
+  name: "任务"
+  url: "http://h5.shanghairunyan.com/main"
+ -
+  name: "我的"
+  sub_button:
+   -
+    type: "view"
+    name: "我的动态"
+    url: "http://h5.shanghairunyan.com/main"
+   -
+    type: "view"
+    name: "我的报告"
+    url: "http://h5.shanghairunyan.com/main"
+   -
+    type: "view"
+    name: "我的首页"
+    url: "http://h5.shanghairunyan.com/main"
+
+# RAILS_ENV=production bundle exec  wechat menu_create /var/www/sagittarius/shared/config/wechat_menu.yml
