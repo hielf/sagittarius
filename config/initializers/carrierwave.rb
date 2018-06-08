@@ -1,7 +1,7 @@
 ::CarrierWave.configure do |config|
   config.storage             = :qiniu
   config.qiniu_access_key    = ENV['qiniu_ak']
-  config.qiniu_secret_key    = ENV['qiniu_ak']
+  config.qiniu_secret_key    = ENV['qiniu_sk']
   config.qiniu_bucket        = ENV['qiniu_bucket']
   config.qiniu_bucket_domain = ENV['qiniu_bucket_domain']
   config.qiniu_bucket_private= false #default is false
